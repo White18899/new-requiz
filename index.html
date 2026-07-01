@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Showdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Montserrat (Aptitude), Share Tech Mono (Tech), Bangers (Debate), Fredoka (Fun) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Three.js Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+
+<body>
+    <!-- Preloader Overlay -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <h1 class="glow-text">SYSTEM BOOT</h1>
+            <div class="loader-bar">
+                <div id="loader-progress"></div>
+            </div>
+            <p id="loader-status">Initializing 3D Assets...</p>
+        </div>
+    </div>
+
+    <!-- 3D Canvas Background (Home model) -->
+    <div id="home-canvas-container"></div>
+    <!-- 3D Canvas Background (floating cubes) -->
+    <div id="canvas-container"></div>
+    <!-- 3D Canvas Background (Tokyo scene) -->
+    <div id="tech-canvas-container"></div>
+    <div class="background-animation"></div>
+
+    <!-- Top Bar / Scoreboard -->
+    <header id="scoreboard">
+        <a href="intro.html"
+            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1rem; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; text-decoration: none; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 6px; transition: 0.3s; background: rgba(0,0,0,0.2);"
+            onmouseover="this.style.background='var(--primary)'; this.style.color='#fff'; this.style.borderColor='var(--primary)';"
+            onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.color='var(--accent)'; this.style.borderColor='var(--accent)';">&#8592; Intro</a>
+
+        <div class="score-pill"><span>T1</span><span id="score-t1">0</span></div>
+        <div class="score-pill"><span>T2</span><span id="score-t2">0</span></div>
+        <div class="score-pill"><span>T3</span><span id="score-t3">0</span></div>
+        <div class="score-pill"><span>T4</span><span id="score-t4">0</span></div>
+        <div class="score-pill"><span>T5</span><span id="score-t5">0</span></div>
+        <div class="score-pill"><span>T6</span><span id="score-t6">0</span></div>
+        <div class="score-pill"><span>T8</span><span id="score-t8">0</span></div>
+
+        <a href="news.html"
+            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1rem; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; text-decoration: none; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 6px; transition: 0.3s; background: rgba(0,0,0,0.2);"
+            onmouseover="this.style.background='var(--primary)'; this.style.color='#fff'; this.style.borderColor='var(--primary)';"
+            onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.color='var(--accent)'; this.style.borderColor='var(--accent)';">News
+            &#8594;</a>
+    </header>
+
+    <main class="container">
+
+        <!-- Screen 1: Quiz Selection -->
+        <section id="screen-quiz-selection" class="screen active" style="justify-content: center;">
+            <h1 class="glow-text">Select Quiz Round</h1>
+
+            <div class="carousel-container">
+                <button class="carousel-arrow" onclick="moveSlide(-1)">&#10094;</button>
+
+                <div class="carousel-content">
+                    <div class="carousel-slide active-slide">
+                        <button class="quiz-btn massive-btn round-font-1" data-quiz="1">
+                            <div class="glass-bg"></div>
+                            <span class="btn-text">Aptitude Test</span>
+                        </button>
+                    </div>
+                    <div class="carousel-slide">
+                        <button class="quiz-btn massive-btn round-font-2" data-quiz="2">
+                            <div class="glass-bg"></div>
+                            <span class="btn-text">Technical Quiz</span>
+                        </button>
+                    </div>
+                    <div class="carousel-slide">
+                        <button class="quiz-btn massive-btn round-font-3" data-quiz="3">
+                            <div class="glass-bg"></div>
+                            <span class="btn-text">Debate/JAM</span>
+                        </button>
+                    </div>
+                    <div class="carousel-slide">
+                        <button class="quiz-btn massive-btn round-font-4" data-quiz="4">
+                            <div class="glass-bg"></div>
+                            <span class="btn-text">Fun Round</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="carousel-arrow" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+
+            <div class="carousel-dots">
+                <span class="dot active" onclick="setSlide(0)"></span>
+                <span class="dot" onclick="setSlide(1)"></span>
+                <span class="dot" onclick="setSlide(2)"></span>
+                <span class="dot" onclick="setSlide(3)"></span>
+            </div>
+        </section>
+
+        <!-- Screen 1.5: Rules Selection -->
+        <section id="screen-rules" class="screen hidden">
+            <div class="header-action">
+                <button class="btn-back" onclick="goBackToQuizSelectionFromRules()">&#8592; Back to Rounds</button>
+                <h2 id="rules-title" class="glow-text">Round Rules</h2>
+            </div>
+
+            <div class="glass-card" style="width: 100%; max-width: 800px; padding: 3rem;">
+                <ul id="rules-list"
+                    style="font-size: 1.3rem; line-height: 1.8; margin-left: 2rem; color: var(--text-color); margin-bottom: 3rem;">
+                    <!-- Rules injected here -->
+                </ul>
+                <div style="text-align: center;">
+                    <button class="primary-btn" style="font-size: 1.2rem; padding: 1rem 3rem;"
+                        onclick="proceedToQuestionSelection()">Start Round</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 2: Question Selection -->
+        <section id="screen-question-selection" class="screen hidden">
+            <div class="header-action">
+                <button class="btn-back" onclick="goBackToRules()">&#8592; Back to Rules</button>
+                <h2 id="current-quiz-title" class="glow-text">Round 1</h2>
+            </div>
+
+            <div class="question-selection-layout">
+                <!-- Left Column: Team Selection -->
+                <div class="team-selector-container glass-card">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Select Team:</h3>
+                    <div class="team-award-grid" id="team-selection-grid" style="flex-direction: column;">
+                        <button class="award-btn team-select-btn" id="ts-1" onclick="selectTeam(1)">Team 1</button>
+                        <button class="award-btn team-select-btn" id="ts-2" onclick="selectTeam(2)">Team 2</button>
+                        <button class="award-btn team-select-btn" id="ts-3" onclick="selectTeam(3)">Team 3</button>
+                        <button class="award-btn team-select-btn" id="ts-4" onclick="selectTeam(4)">Team 4</button>
+                        <button class="award-btn team-select-btn" id="ts-5" onclick="selectTeam(5)">Team 5</button>
+                        <button class="award-btn team-select-btn" id="ts-6" onclick="selectTeam(6)">Team 6</button>
+                        <button class="award-btn team-select-btn" id="ts-8" onclick="selectTeam(8)">Team 8</button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Question Grid -->
+                <div id="question-grid" class="grid-layout cols-5 small-gap">
+                    <!-- Buttons injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3: Active Question -->
+        <section id="screen-question-active" class="screen hidden">
+            <div class="header-action">
+                <button class="btn-back" onclick="goBackToQuestionSelection()">&#8592; Back</button>
+                <div class="header-controls-group">
+                    <div id="review-explanation-btn" class="hidden">
+                        <button class="primary-btn small-btn" onclick="openExplanation()"
+                            style="background: var(--accent);">View Explanation</button>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="control-btn small-btn" onclick="addTime(60)">+1m</button>
+                        <button class="control-btn small-btn" onclick="addTime(120)">+2m</button>
+                        <button class="control-btn small-btn" id="pause-timer-btn" onclick="toggleTimer()">⏸</button>
+                    </div>
+                    <div class="timer-display glass-card" id="timer-display">01:00</div>
+                </div>
+            </div>
+
+            <div class="question-container glass-card">
+                <div id="question-media-area">
+                    <div id="question-media" class="hidden"></div>
+                    <h2 id="question-text">Question Text Placeholder</h2>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                    <button id="show-options-btn" class="hidden" onclick="revealOptions()">Show Options</button>
+                    <button id="next-part-btn" class="hidden primary-btn" onclick="showNextPart()" style="font-size: 1.2rem; padding: 1rem 3rem; background: var(--secondary);">Next Part</button>
+                    <button id="reveal-answer-btn" class="hidden primary-btn" onclick="revealAnswer()" style="font-size: 1.2rem; padding: 1rem 3rem;">Reveal Answer</button>
+                </div>
+
+                <div class="options-grid" id="options-grid">
+                    <button class="option-btn" id="opt-1" onclick="checkAnswer(0)">Option A</button>
+                    <button class="option-btn" id="opt-2" onclick="checkAnswer(1)">Option B</button>
+                    <button class="option-btn" id="opt-3" onclick="checkAnswer(2)">Option C</button>
+                    <button class="option-btn" id="opt-4" onclick="checkAnswer(3)">Option D</button>
+                </div>
+
+                <!-- Answer Phase for Fun Round -->
+                <div id="answer-content" class="hidden" style="text-align: center; border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 2rem;">
+                    <div id="answer-media" style="margin-bottom: 1.5rem;"></div>
+                    <h2 id="answer-text" style="color: var(--success); margin-bottom: 2.5rem; font-size: 2.5rem;">Answer Placeholder</h2>
+                    <div id="fun-manual-controls" style="display: flex; gap: 2rem; justify-content: center;">
+                        <button class="primary-btn" onclick="awardPointsManual(true)" style="background: var(--success); color: #111; min-width: 15rem; font-size: 1.2rem;">Correct</button>
+                        <button class="primary-btn" onclick="awardPointsManual(false)" style="background: var(--accent); color: #fff; min-width: 15rem; font-size: 1.2rem;">Incorrect</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overlay when time is up or question finished -->
+            <div id="question-overlay" class="overlay hidden">
+                <div class="overlay-content form-glass">
+                    <h2>Question Completed!</h2>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                        <button class="primary-btn" onclick="goBackToQuestionSelection()">Close</button>
+                        <button class="primary-btn" onclick="openExplanation()" style="background: var(--accent);">View
+                            Explanation</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
+        <!-- Screen 3.5: Debate Round Multi-Topic View -->
+        <section id="screen-debate-round" class="screen hidden">
+            <div class="header-action">
+                <button class="btn-back" onclick="goBackToQuizSelectionFromDebate()">&#8592; Back</button>
+                <h2 class="glow-text">Debate & JAM Topics</h2>
+            </div>
+            
+            <div id="debate-topics-container" class="debate-topics-grid">
+                <!-- Topics will be injected here -->
+            </div>
+        </section>
+
+        <!-- Screen 4: Explanation Screen -->
+        <section id="screen-explanation" class="screen hidden">
+            <div class="header-action">
+                <button class="btn-back" onclick="closeExplanation()">&#8592; Back</button>
+                <h2 class="glow-text">Explanation</h2>
+            </div>
+            <div class="glass-card" style="width: 100%; max-width: 800px;">
+                <h3 id="exp-question-text" style="margin-bottom: 1rem; color: var(--primary-color);">Question Text</h3>
+                <div id="exp-text" style="font-size: 1.2rem; line-height: 1.6; color: var(--text-color); margin-bottom: 2rem;">Explanation goes here.</div>
+                
+                <!-- Manual Scoring for Fun Round on Explanation Screen -->
+                <div id="exp-manual-controls" class="hidden" style="display: flex; gap: 2rem; justify-content: center; border-top: 1px solid var(--glass-border); padding-top: 2rem;">
+                    <button class="primary-btn" onclick="awardPointsManual(true)" style="background: var(--success); color: #111; min-width: 12rem; font-size: 1.1rem;">Correct</button>
+                    <button class="primary-btn" onclick="awardPointsManual(false)" style="background: var(--accent); color: #fff; min-width: 12rem; font-size: 1.1rem;">Incorrect</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://assets.codepen.io/7773162/vanilla-tilt.min.js"></script>
+    <script src="script.js"></script>
+    <script src="3d-bg.js"></script>
+    <script src="tech-bg.js"></script>
+    <script src="home-bg.js"></script>
+</body>
+
+</html>
