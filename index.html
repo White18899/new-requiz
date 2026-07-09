@@ -13,9 +13,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Three.js Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
 </head>
 
 <body>
@@ -26,38 +24,33 @@
             <div class="loader-bar">
                 <div id="loader-progress"></div>
             </div>
-            <p id="loader-status">Initializing 3D Assets...</p>
+            <p id="loader-status">Loading Quiz Showdown...</p>
         </div>
     </div>
 
-    <!-- 3D Canvas Background (Home model) -->
-    <div id="home-canvas-container"></div>
-    <!-- 3D Canvas Background (floating cubes) -->
-    <div id="canvas-container"></div>
-    <!-- 3D Canvas Background (Tokyo scene) -->
-    <div id="tech-canvas-container"></div>
+
     <div class="background-animation"></div>
+    <div id="cursor-glow"></div>
+    <div id="bg-watermark"></div>
+    <canvas id="bg-interactive"></canvas>
 
-    <!-- Top Bar / Scoreboard -->
+    <!-- Top Corner Navigation -->
+    <nav id="top-nav">
+        <a href="intro.html" id="intro-btn" class="nav-round-btn">&#8592; Intro</a>
+        <a href="news.html" id="news-btn" class="nav-round-btn">News &#8594;</a>
+    </nav>
+
+    <!-- Sidebar Scoreboard (Desktop: vertical on center left, Mobile: horizontal bar) -->
     <header id="scoreboard">
-        <a href="intro.html"
-            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1rem; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; text-decoration: none; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 6px; transition: 0.3s; background: rgba(0,0,0,0.2);"
-            onmouseover="this.style.background='var(--primary)'; this.style.color='#fff'; this.style.borderColor='var(--primary)';"
-            onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.color='var(--accent)'; this.style.borderColor='var(--accent)';">&#8592; Intro</a>
-
-        <div class="score-pill"><span>T1</span><span id="score-t1">0</span></div>
-        <div class="score-pill"><span>T2</span><span id="score-t2">0</span></div>
-        <div class="score-pill"><span>T3</span><span id="score-t3">0</span></div>
-        <div class="score-pill"><span>T4</span><span id="score-t4">0</span></div>
-        <div class="score-pill"><span>T5</span><span id="score-t5">0</span></div>
-        <div class="score-pill"><span>T6</span><span id="score-t6">0</span></div>
-        <div class="score-pill"><span>T8</span><span id="score-t8">0</span></div>
-
-        <a href="news.html"
-            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1rem; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; text-decoration: none; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 6px; transition: 0.3s; background: rgba(0,0,0,0.2);"
-            onmouseover="this.style.background='var(--primary)'; this.style.color='#fff'; this.style.borderColor='var(--primary)';"
-            onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.color='var(--accent)'; this.style.borderColor='var(--accent)';">News
-            &#8594;</a>
+        <div class="scoreboard-scores">
+            <div class="score-pill"><span>T1</span><span id="score-t1">0</span></div>
+            <div class="score-pill"><span>T2</span><span id="score-t2">0</span></div>
+            <div class="score-pill"><span>T3</span><span id="score-t3">0</span></div>
+            <div class="score-pill"><span>T4</span><span id="score-t4">0</span></div>
+            <div class="score-pill"><span>T5</span><span id="score-t5">0</span></div>
+            <div class="score-pill"><span>T6</span><span id="score-t6">0</span></div>
+            <div class="score-pill"><span>T8</span><span id="score-t8">0</span></div>
+        </div>
     </header>
 
     <main class="container">
@@ -66,44 +59,30 @@
         <section id="screen-quiz-selection" class="screen active" style="justify-content: center;">
             <h1 class="glow-text">Select Quiz Round</h1>
 
-            <div class="carousel-container">
-                <button class="carousel-arrow" onclick="moveSlide(-1)">&#10094;</button>
-
-                <div class="carousel-content">
-                    <div class="carousel-slide active-slide">
-                        <button class="quiz-btn massive-btn round-font-1" data-quiz="1">
-                            <div class="glass-bg"></div>
-                            <span class="btn-text">Aptitude Test</span>
-                        </button>
-                    </div>
-                    <div class="carousel-slide">
-                        <button class="quiz-btn massive-btn round-font-2" data-quiz="2">
-                            <div class="glass-bg"></div>
-                            <span class="btn-text">Technical Quiz</span>
-                        </button>
-                    </div>
-                    <div class="carousel-slide">
-                        <button class="quiz-btn massive-btn round-font-3" data-quiz="3">
-                            <div class="glass-bg"></div>
-                            <span class="btn-text">Debate/JAM</span>
-                        </button>
-                    </div>
-                    <div class="carousel-slide">
-                        <button class="quiz-btn massive-btn round-font-4" data-quiz="4">
-                            <div class="glass-bg"></div>
-                            <span class="btn-text">Fun Round</span>
-                        </button>
-                    </div>
-                </div>
-
-                <button class="carousel-arrow" onclick="moveSlide(1)">&#10095;</button>
-            </div>
-
-            <div class="carousel-dots">
-                <span class="dot active" onclick="setSlide(0)"></span>
-                <span class="dot" onclick="setSlide(1)"></span>
-                <span class="dot" onclick="setSlide(2)"></span>
-                <span class="dot" onclick="setSlide(3)"></span>
+            <div class="rounds-grid">
+                <button class="quiz-btn card-round-1 round-font-1" data-quiz="1">
+                    <span class="card-num">01</span>
+                    <span class="card-title">Aptitude Test</span>
+                    <span class="card-desc">Warm Editorial Type</span>
+                </button>
+                
+                <button class="quiz-btn card-round-2 round-font-2" data-quiz="2">
+                    <span class="card-num">02</span>
+                    <span class="card-title">Technical Quiz</span>
+                    <span class="card-desc">Cyber Terminal</span>
+                </button>
+                
+                <button class="quiz-btn card-round-3 round-font-3" data-quiz="3">
+                    <span class="card-num">03</span>
+                    <span class="card-title">Debate / JAM</span>
+                    <span class="card-desc">Stark Brutalist</span>
+                </button>
+                
+                <button class="quiz-btn card-round-4 round-font-4" data-quiz="4">
+                    <span class="card-num">04</span>
+                    <span class="card-title">Fun Round</span>
+                    <span class="card-desc">Playful Pastel</span>
+                </button>
             </div>
         </section>
 
@@ -249,11 +228,7 @@
 
     </main>
 
-    <script src="https://assets.codepen.io/7773162/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
-    <script src="3d-bg.js"></script>
-    <script src="tech-bg.js"></script>
-    <script src="home-bg.js"></script>
 </body>
 
 </html>

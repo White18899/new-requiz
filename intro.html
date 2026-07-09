@@ -1,146 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Introduction</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <title>STEM Session Introduction</title>
+    <!-- Modern Sleek Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800&family=JetBrains+Mono:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="intro.css">
 
-    <!-- Three.js Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
-
 <body>
-    <div class="intro-container">
-        <!-- Header -->
-        <header class="intro-header">
-            <h1>Welcome to the STEM session</h1>
-        </header>
 
-        <!-- Slider Track -->
-        <div class="slider-wrapper">
-            <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous Slide">❮</button>
 
-            <div class="slider-track" id="sliderTrack">
+    <div class="scroll-container">
+        <!-- Hero / Landing Section -->
+        <section class="hero-section">
+            <header class="intro-header">
+                <span class="mono-tag scroll-reveal">STEM SESSION // INTRO</span>
+                <h1 class="scroll-reveal">INTELLECTUAL<br>FRONTIER</h1>
+            </header>
+            <div class="scroll-indicator">
+                <span class="indicator-arrow">↓</span>
+                <span class="indicator-text">SCROLL DOWN</span>
+            </div>
+        </section>
 
-                <!-- Slide 1: Team Members -->
-                <div class="intro-slide active">
-                    <div class="intro-content text-center">
-                        <div class="logobg">
-                            <div class="logo scroll-animate slide-from-top">
-                                <img src="gvplogo-removebg-preview (1).png" alt="">
-                                <h1> GAYATRI VIDYA PARISHAD COLLEGE FOR DEGREE AND PG COURSES (AUTONOMOUS)</h1>
-                            </div>
-
-                        </div>
-                        <div
-                            style="text-align: left; align-self: flex-start; max-width: 800px; width: 100%; margin: 0 auto;">
-                            <h2>The Team 7 <span class="intro-badge team-badge"
-                                    style="margin: 1rem; position: absolute;">Organizers</span></h2>
-
-                        </div>
-                        <div class="team-grid">
-                            <div class="team-member">
-                                <h3>K. Nithin</h3>
-                                <p>5241411173</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>V. Haritha</h3>
-                                <p>5241411201</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>V. Dinesh</h3>
-                                <p>5241411203</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>M. Gayatri</h3>
-                                <p>5241411184</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>G. Jaswanth</h3>
-                                <p>5241411170</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>P. Anudeepthi</h3>
-                                <p>5241411188</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>P. Likhil</h3>
-                                <p>5241411189</p>
-                            </div>
-                            <div class="team-member">
-                                <h3>N. Sai Sree Teja</h3>
-                                <p>5241411186</p>
-                            </div>
-                        </div>
-
-                        <!-- 3D Model Container -->
-                        <div id="intro-3d-container"
-                            style="position: absolute; right: -6rem; bottom: -2rem; width: 600px; height: 600px; z-index: 10; pointer-events: none;">
-                        </div>
-
-                    </div>
+        <!-- Section 1: Team & Organizers -->
+        <section class="scroll-section section-team">
+            <div class="scroll-reveal college-banner">
+                <img src="gvplogo-removebg-preview (1).png" alt="GVP Logo" class="college-logo">
+                <div class="college-text">
+                    <h2>GAYATRI VIDYA PARISHAD COLLEGE</h2>
+                    <p>FOR DEGREE AND PG COURSES (AUTONOMOUS)</p>
                 </div>
-
-                <!-- Slide 2: Important Person -->
-                <div class="intro-slide">
-                    <div class="intro-content vip-layout">
-                        <div class="vip-text">
-
-                            <h2>David Blackwell <span class="intro-badge vip-badge"
-                                    style="color: black; position: absolute; right: 24rem; top: 5.5rem;">1919-2010</span>
-                            </h2>
-                            <h3>mathematician and statistician</h3>
-                            <p>He co-discovered the Rao-Blackwell Theorem. His profound contributions to probability
-                                theory, game theory, and information theory. Nvidia's Blackwell GPU architecture is
-                                named after David Blackwell.</p>
-                        </div>
-                        <div class="vip-image">
-                            <img src="WhatsApp Image 2026-03-15 at 2.02.10 PM.jpeg" alt="David Blackwell">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 3: Agentic AI -->
-                <div class="intro-slide">
-                    <div class="intro-content tech-layout">
-                        <span class="intro-badge tech-badge">Concept</span>
-                        <h2>Agentic AI & The Autonomous Economy</h2>
-                        <div class="tech-stack">
-                            <div class="tech-item">
-                                <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9);">
-                                    Agentic AI refers to systems that don't just answer questions but can independently
-                                    plan and execute complex, multi-step tasks across different software and hardware
-                                    environments.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <button class="nav-btn next-btn" id="nextBtn" aria-label="Next Slide">❯</button>
-        </div>
+            <div class="scroll-reveal section-title">
+                <span class="slide-label">ORGANIZERS</span>
+                <h3>TEAM 7</h3>
+            </div>
 
-        <!-- Pagination Dots -->
-        <div class="slider-dots" id="sliderDots">
-            <!-- Dots generated by JS -->
-        </div>
+            <div class="team-grid">
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">K. Nithin</span>
+                    <span class="member-id">5241411173</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">V. Haritha</span>
+                    <span class="member-id">5241411201</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">V. Dinesh</span>
+                    <span class="member-id">5241411203</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">M. Gayatri</span>
+                    <span class="member-id">5241411184</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">G. Jaswanth</span>
+                    <span class="member-id">5241411170</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">P. Anudeepthi</span>
+                    <span class="member-id">5241411188</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">P. Likhil</span>
+                    <span class="member-id">5241411189</span>
+                </div>
+                <div class="team-member scroll-reveal-item">
+                    <span class="member-name">N. Sai Sree Teja</span>
+                    <span class="member-id">5241411186</span>
+                </div>
+            </div>
+        </section>
 
-        <!-- Navigation back to main app -->
-        <div class="return-action">
-            <a href="index.html" class="return-btn" style="color: black;">Proceed to Quiz →</a>
-        </div>
+        <!-- Section 2: Important Person (David Blackwell) -->
+        <section class="scroll-section section-vip scroll-reveal">
+            <div class="vip-layout">
+                <div class="vip-info">
+                    <div class="section-title">
+                        <span class="slide-label">LEGACY</span>
+                        <h3>DAVID BLACKWELL</h3>
+                    </div>
+                    <p class="vip-years">1919 – 2010</p>
+                    <p class="vip-desc">
+                        A preeminent American mathematician and statistician, he co-discovered the <strong>Rao-Blackwell Theorem</strong>. 
+                        His work fundamentally shaped probability theory, game theory, and information theory. 
+                        In tribute to his pathbreaking genius, NVIDIA named its groundbreaking Blackwell GPU architecture after him.
+                    </p>
+                </div>
+                <div class="vip-frame">
+                    <img src="WhatsApp Image 2026-03-15 at 2.02.10 PM.jpeg" alt="David Blackwell" class="grayscale-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Concept (Agentic AI) -->
+        <section class="scroll-section section-concept scroll-reveal">
+            <div class="concept-layout">
+                <div class="section-title">
+                    <span class="slide-label">PARADIGM</span>
+                    <h3>AGENTIC AI & AUTONOMOUS ECONOMY</h3>
+                </div>
+                <div class="concept-body">
+                    <p class="concept-highlight">
+                        Agentic AI represents the shift from responsive systems to autonomous agents that act.
+                    </p>
+                    <p class="concept-detail">
+                        Rather than simply answering prompts, these advanced artificial intelligence systems independently plan, reason, adapt, and execute complex, multi-step actions across various environments to achieve user goals.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Return Section -->
+        <footer class="scroll-section page-footer scroll-reveal">
+            <div class="footer-actions">
+                <a href="index.html" class="return-btn">PROCEED TO QUIZ →</a>
+                <button id="scrollToTopBtn" class="scroll-top-btn">↑ BACK TO TOP</button>
+            </div>
+        </footer>
     </div>
 
+    <!-- Scripts -->
     <script src="intro.js"></script>
-    <script src="intro-3d.js"></script>
-</body>
 
+</body>
 </html>

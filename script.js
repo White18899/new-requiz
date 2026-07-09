@@ -1,59 +1,25 @@
-// Asset Loading Registry (Dynamic)
-window.ASSET_REGISTRY = {
-    total: 0,
-    loaded: 0,
-    ids: new Set()
-};
-
-window.registerAsset = function (id) {
-    if (window.ASSET_REGISTRY.ids.has(id)) return;
-    window.ASSET_REGISTRY.ids.add(id);
-    window.ASSET_REGISTRY.total++;
-    updateLoaderUI();
-};
-
-window.markAssetLoaded = function (id) {
-    if (!window.ASSET_REGISTRY.ids.has(id)) return;
-    window.ASSET_REGISTRY.loaded++;
-    updateLoaderUI();
-
-    if (window.ASSET_REGISTRY.loaded >= window.ASSET_REGISTRY.total) {
-        setTimeout(hidePreloader, 500);
-    }
-};
-
-function updateLoaderUI() {
-    const progress = (window.ASSET_REGISTRY.loaded / window.ASSET_REGISTRY.total) * 100 || 0;
+document.addEventListener('DOMContentLoaded', () => {
+    let progress = 0;
     const bar = document.getElementById('loader-progress');
     const status = document.getElementById('loader-status');
-
-    if (bar) bar.style.width = `${progress}%`;
-    if (status) {
-        status.innerText = progress >= 100
-            ? "Sync Complete"
-            : `Loading Assets... ${Math.round(progress)}%`;
-    }
-}
-
-function hidePreloader() {
     const preloader = document.getElementById('preloader');
-    if (preloader) {
-        preloader.classList.add('fade-out');
-        // Start the home background ONLY if we are on the home screen
-        if (typeof window.showHomeBackground !== 'undefined' && STATE.currentRound === null) {
-            window.showHomeBackground();
+    
+    const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 15) + 5;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            if (bar) bar.style.width = '100%';
+            if (status) status.innerText = 'Sync Complete';
+            setTimeout(() => {
+                if (preloader) preloader.classList.add('fade-out');
+            }, 300);
+        } else {
+            if (bar) bar.style.width = `${progress}%`;
+            if (status) status.innerText = `Loading Assets... ${progress}%`;
         }
-    }
-}
-
-// Force hide preloader after 10 seconds (Safety)
-setTimeout(() => {
-    const preloader = document.getElementById('preloader');
-    if (preloader && !preloader.classList.contains('fade-out')) {
-        console.warn('Preloader timeout: Force hiding...');
-        hidePreloader();
-    }
-}, 10000);
+    }, 40);
+});
 
 // State Management
 const STATE = {
@@ -77,12 +43,8 @@ const ROUND_NAMES = {
 };
 
 function hideAllBackgrounds() {
-    if (typeof window.hideHomeBackground !== 'undefined') window.hideHomeBackground();
-    if (typeof window.hideTechBackground !== 'undefined') window.hideTechBackground();
-    if (typeof window.hideAptitudeBackground !== 'undefined') window.hideAptitudeBackground();
-
-    document.body.classList.remove('tech-quiz-active');
-    document.body.classList.remove('aptitude-quiz-active');
+    document.body.classList.remove('lobby-active', 'round-1-active', 'round-2-active', 'round-3-active', 'round-4-active');
+    updateWatermark(null);
 }
 
 const RULES_DATA = {
@@ -531,21 +493,14 @@ function openRules(roundId) {
 
     hideAllBackgrounds();
 
-    const canvasContainer = document.getElementById('canvas-container');
-
-    if (STATE.currentRound === 2) {
-        // Round 2: hide floating cubes, show Tokyo sunset scene
-        canvasContainer.classList.remove('show-3d');
-        document.body.classList.add('tech-quiz-active');
-        if (typeof window.showTechBackground !== 'undefined') window.showTechBackground();
-    } else {
-        // Other rounds
-        if (STATE.currentRound === 1) {
-            document.body.classList.add('aptitude-quiz-active');
-            if (typeof window.showAptitudeBackground !== 'undefined') {
-                window.showAptitudeBackground();
-            }
-        }
+    if (STATE.currentRound === 1) {
+        document.body.classList.add('round-1-active');
+    } else if (STATE.currentRound === 2) {
+        document.body.classList.add('round-2-active');
+    } else if (STATE.currentRound === 3) {
+        document.body.classList.add('round-3-active');
+    } else if (STATE.currentRound === 4) {
+        document.body.classList.add('round-4-active');
     }
 
     // Populate rules list
@@ -571,14 +526,15 @@ function proceedToQuestionSelection() {
     document.getElementById('screen-rules').style.display = 'none';
     currentQuizTitle.innerText = ROUND_NAMES[STATE.currentRound];
 
-    // Ensure background is correct for the round
     hideAllBackgrounds();
-    if (STATE.currentRound === 2) {
-        document.body.classList.add('tech-quiz-active');
-        if (typeof window.showTechBackground !== 'undefined') window.showTechBackground();
-    } else if (STATE.currentRound === 1) {
-        document.body.classList.add('aptitude-quiz-active');
-        if (typeof window.showAptitudeBackground !== 'undefined') window.showAptitudeBackground();
+    if (STATE.currentRound === 1) {
+        document.body.classList.add('round-1-active');
+    } else if (STATE.currentRound === 2) {
+        document.body.classList.add('round-2-active');
+    } else if (STATE.currentRound === 3) {
+        document.body.classList.add('round-3-active');
+    } else if (STATE.currentRound === 4) {
+        document.body.classList.add('round-4-active');
     }
 
     renderQuestionGrid(STATE.currentRound);
@@ -586,16 +542,8 @@ function proceedToQuestionSelection() {
 }
 
 function goBackToQuizSelectionFromRules() {
-    document.getElementById('screen-rules').style.display = 'none';
-    hideAllBackgrounds();
-    if (typeof window.showHomeBackground !== 'undefined') window.showHomeBackground();
-    if (typeof window.isQuestionZoomed !== 'undefined') {
-        window.isQuestionZoomed = false;
-    }
-    if (typeof window.isTechCentered !== 'undefined') {
-        window.isTechCentered = false;
-    }
     showScreen(screenQuizSelection);
+    document.body.classList.add('lobby-active');
 }
 
 function renderQuestionGrid(roundId) {
@@ -619,15 +567,7 @@ function renderQuestionGrid(roundId) {
         questionGrid.appendChild(btn);
     });
 
-    // Initialize VanillaTilt for the newly created question buttons
-    if (typeof VanillaTilt !== 'undefined') {
-        VanillaTilt.init(document.querySelectorAll('.q-grid-btn'), {
-            max: 15,
-            speed: 400,
-            scale: 1.4,
-            easing: "cubic-bezier(.03,.98,.52,.99)",
-        });
-    }
+    // VanillaTilt removed
 }
 
 function goBackToRules() {
@@ -648,6 +588,7 @@ function selectTeam(teamIndex) {
         selectedBtn.style.border = '1px solid #fff';
         selectedBtn.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8)';
     }
+    updateWatermark(teamIndex);
 }
 
 function openQuestion(questionId) {
@@ -785,13 +726,7 @@ function openQuestion(questionId) {
     updateTimerDisplay();
     startTimer();
 
-    // Zoom/Center background if in Aptitude/Technical
-    if (STATE.currentRound === 1 && typeof window.isQuestionZoomed !== 'undefined') {
-        window.isQuestionZoomed = true;
-    }
-    if (STATE.currentRound === 2 && typeof window.isTechCentered !== 'undefined') {
-        window.isTechCentered = true;
-    }
+    // Zoom/Center background removed
 
     // Switch UI
     console.log(`[DEBUG] Switching UI to Question Active Screen`);
@@ -853,13 +788,7 @@ function goBackToQuestionSelection() {
     document.body.classList.remove('active-question');
     document.body.classList.remove('correct-bg', 'incorrect-bg'); // Safety reset
 
-    // Reset Zoom/Center
-    if (typeof window.isQuestionZoomed !== 'undefined') {
-        window.isQuestionZoomed = false;
-    }
-    if (typeof window.isTechCentered !== 'undefined') {
-        window.isTechCentered = false;
-    }
+    // Reset Zoom/Center removed
 
     renderQuestionGrid(STATE.currentRound); // Re-render to show disabled answered questions
     showScreen(screenQuestionSelection);
@@ -933,13 +862,7 @@ function viewAnsweredQuestion(questionId) {
     timerDisplay.innerText = historyEntry && historyEntry.team ? `Ans: T${historyEntry.team}` : 'Answered';
     timerDisplay.style.color = '#fff';
     timerDisplay.style.animation = 'none';
-    // Zoom/Center background if in Aptitude/Technical
-    if (STATE.currentRound === 1 && typeof window.isQuestionZoomed !== 'undefined') {
-        window.isQuestionZoomed = true;
-    }
-    if (STATE.currentRound === 2 && typeof window.isTechCentered !== 'undefined') {
-        window.isTechCentered = true;
-    }
+    // Zoom/Center background removed
 
     // Switch UI
     document.body.classList.add('active-question');
@@ -1194,58 +1117,11 @@ function showDebateRoundView() {
 function goBackToQuizSelectionFromDebate() {
     document.getElementById('screen-debate-round').style.display = 'none';
     hideAllBackgrounds();
-    if (typeof window.showHomeBackground !== 'undefined') window.showHomeBackground();
+    document.body.classList.add('lobby-active');
     showScreen(screenQuizSelection);
 }
 
-// Carousel Logic
-let currentSlide = 0;
-
-function updateCarousel() {
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dots .dot');
-
-    if (!slides.length) return;
-
-    slides.forEach((slide, index) => {
-        slide.classList.remove('active-slide', 'prev-slide');
-        if (index === currentSlide) {
-            slide.classList.add('active-slide');
-        } else if (index < currentSlide) {
-            slide.classList.add('prev-slide');
-        }
-    });
-
-    dots.forEach((dot, index) => {
-        if (index === currentSlide) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
-    });
-}
-
-function moveSlide(direction) {
-    const slides = document.querySelectorAll('.carousel-slide');
-    if (!slides.length) return;
-
-    currentSlide += direction;
-    if (currentSlide < 0) currentSlide = slides.length - 1;
-    if (currentSlide >= slides.length) currentSlide = 0;
-
-    if (typeof window.rotateHomeModel !== 'undefined') {
-        window.rotateHomeModel(direction);
-    }
-
-    updateCarousel();
-}
-
-function setSlide(index) {
-    currentSlide = index;
-    updateCarousel();
-}
-
-document.addEventListener('DOMContentLoaded', updateCarousel);
+// Carousel Logic removed
 
 // Quick helper animation for CSS
 const styleSheet = document.createElement("style");
@@ -1259,35 +1135,90 @@ styleSheet.innerText = `
 document.head.appendChild(styleSheet);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Other initializations might have occurred earlier, so we just run Tilt here.
-    if (typeof VanillaTilt !== 'undefined') {
-        VanillaTilt.init(document.querySelectorAll('.massive-btn'), {
-            max: 20,
-            speed: 400,
-            scale: 1.08,
-            easing: "cubic-bezier(.03,.98,.52,.99)",
-        });
-
-        VanillaTilt.init(document.querySelectorAll('.question-container'), {
-            max: 15, // Increased from 5
-            speed: 400,
-            perspective: 1000,
-            scale: 1.02,
-        });
-
-        VanillaTilt.init(document.querySelectorAll('.option-btn'), {
-            max: 20, // Increased from 10
-            speed: 400,
-            perspective: 800,
-            scale: 1.05,
-        });
-    }
-    if (typeof window.showHomeBackground !== 'undefined') {
-        window.showHomeBackground();
-    }
-
-    // Pre-load default models immediately
-    if (typeof window.load3DModel !== 'undefined') {
-        window.load3DModel('free_low_poly_game_assets.glb');
-    }
+    document.body.classList.add('lobby-active');
+    initInteractiveCanvas();
 });
+
+// Watermark and Dynamic Cursor Tracking Helpers
+function updateWatermark(teamIndex) {
+    const watermark = document.getElementById('bg-watermark');
+    if (watermark) {
+        if (teamIndex) {
+            watermark.textContent = `Team ${teamIndex}`;
+            watermark.classList.add('active');
+        } else {
+            watermark.textContent = '';
+            watermark.classList.remove('active');
+        }
+    }
+}
+
+function getThemeColor() {
+    if (document.body.classList.contains('round-1-active')) return { r: 229, g: 152, b: 80 };
+    if (document.body.classList.contains('round-2-active')) return { r: 0, g: 255, b: 102 };
+    if (document.body.classList.contains('round-3-active')) return { r: 255, g: 51, b: 102 };
+    if (document.body.classList.contains('round-4-active')) return { r: 179, g: 157, b: 219 };
+    return { r: 99, g: 102, b: 241 }; // default lobby Indigo
+}
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+window.addEventListener('mousemove', (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    mouseX = x;
+    mouseY = y;
+    document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+    document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+});
+
+function initInteractiveCanvas() {
+    const canvas = document.getElementById('bg-interactive');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+    });
+    
+    function drawGrid() {
+        ctx.clearRect(0, 0, width, height);
+        const spacing = 50;
+        const theme = getThemeColor();
+        const maxDist = 220;
+        const maxDistSq = maxDist * maxDist;
+        
+        for (let x = spacing / 2; x < width; x += spacing) {
+            for (let y = spacing / 2; y < height; y += spacing) {
+                const dx = mouseX - x;
+                const dy = mouseY - y;
+                const distSq = dx * dx + dy * dy;
+                
+                let alpha = 0.05;
+                let size = 1;
+                
+                if (distSq < maxDistSq) {
+                    const proximity = 1 - Math.sqrt(distSq) / maxDist;
+                    alpha += proximity * 0.35;
+                    size += proximity * 1.5;
+                }
+                
+                ctx.fillStyle = `rgba(${theme.r}, ${theme.g}, ${theme.b}, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        requestAnimationFrame(drawGrid);
+    }
+    requestAnimationFrame(drawGrid);
+}
