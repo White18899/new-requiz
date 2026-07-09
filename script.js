@@ -1154,11 +1154,7 @@ function updateWatermark(teamIndex) {
 }
 
 function getThemeColor() {
-    if (document.body.classList.contains('round-1-active')) return { r: 229, g: 152, b: 80 };
-    if (document.body.classList.contains('round-2-active')) return { r: 0, g: 255, b: 102 };
-    if (document.body.classList.contains('round-3-active')) return { r: 255, g: 51, b: 102 };
-    if (document.body.classList.contains('round-4-active')) return { r: 179, g: 157, b: 219 };
-    return { r: 99, g: 102, b: 241 }; // default lobby Indigo
+    return { r: 255, g: 255, b: 255 }; // pure white for monochromatic dots highlight!
 }
 
 let mouseX = window.innerWidth / 2;
