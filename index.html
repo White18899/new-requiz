@@ -17,6 +17,32 @@
 </head>
 
 <body>
+    <!-- Diagnostics Log Overlay -->
+    <div id="diagnostics-log" style="position: fixed; top: 0; left: 0; width: 100vw; background: rgba(255, 0, 0, 0.95); color: white; z-index: 999999; font-family: monospace; font-size: 13px; padding: 12px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"></div>
+    <script>
+        window.addEventListener('error', function(e) {
+            const log = document.getElementById('diagnostics-log');
+            log.style.display = 'block';
+            log.innerHTML += '<div><strong>Error:</strong> ' + e.message + ' (' + e.filename + ':' + e.lineno + ')</div>';
+        });
+        const origConsoleError = console.error;
+        console.error = function() {
+            origConsoleError.apply(console, arguments);
+            const log = document.getElementById('diagnostics-log');
+            if (log) {
+                log.style.display = 'block';
+                const msg = Array.from(arguments).map(x => {
+                    try {
+                        return typeof x === 'object' ? JSON.stringify(x) : String(x);
+                    } catch(err) {
+                        return String(x);
+                    }
+                }).join(' ');
+                log.innerHTML += '<div><strong>Console Error:</strong> ' + msg + '</div>';
+            }
+        };
+    </script>
+
     <!-- Preloader Overlay -->
     <div id="preloader">
         <div class="preloader-content">
@@ -33,6 +59,9 @@
     <div id="cursor-glow"></div>
     <div id="bg-watermark"></div>
     <canvas id="bg-interactive"></canvas>
+    <div id="aptitude-bg-container" class="dot-field-container-wrap"></div>
+    <div id="technical-bg-container" class="faulty-terminal-container"></div>
+
 
     <!-- Top Corner Navigation -->
     <nav id="top-nav">
@@ -228,6 +257,9 @@
 
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/ogl/dist/ogl.umd.js"></script>
+    <script src="faulty-terminal.js"></script>
+    <script src="dotfield.js"></script>
     <script src="script.js"></script>
 </body>
 

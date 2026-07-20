@@ -59,4 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gridObserver.observe(teamGrid);
     }
+
+    // Initialize ShapeGrid background
+    const canvas = document.getElementById('intro-shapegrid-canvas');
+    if (canvas) {
+        new ShapeGrid(canvas, {
+            speed: 0.5,
+            squareSize: 40,
+            direction: 'diagonal',
+            borderColor: 'rgba(255, 255, 255, 0.15)',
+            hoverFillColor: 'rgba(255, 59, 48, 0.25)',
+            shape: 'hexagon',
+            hoverTrailAmount: 6
+        });
+    }
 });

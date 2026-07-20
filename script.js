@@ -19,6 +19,46 @@ document.addEventListener('DOMContentLoaded', () => {
             if (status) status.innerText = `Loading Assets... ${progress}%`;
         }
     }, 40);
+
+    // Initialize FaultyTerminal background for Technical Quiz
+    const container = document.getElementById('technical-bg-container');
+    if (container) {
+        new FaultyTerminal(container, {
+            scale: 1.5,
+            gridMul: [8, 4],
+            digitSize: 0.55,
+            timeScale: 1,
+            pause: false,
+            scanlineIntensity: 0.3,
+            glitchAmount: 1,
+            flickerAmount: 1,
+            noiseAmp: 0.4,
+            chromaticAberration: 0,
+            dither: 0,
+            curvature: 0,
+            tint: '#004d61',
+            mouseReact: true,
+            mouseStrength: 0.5,
+            pageLoadAnimation: false,
+            brightness: 1
+        });
+    }
+
+    // Initialize DotField background for Aptitude Test (Round 1)
+    const aptContainer = document.getElementById('aptitude-bg-container');
+    if (aptContainer) {
+        new DotField(aptContainer, {
+            dotRadius: 3.5,
+            dotSpacing: 18,
+            bulgeStrength: 67,
+            glowRadius: 160,
+            sparkle: false,
+            waveAmplitude: 0,
+            gradientFrom: 'rgba(229, 152, 80, 0.7)',
+            gradientTo: 'rgba(235, 220, 208, 0.45)',
+            glowColor: '#4d2005'
+        });
+    }
 });
 
 // State Management
@@ -937,6 +977,7 @@ function checkAnswer(selectedIndex) {
             btn.style.color = '#111';
         } else if (idx === selectedIndex && !isCorrect) {
             btn.style.background = 'var(--accent)';
+            btn.style.color = '#fff';
         }
         btn.disabled = true; // prevent multiple clicks
     });
@@ -1144,10 +1185,13 @@ function updateWatermark(teamIndex) {
     const watermark = document.getElementById('bg-watermark');
     if (watermark) {
         if (teamIndex) {
-            watermark.textContent = `Team ${teamIndex}`;
+            const text = `Team ${teamIndex}`;
+            watermark.textContent = text;
+            watermark.setAttribute('data-text', text);
             watermark.classList.add('active');
         } else {
             watermark.textContent = '';
+            watermark.removeAttribute('data-text');
             watermark.classList.remove('active');
         }
     }

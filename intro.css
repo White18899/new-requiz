@@ -179,15 +179,14 @@ body::-webkit-scrollbar-thumb:hover {
     align-items: center;
     gap: 2rem;
     margin-bottom: 5rem;
-    border: 1px solid var(--border-color);
-    padding: 2rem;
-    background: rgba(28, 28, 30, 0.2);
+    border: none;
+    padding: 0;
+    background: none;
 }
 
 .college-logo {
     width: 60px;
     height: auto;
-    filter: grayscale(1) invert(1) brightness(1.4);
 }
 
 .college-text h2 {
@@ -224,14 +223,14 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .member-name {
-    font-size: 1.15rem;
+    font-size: 1.45rem;
     font-weight: 600;
     color: var(--text-color);
 }
 
 .member-id {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
 }
 
@@ -479,4 +478,16 @@ body::-webkit-scrollbar-thumb:hover {
         font-size: 1.4rem;
         padding-left: 1.25rem;
     }
+}
+
+/* ShapeGrid Background Canvas */
+.shapegrid-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
 }
