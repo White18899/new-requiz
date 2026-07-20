@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bar = document.getElementById('loader-progress');
     const status = document.getElementById('loader-status');
     const preloader = document.getElementById('preloader');
-    
+
     const interval = setInterval(() => {
         progress += Math.floor(Math.random() * 15) + 5;
         if (progress >= 100) {
@@ -91,7 +91,7 @@ const RULES_DATA = {
     1: [
         "Each team will participate one by one.",
         "Aptitude round topics: time and distance.",
-        "Each team gets 2 questions per turn.",
+        "Each team gets 1 questions per turn.",
         "60 seconds are given for each question.",
         "Only one member from the team will answer the questions.",
         "The first answer given is final - no changes allowed.",
@@ -101,7 +101,7 @@ const RULES_DATA = {
     2: [
         "Each team will participate one by one.",
         "Questions are from C++, java and python",
-        "Each team gets 2 questions per turn.",
+        "Each team gets 1 questions per turn.",
         "60 seconds are given for each question.",
         "Only one member from the team will answer the questions.",
         "The first answer given is final - no changes allowed.",
@@ -660,7 +660,7 @@ function selectTeam(teamIndex) {
 
 function detectCodeLanguage(promptText, codeText) {
     const text = ((promptText || '') + ' ' + (codeText || '')).toLowerCase();
-    
+
     // Explicit prompt matches take top priority
     if (text.includes('java')) return 'java';
     if (text.includes('python')) return 'py';
@@ -686,7 +686,7 @@ function formatQuestionText(questionId, rawText) {
         const prompt = parts[0].trim();
         const codeBlockRaw = parts.slice(1).join('\n\n').trim();
         const codeLines = codeBlockRaw.split('\n').map(l => l.trimEnd()).filter(l => l.trim().length > 0);
-        
+
         const ext = detectCodeLanguage(prompt, codeBlockRaw);
 
         const formattedCode = codeLines.map((line, idx) => {
@@ -1128,14 +1128,58 @@ function checkAnswer(selectedIndex) {
     }
 }
 
+// Score Persistence Helpers
+function saveScores() {
+    try {
+        localStorage.setItem('quiz_team_scores', JSON.stringify(STATE.scores));
+    } catch (e) {
+        console.error('Failed to save scores:', e);
+    }
+}
+
+function loadScores() {
+    try {
+        const saved = localStorage.getItem('quiz_team_scores');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length === 8) {
+                STATE.scores = parsed;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load scores:', e);
+    }
+    updateScoreboardUI();
+}
+
+function updateScoreboardUI() {
+    [1, 2, 3, 4, 5, 6, 8].forEach(teamIndex => {
+        const el = document.getElementById(`score-t${teamIndex}`);
+        if (el) {
+            el.innerText = STATE.scores[teamIndex - 1] || 0;
+        }
+    });
+}
+
+function resetScores() {
+    if (confirm("Are you sure you want to reset all team scores to 0?")) {
+        STATE.scores = [0, 0, 0, 0, 0, 0, 0, 0];
+        try {
+            localStorage.removeItem('quiz_team_scores');
+        } catch (e) { }
+        updateScoreboardUI();
+    }
+}
+
 // Scoring Logic
 function awardPoints(teamIndex) {
     // teamIndex is 1-6 or 8
     const pointsToAdd = 10; // Default points, can be adjusted
     STATE.scores[teamIndex - 1] += pointsToAdd;
 
-    // Update Scoreboard UI
-    document.getElementById(`score-t${teamIndex}`).innerText = STATE.scores[teamIndex - 1];
+    // Update & Save Scoreboard UI
+    updateScoreboardUI();
+    saveScores();
 
     setTimeout(() => {
         // Show success overlay
@@ -1153,7 +1197,7 @@ function markQuestionAnswered() {
 // Explanation Logic
 function openExplanation() {
     const questionData = QUIZ_DATA[STATE.currentRound].find(q => q.id === STATE.currentQuestionId);
-    document.getElementById('exp-question-text').innerHTML = questionData.text;
+    document.getElementById('exp-question-text').innerHTML = formatQuestionText(questionData.id, questionData.text);
     document.getElementById('exp-text').innerHTML = questionData.explanation;
 
     // Handle Manual Scoring Buttons for Round 4
@@ -1292,6 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('lobby-active');
     initInteractiveCanvas();
     initDraggableScoreboard();
+    loadScores();
 });
 
 // Watermark and Dynamic Cursor Tracking Helpers
@@ -1337,19 +1382,19 @@ function initInteractiveCanvas() {
     const canvas = document.getElementById('bg-interactive');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     let width = window.innerWidth;
     let height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-    
+
     window.addEventListener('resize', () => {
         width = window.innerWidth;
         height = window.innerHeight;
         canvas.width = width;
         canvas.height = height;
     });
-    
+
     function drawGrid() {
         ctx.clearRect(0, 0, width, height);
         const spacing = 40;
@@ -1357,22 +1402,22 @@ function initInteractiveCanvas() {
         const maxDist = 240;
         const maxDistSq = maxDist * maxDist;
         const isAnswerFeedback = document.body.classList.contains('incorrect-bg') || document.body.classList.contains('correct-bg');
-        
+
         for (let x = spacing / 2; x < width; x += spacing) {
             for (let y = spacing / 2; y < height; y += spacing) {
                 const dx = mouseX - x;
                 const dy = mouseY - y;
                 const distSq = dx * dx + dy * dy;
-                
+
                 let alpha = isAnswerFeedback ? 0.35 : 0.15;
                 let size = isAnswerFeedback ? 2.2 : 1.5;
-                
+
                 if (distSq < maxDistSq) {
                     const proximity = 1 - Math.sqrt(distSq) / maxDist;
                     alpha += proximity * (isAnswerFeedback ? 0.6 : 0.45);
                     size += proximity * 2.5;
                 }
-                
+
                 ctx.fillStyle = `rgba(${theme.r}, ${theme.g}, ${theme.b}, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(x, y, size, 0, Math.PI * 2);

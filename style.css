@@ -308,8 +308,10 @@ body.lobby-active .glow-text {
 }
 
 .rounds-grid .quiz-btn {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(18, 18, 22, 0.45);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 2.2rem 1.8rem;
     min-height: 310px;
@@ -320,6 +322,7 @@ body.lobby-active .glow-text {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     transition: all var(--transition-smooth);
 }
 
@@ -327,14 +330,16 @@ body.lobby-active .glow-text {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 80%);
+    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 80%);
     opacity: 0.5;
     transition: opacity var(--transition-smooth);
 }
 
 .rounds-grid .quiz-btn:hover {
     transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
 .rounds-grid .card-num {
@@ -379,6 +384,8 @@ body.lobby-active .glow-text {
     gap: 0.5rem;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition: all var(--transition-smooth);
 }
 
@@ -2658,18 +2665,16 @@ header#scoreboard a {
     line-height: 1;
 }
 
-/* Explanation Screen Styling */
+/* Explanation Screen Styling (Theme Adaptive for all 4 Rounds) */
 #screen-explanation .glass-card {
-    background: rgba(25, 20, 16, 0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid #5e4a3b;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     padding: 2.5rem 3rem;
+    transition: all var(--transition-smooth);
 }
 
 #exp-question-text {
-    color: #f7a95f !important;
     font-size: 1.45rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
@@ -2677,14 +2682,99 @@ header#scoreboard a {
 }
 
 #exp-text {
-    color: #ebdcd0 !important;
     font-size: 1.15rem;
     line-height: 1.75;
     white-space: pre-wrap;
-    background: rgba(235, 220, 208, 0.04);
-    border: 1px solid rgba(94, 74, 59, 0.6);
     padding: 1.5rem;
     border-radius: 8px;
+}
+
+/* Round 1: Warm Editorial */
+body.round-1-active #screen-explanation .glass-card {
+    background: rgba(25, 20, 16, 0.95);
+    border: 1px solid #5e4a3b;
+}
+body.round-1-active #exp-question-text {
+    color: #f7a95f !important;
+    font-family: 'Montserrat', sans-serif;
+}
+body.round-1-active #exp-text {
+    color: #ebdcd0 !important;
+    background: rgba(235, 220, 208, 0.04);
+    border: 1px solid rgba(94, 74, 59, 0.6);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Round 2: Cyber Terminal */
+body.round-2-active #screen-explanation .glass-card {
+    background: rgba(2, 12, 18, 0.95);
+    border: 1px solid rgba(0, 255, 102, 0.35);
+    box-shadow: 0 0 40px rgba(0, 255, 102, 0.15);
+}
+body.round-2-active #exp-question-text {
+    color: #00ff66 !important;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.04em;
+    text-transform: none !important;
+}
+body.round-2-active #exp-question-text .q-prompt-heading {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #00ff66;
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+}
+body.round-2-active #exp-question-text .q-code-container {
+    background: #020608;
+    border: 1px solid rgba(0, 255, 102, 0.4);
+    box-shadow: inset 0 0 20px rgba(0, 255, 102, 0.08);
+    border-radius: 8px;
+    margin: 1.2rem 0 1.5rem 0;
+    overflow: hidden;
+    text-align: left;
+}
+body.round-2-active #exp-text {
+    color: #00f0ff !important;
+    background: rgba(0, 255, 102, 0.03);
+    border: 1px solid rgba(0, 255, 102, 0.25);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Round 3: Stark Brutalist */
+body.round-3-active #screen-explanation .glass-card {
+    background: #0d0d0d;
+    border: 3px solid #ff3333;
+    box-shadow: 8px 8px 0px #ff3333;
+}
+body.round-3-active #exp-question-text {
+    color: #ff3333 !important;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.08em;
+    font-size: 2rem !important;
+}
+body.round-3-active #exp-text {
+    color: #ffffff !important;
+    background: #1a1a1a;
+    border: 2px solid #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+/* Round 4: Playful Pastel */
+body.round-4-active #screen-explanation .glass-card {
+    background: rgba(22, 15, 35, 0.95);
+    border: 1px solid rgba(179, 157, 219, 0.4);
+    box-shadow: 0 15px 35px rgba(179, 157, 219, 0.2);
+}
+body.round-4-active #exp-question-text {
+    color: #b39ddb !important;
+    font-family: 'Fredoka', sans-serif;
+}
+body.round-4-active #exp-text {
+    color: #f1f5f9 !important;
+    background: rgba(179, 157, 219, 0.06);
+    border: 1px solid rgba(179, 157, 219, 0.25);
+    font-family: 'Fredoka', sans-serif;
 }
 
 /* Answer reveals */
