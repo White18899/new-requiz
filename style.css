@@ -98,27 +98,80 @@ body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Header Scoreboard (Dynamic styling based on active round) */
+/* Header Scoreboard (Draggable, Resizable & Orientation Toggle) */
 #scoreboard {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 0.4rem;
-    background: rgba(10, 10, 15, 0.4);
+    gap: 0.4rem;
+    padding: 0.5rem 0.4rem;
+    background: rgba(10, 10, 15, 0.75);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    width: 76px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
     position: fixed;
     left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1000;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    transition: all var(--transition-smooth);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    resize: none;
+    overflow: visible;
+    width: auto;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#scoreboard.is-dragging {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+    cursor: grabbing !important;
+}
+
+/* Scoreboard Toolbar */
+.scoreboard-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.2rem 0.2rem 0.3rem 0.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 0.2rem;
+    gap: 0.2rem;
+}
+
+.scoreboard-drag-handle {
+    cursor: grab;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    flex: 1;
+    transition: color 0.2s ease;
+}
+
+.scoreboard-drag-handle:hover {
+    color: #ffffff;
+}
+
+.sb-tool-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sb-tool-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .scoreboard-scores {
@@ -126,8 +179,42 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     width: 100%;
+}
+
+/* Horizontal Orientation Mode */
+#scoreboard.horizontal-layout {
+    flex-direction: row;
+    align-items: center;
+    width: auto !important;
+    height: auto !important;
+    min-width: 120px;
+    min-height: 56px;
+    padding: 0.4rem 0.8rem;
+}
+
+#scoreboard.horizontal-layout .scoreboard-toolbar {
+    border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0;
+    margin-right: 0.4rem;
+    padding: 0 0.4rem 0 0;
+    flex-direction: column;
+    height: 100%;
+}
+
+#scoreboard.horizontal-layout .scoreboard-scores {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: auto;
+}
+
+#scoreboard.horizontal-layout .score-pill {
+    flex-direction: row;
+    gap: 0.45rem;
+    padding: 0.35rem 0.7rem;
 }
 
 .score-pill {
@@ -277,6 +364,144 @@ body.lobby-active .glow-text {
     font-weight: 500;
     text-align: left;
     letter-spacing: 0.02em;
+}
+
+/* Card Theme Preview Graphics */
+.card-theme-preview {
+    width: 100%;
+    height: 115px;
+    margin: 1rem 0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-smooth);
+}
+
+/* Card 1 Preview (Warm Editorial) */
+.preview-editorial {
+    background: radial-gradient(circle at 50% 50%, rgba(229, 152, 80, 0.18) 0%, rgba(30, 24, 20, 0.95) 100%);
+    border: 1px solid rgba(229, 152, 80, 0.3);
+    color: #e59850;
+}
+
+.preview-editorial svg {
+    filter: drop-shadow(0 0 10px rgba(229, 152, 80, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.rounds-grid .card-round-1:hover .preview-editorial svg {
+    transform: scale(1.12) rotate(6deg);
+}
+
+.preview-editorial .preview-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #ebdcd0;
+    opacity: 0.8;
+}
+
+/* Card 2 Preview (Cyber Terminal) */
+.preview-terminal {
+    background: #020608;
+    border: 1px solid rgba(0, 255, 102, 0.35);
+    padding: 0.6rem 0.8rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.12);
+}
+
+.mini-terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-bottom: 1px solid rgba(0, 255, 102, 0.25);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.m-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+.m-dot.r { background: #ff4757; }
+.m-dot.y { background: #ffa502; }
+.m-dot.g { background: #2ed573; }
+
+.m-title {
+    font-size: 0.65rem;
+    color: #00ff66;
+    margin-left: auto;
+    font-family: var(--font-mono);
+}
+
+.mini-terminal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #00ff66;
+    text-shadow: 0 0 6px rgba(0, 255, 102, 0.85);
+}
+
+/* Card 3 Preview (Stark Brutalist) */
+.preview-brutalist {
+    background: #111115;
+    border: 2px solid #ffffff;
+    color: #ff3333;
+    box-shadow: 4px 4px 0px #ff3333;
+    transition: all 0.2s ease;
+}
+
+.preview-brutalist svg {
+    filter: drop-shadow(2px 2px 0px #ffffff);
+}
+
+.stark-badge {
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    background: #ff3333;
+    color: #ffffff;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+}
+
+.rounds-grid .card-round-3:hover .preview-brutalist {
+    border-color: #000000;
+    background: #ff3333;
+    color: #ffffff;
+    box-shadow: 4px 4px 0px #000000;
+}
+
+/* Card 4 Preview (Playful Pastel) */
+.preview-pastel {
+    background: linear-gradient(135deg, rgba(179, 157, 219, 0.25), rgba(255, 171, 145, 0.2));
+    border: 1px solid rgba(179, 157, 219, 0.4);
+    color: #b39ddb;
+}
+
+.preview-pastel svg {
+    filter: drop-shadow(0 0 10px rgba(179, 157, 219, 0.6));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.rounds-grid .card-round-4:hover .preview-pastel svg {
+    transform: translateY(-4px) scale(1.15) rotate(-8deg);
+}
+
+.pastel-badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #ffab91;
+    letter-spacing: 0.08em;
 }
 
 /* Card 1 Vibe - Editorial warm */
@@ -628,7 +853,69 @@ body.round-4-active #bg-watermark {
 }
 
 /* ==========================================
-   THEME 1: APTITUDE TEST (Warm Editorial Serif)
+   SHARED LAYOUT SYSTEM COMPONENTS
+   ========================================== */
+.rules-card-container {
+    width: 100%;
+    margin: 0 auto;
+    transition: all var(--transition-smooth);
+}
+
+.rules-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.rules-badge-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rules-meta-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.rules-highlights {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.hl-badge {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rules-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.terminal-window-bar {
+    display: none; /* Only shown in Cyber Terminal theme */
+}
+
+.team-badge-icon {
+    font-weight: 800;
+    font-size: 0.8rem;
+}
+
+/* ==========================================
+   THEME 1: APTITUDE TEST (Warm Editorial Magazine)
    ========================================== */
 body.round-1-active {
     background-color: #000000;
@@ -662,15 +949,6 @@ body.round-1-active h3 {
     letter-spacing: 0.05em;
 }
 
-body.round-1-active .glass-card {
-    background: rgba(25, 22, 20, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid #3d3025;
-    border-radius: 8px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-}
-
 body.round-1-active .btn-back {
     border-radius: 4px;
     border-color: #5e4a3b;
@@ -695,46 +973,339 @@ body.round-1-active .primary-btn:hover {
     background-color: #f7a95f;
 }
 
-/* Question Selection page grid */
-body.round-1-active .q-grid-btn {
-    background: rgba(235, 220, 208, 0.02);
+/* Round 1 Layout 1: Editorial Rules (2-Column Magazine Split) */
+body.round-1-active .rules-card-container {
+    max-width: 960px;
+    padding: 0;
+    background: rgba(25, 22, 20, 0.75);
     border: 1px solid #3d3025;
-    padding: 1.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+body.round-1-active .rules-layout-wrapper {
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    min-height: 440px;
+}
+
+body.round-1-active .rules-badge-panel {
+    background: #181412;
+    border-right: 1px solid #3d3025;
+    padding: 3rem 2rem;
+    justify-content: space-between;
+}
+
+body.round-1-active .rules-meta-tag {
+    color: #e59850;
+}
+
+body.round-1-active #rules-subheading {
+    font-size: 1.8rem;
+    line-height: 1.25;
     color: #ebdcd0;
+    font-weight: 800;
+}
+
+body.round-1-active .hl-badge {
+    background: rgba(229, 152, 80, 0.08);
+    border: 1px solid #5e4a3b;
+    color: #f7a95f;
+}
+
+body.round-1-active .rules-content-panel {
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body.round-1-active .rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+}
+
+body.round-1-active .rules-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(235, 220, 208, 0.02);
+    border: 1px solid rgba(61, 48, 37, 0.6);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+body.round-1-active .rules-list li .edit-num {
+    font-weight: 800;
+    color: #e59850;
+    font-size: 1.05rem;
+}
+
+body.round-1-active .rules-action-bar {
+    margin-top: 1.2rem;
+    text-align: right;
+}
+
+/* Round 1 Layout 2: Question Selection (Top Horizontal Team Bar + 5-Col Grid) */
+body.round-1-active .question-selection-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    width: 100%;
+    max-width: 1050px;
+}
+
+body.round-1-active .team-selector-container {
+    background: rgba(30, 24, 20, 0.95);
+    border: 1px solid #5e4a3b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 1.2rem 2rem;
+    width: 100%;
+    flex: none !important;
+    height: auto !important;
+}
+
+body.round-1-active .team-select-heading {
+    margin-bottom: 0.8rem;
+    font-size: 1.05rem;
+    color: #e59850;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+body.round-1-active .team-award-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: space-between;
+}
+
+body.round-1-active .team-select-heading {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #e59850;
+    margin-bottom: 1rem;
+}
+
+body.round-1-active .team-select-btn {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap !important;
+    border-radius: 8px;
+    border: 1px solid #6e5847;
+    background: rgba(38, 30, 24, 0.92);
+    color: #ebdcd0;
+    padding: 0.55rem 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body.round-1-active .team-badge-icon {
+    background: rgba(229, 152, 80, 0.15);
+    border: 1px solid #5e4a3b;
+    color: #f7a95f;
+    border-radius: 5px;
+    padding: 0.15rem 0.4rem;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+    transition: all 0.2s ease;
+}
+
+body.round-1-active .team-label {
+    white-space: nowrap !important;
+    font-size: 0.88rem;
+}
+
+body.round-1-active .team-select-btn:hover {
+    border-color: #f7a95f;
+    color: #ffffff;
+    background: rgba(229, 152, 80, 0.25);
+    box-shadow: 0 6px 18px rgba(229, 152, 80, 0.35);
+    transform: translateY(-2px);
+}
+
+body.round-1-active .team-select-btn:hover .team-badge-icon {
+    background: #e59850;
+    color: #12100f;
+}
+
+body.round-1-active .team-select-btn.selected {
+    background: linear-gradient(135deg, #e59850, #f7a95f) !important;
+    color: #12100f !important;
+    border-color: #ffeaa7 !important;
+    box-shadow: 0 0 22px rgba(229, 152, 80, 0.75) !important;
+    transform: translateY(-2px) scale(1.03);
+}
+
+body.round-1-active .team-select-btn.selected .team-badge-icon {
+    background: rgba(18, 16, 15, 0.4) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+body.round-1-active .q-grid-btn {
+    background: rgba(38, 30, 24, 0.92);
+    border: 1px solid #6e5847;
+    padding: 1.6rem 1rem;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     transition: all var(--transition-fast);
 }
 
 body.round-1-active .q-grid-btn:hover {
-    border-color: #e59850;
-    background: rgba(229, 152, 80, 0.05);
+    border-color: #f7a95f;
+    background: rgba(229, 152, 80, 0.22);
+    box-shadow: 0 8px 25px rgba(229, 152, 80, 0.3);
+    transform: translateY(-3px);
 }
 
 body.round-1-active .q-grid-btn.answered {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(15, 12, 10, 0.75);
     border-color: #27211d;
     color: #5e4a3b;
+    box-shadow: none;
 }
 
-body.round-1-active .team-selector-container {
-    background: rgba(25, 22, 20, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid #3d3025;
+/* Round 1 Layout 3: Active Question (Question Top, 2x2 Options Grid Below) */
+body.round-1-active .question-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem 3rem;
+    background: rgba(30, 24, 20, 0.95);
+    border: 1px solid #5e4a3b;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 950px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.round-1-active #question-media-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+body.round-1-active #question-text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #ebdcd0;
+    border-left: 4px solid #e59850;
+    padding-left: 1.2rem;
+}
+
+body.round-1-active .options-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+body.round-1-active .option-btn {
+    background: rgba(38, 30, 24, 0.92);
+    border: 1px solid #6e5847;
+    color: #ebdcd0;
+    padding: 1.1rem 1.5rem;
     border-radius: 8px;
+    font-size: 1.15rem;
+    text-align: left;
+    transition: all var(--transition-fast);
 }
 
-body.round-1-active .award-btn {
-    border-radius: 4px;
-    border-color: #3e3328;
-    background: transparent;
-    color: #d1beaf;
-    font-family: inherit;
+body.round-1-active .option-btn:hover {
+    border-color: #f7a95f;
+    background: rgba(229, 152, 80, 0.18);
+    transform: translateY(-2px);
 }
 
-body.round-1-active .award-btn:hover {
-    border-color: #e59850;
-    color: #fff;
+body.round-1-active .question-action-bar {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.question-action-bar.hidden {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Timer Controls & Icon Buttons */
+.timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    border-color: #ffffff;
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+}
+
+.control-btn svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover svg {
+    transform: scale(1.15);
+}
+
+/* Theme 1 (Aptitude Test) Timer Controls */
+body.round-1-active .control-btn {
+    background: rgba(38, 30, 24, 0.92);
+    border: 1px solid #6e5847;
+    color: #ebdcd0;
+    border-radius: 6px;
+}
+
+body.round-1-active .control-btn:hover {
+    border-color: #f7a95f;
+    color: #ffffff;
+    background: rgba(229, 152, 80, 0.25);
+    box-shadow: 0 0 15px rgba(229, 152, 80, 0.3);
 }
 
 body.round-1-active .timer-display {
@@ -742,41 +1313,57 @@ body.round-1-active .timer-display {
     color: #ff9f43;
     background: #1a0f07;
     border-radius: 6px;
-    font-family: inherit;
 }
 
-body.round-1-active .timer-controls .control-btn {
-    background: #2b211a;
-    border: 1px solid #3d3025;
-    color: #d1beaf;
-    border-radius: 4px;
+/* Theme 2 (Cyber Terminal) Timer Controls */
+body.round-2-active .control-btn {
+    background: #020406;
+    border: 1px solid #005c73;
+    color: #00f0ff;
+    font-family: var(--font-mono);
+    border-radius: 0px;
 }
 
-body.round-1-active .timer-controls .control-btn:hover {
-    border-color: #e59850;
-    color: #fff;
+body.round-2-active .control-btn:hover {
+    background: #00f0ff;
+    color: #000000;
+    border-color: #00f0ff;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
 }
 
-/* Dynamic Active Question controls */
-body.round-1-active .option-btn {
-    background: #191614;
-    border: 1px solid #3d3025;
-    color: #ebdcd0;
-    border-radius: 6px;
-    font-family: inherit;
+/* Theme 3 (Debate / JAM) Timer Controls */
+body.round-3-active .control-btn {
+    background: #18181c;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    border-radius: 0px;
+    box-shadow: 3px 3px 0px #ff3333;
 }
 
-body.round-1-active .option-btn:hover {
-    border-color: #e59850;
-    background: rgba(229, 152, 80, 0.04);
+body.round-3-active .control-btn:hover {
+    background: #ff3333;
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 4px 4px 0px #ffffff;
 }
 
-body.round-1-active .option-btn span {
-    text-shadow: none !important;
+/* Theme 4 (Fun Round) Timer Controls */
+body.round-4-active .control-btn {
+    background: rgba(65, 58, 98, 0.8);
+    border: 1px solid rgba(220, 214, 247, 0.3);
+    color: #ebe7f5;
+    border-radius: 12px;
+}
+
+body.round-4-active .control-btn:hover {
+    background: #b39ddb;
+    color: #0d0c13;
+    border-color: #ffab91;
+    box-shadow: 0 0 15px rgba(179, 157, 219, 0.6);
 }
 
 /* ==========================================
-   THEME 2: TECHNICAL QUIZ (Cyber Monochrome)
+   THEME 2: TECHNICAL QUIZ (Cyber Terminal Console)
    ========================================== */
 #technical-bg-container {
     position: fixed;
@@ -798,10 +1385,6 @@ body.round-1-active .option-btn span {
 
 body.round-2-active #technical-bg-container {
     opacity: 1 !important;
-}
-
-#bg-interactive {
-    transition: opacity 0.5s ease;
 }
 
 body.round-2-active #bg-interactive {
@@ -833,12 +1416,7 @@ body.round-2-active .score-pill span:first-child {
     color: #ffffff;
 }
 
-body.round-2-active .score-pill span:last-child {
-    color: #ffffff;
-}
-
 body.round-2-active .glow-text,
-body.round-2-active h2,
 body.round-2-active h3 {
     text-shadow: none !important;
     color: #ffffff;
@@ -846,11 +1424,11 @@ body.round-2-active h3 {
     text-transform: uppercase;
 }
 
-body.round-2-active .glass-card {
-    background: #04070a;
-    border: 1px solid #004757;
-    border-radius: 0px;
-    box-shadow: 0 10px 20px rgba(0, 240, 255, 0.05);
+body.round-2-active h2 {
+    text-shadow: none !important;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    text-transform: none !important;
 }
 
 body.round-2-active .btn-back {
@@ -880,7 +1458,200 @@ body.round-2-active .primary-btn:hover {
     color: #000;
 }
 
-/* Question Selection grid */
+/* Round 2 Layout 1: Cyber Terminal Rules (UNIX Shell Console Window) */
+body.round-2-active .rules-card-container {
+    max-width: 880px;
+    padding: 0;
+    background: #04070a;
+    border: 2px solid #004757;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.12);
+    border-radius: 0px;
+}
+
+body.round-2-active .rules-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+body.round-2-active .rules-badge-panel {
+    background: #001217;
+    border-bottom: 1px solid #004757;
+    padding: 1rem 1.8rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body.round-2-active .rules-meta-tag {
+    color: #00f0ff;
+    font-family: var(--font-mono);
+}
+
+body.round-2-active #rules-subheading {
+    font-size: 1.1rem;
+    color: #00ff66;
+    font-family: var(--font-mono);
+    margin: 0;
+}
+
+body.round-2-active .hl-badge {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid #004757;
+    color: #00f0ff;
+    font-family: var(--font-mono);
+}
+
+body.round-2-active .rules-content-panel {
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+body.round-2-active .rules-list {
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    max-height: none;
+    overflow: visible;
+}
+
+body.round-2-active .rules-list li {
+    background: #020406;
+    border: 1px dashed #004757;
+    padding: 0.5rem 1rem;
+    border-radius: 0px;
+    color: #00f0ff;
+    font-size: 0.92rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+body.round-2-active .term-prefix {
+    color: #00ff66;
+    font-weight: bold;
+}
+
+body.round-2-active .rules-action-bar {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+body.round-2-active .start-round-btn {
+    background: #001217;
+    border: 1px solid #00f0ff;
+    color: #00f0ff;
+    padding: 1rem 3rem;
+    letter-spacing: 0.1em;
+}
+
+body.round-2-active .start-round-btn:hover {
+    background: #00f0ff;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+}
+
+/* Round 2 Layout 2: Question Selection (Reverse Layout - Right Node Monitor Sidebar + Left Matrix Grid) */
+body.round-2-active .question-selection-layout {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 2rem;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1100px;
+}
+
+body.round-2-active .team-selector-container {
+    background: #04070a;
+    border: 1px solid #004757;
+    border-radius: 0px;
+    width: 280px;
+    flex-shrink: 0;
+    padding: 1.5rem;
+}
+
+body.round-2-active .team-select-heading {
+    font-family: var(--font-mono);
+    color: #00f0ff;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #004757;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+body.round-2-active .team-award-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+body.round-2-active .team-select-btn {
+    border-radius: 4px;
+    border: 1px solid #005c73;
+    background: #020406;
+    color: #00f0ff;
+    font-family: var(--font-mono);
+    padding: 0.55rem 0.65rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap !important;
+    min-width: 0;
+    transition: all 0.2s ease;
+}
+
+body.round-2-active .team-select-btn .team-badge-icon {
+    background: rgba(0, 240, 255, 0.15);
+    border: 1px solid #005c73;
+    color: #00f0ff;
+    border-radius: 3px;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+}
+
+body.round-2-active .team-label {
+    white-space: nowrap !important;
+    font-size: 0.88rem;
+}
+
+body.round-2-active .team-select-btn:hover {
+    background: #00f0ff !important;
+    color: #000000 !important;
+    border-color: #00f0ff !important;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+}
+
+body.round-2-active .team-select-btn:hover .team-badge-icon {
+    background: #000000;
+    color: #00f0ff;
+    border-color: #000000;
+}
+
+body.round-2-active .team-select-btn.selected {
+    background: linear-gradient(135deg, #00f0ff, #00b4d8) !important;
+    color: #000000 !important;
+    border-color: #00f0ff !important;
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.85) !important;
+    font-weight: bold;
+}
+
+body.round-2-active .team-select-btn.selected .team-badge-icon {
+    background: rgba(0, 0, 0, 0.35) !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+}
+
+body.round-2-active #question-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
 body.round-2-active .q-grid-btn {
     background: #04070a;
     border: 1px solid #004757;
@@ -888,12 +1659,15 @@ body.round-2-active .q-grid-btn {
     border-radius: 0px;
     color: #ffffff;
     font-family: var(--font-mono);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
     transition: all var(--transition-fast);
 }
 
 body.round-2-active .q-grid-btn:hover {
     border-color: #00f0ff;
     background: rgba(0, 240, 255, 0.12);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
 }
 
 body.round-2-active .q-grid-btn.answered {
@@ -903,32 +1677,166 @@ body.round-2-active .q-grid-btn.answered {
     text-decoration: line-through;
 }
 
-/* Explanation details overrides for high contrast */
-body.round-2-active #exp-question-text {
-    color: #ffffff !important;
-}
-
-body.round-2-active #exp-text {
-    color: #ffffff !important;
-}
-
-body.round-2-active .team-selector-container {
+/* Round 2 Layout 3: Active Question (IDE Code Console Viewport Layout) */
+body.round-2-active .question-container {
     background: #04070a;
-    border: 1px solid #004757;
+    border: 2px solid #004757;
     border-radius: 0px;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.15);
 }
 
-body.round-2-active .award-btn {
-    border-radius: 0px;
-    border-color: #004757;
-    background: #04070a;
-    color: #ffffff;
+body.round-2-active .terminal-window-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #001217;
+    border-bottom: 1px solid #004757;
+    padding: 0.7rem 1.5rem;
     font-family: var(--font-mono);
 }
 
-body.round-2-active .award-btn:hover {
-    background: #00f0ff !important;
-    color: #000 !important;
+body.round-2-active .window-controls-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+body.round-2-active .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+body.round-2-active .dot-red { background: #ff5f56; }
+body.round-2-active .dot-yellow { background: #ffbd2e; }
+body.round-2-active .dot-green { background: #27c93f; }
+
+body.round-2-active .terminal-tab-title {
+    color: #00f0ff;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+body.round-2-active #question-media-area {
+    padding: 1.5rem 1.8rem 0.8rem 1.8rem;
+}
+
+body.round-2-active #question-text {
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-transform: none !important;
+}
+
+/* Hacker IDE Code Block Formatting */
+.q-prompt-heading {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+    background: #020406;
+    border: 1px solid #004757;
+    border-left: 4px solid #00f0ff;
+    padding: 0.9rem 1.3rem;
+    text-transform: none !important;
+}
+
+.q-code-container {
+    background: #010609;
+    border: 1px solid #005c73;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: none !important;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.code-window-header {
+    background: #001217;
+    border-bottom: 1px solid #005c73;
+    padding: 0.4rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.code-title {
+    color: #00f0ff;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+}
+
+.code-block {
+    padding: 0.6rem 1rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    background: #010609;
+    text-transform: none !important;
+}
+
+.code-line {
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+    font-family: 'Consolas', 'Courier New', var(--font-mono), monospace;
+    font-size: 1.15rem;
+}
+
+.line-no {
+    color: #005c73;
+    user-select: none;
+    font-weight: bold;
+    margin-right: 1rem;
+    display: inline-block;
+    min-width: 1.5rem;
+    text-align: right;
+}
+
+.line-text {
+    color: #00ff66;
+    font-weight: 500;
+}
+
+body.round-2-active .options-grid {
+    padding: 0.8rem 1.8rem 1.5rem 1.8rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+body.round-2-active .option-btn {
+    background: #020406;
+    border: 1px solid #004757;
+    color: #ffffff;
+    border-radius: 0px;
+    padding: 1.2rem;
+    font-family: var(--font-mono);
+    text-align: left;
+    font-size: 1.05rem;
+}
+
+body.round-2-active .option-btn:hover {
+    border-color: #00f0ff;
+    background: rgba(0, 240, 255, 0.08);
+}
+
+body.round-2-active .question-action-bar {
+    padding: 0 2.5rem 1.5rem 2.5rem;
 }
 
 body.round-2-active .timer-display {
@@ -950,23 +1858,6 @@ body.round-2-active .timer-controls .control-btn {
 body.round-2-active .timer-controls .control-btn:hover {
     background: #00f0ff;
     color: #000;
-}
-
-body.round-2-active .option-btn {
-    background: #04070a;
-    border: 1px solid #004757;
-    color: #ffffff;
-    border-radius: 0px;
-    font-family: var(--font-mono);
-}
-
-body.round-2-active .option-btn:hover {
-    border-color: #00f0ff;
-    background: rgba(0, 240, 255, 0.05);
-}
-
-body.round-2-active .option-btn span {
-    text-shadow: none !important;
 }
 
 /* ==========================================
@@ -1013,13 +1904,6 @@ body.round-3-active h3 {
     letter-spacing: 0.08em;
 }
 
-body.round-3-active .glass-card {
-    background: #000000;
-    border: 3px solid #ffffff;
-    border-radius: 0px;
-    box-shadow: 6px 6px 0px #ff3333;
-}
-
 body.round-3-active .btn-back {
     border-radius: 0px;
     border: 2px solid #ffffff;
@@ -1041,43 +1925,136 @@ body.round-3-active .primary-btn {
     border-radius: 0px;
     font-family: inherit;
     font-weight: 700;
-    box-shadow: 3px 3px 0px #ffffff;
+    box-shadow: 4px 4px 0px #ffffff;
 }
 
 body.round-3-active .primary-btn:hover {
     background-color: #ffffff;
     color: #000000;
-    box-shadow: 3px 3px 0px #ff3333;
+    box-shadow: 4px 4px 0px #ff3333;
 }
 
-/* Debates list view topics */
-body.round-3-active .topic-card {
+/* Round 3 Layout 1: Stark Brutalist Rules (Poster Bulletin Board) */
+body.round-3-active .rules-card-container {
+    max-width: 900px;
+    background: #000000;
+    border: 4px solid #ffffff;
+    box-shadow: 10px 10px 0px #ff3333;
+    padding: 3rem;
+    border-radius: 0px;
+}
+
+body.round-3-active .rules-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+body.round-3-active .rules-badge-panel {
+    background: repeating-linear-gradient(-45deg, #111, #111 10px, #222 10px, #222 20px);
     border: 2px solid #ffffff;
+    padding: 1.5rem 2rem;
+}
+
+body.round-3-active .rules-meta-tag {
+    color: #ff3333;
+    font-family: 'Bangers', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+}
+
+body.round-3-active #rules-subheading {
+    font-family: 'Bangers', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+}
+
+body.round-3-active .hl-badge {
+    background: #ffffff;
+    color: #000;
+    font-weight: 800;
+    border-radius: 0px;
+    border: 2px solid #000;
+}
+
+body.round-3-active .rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+body.round-3-active .rules-list li {
+    background: #111115;
+    border: 2px solid #ffffff;
+    box-shadow: 4px 4px 0px #ff3333;
+    padding: 1rem 1.5rem;
+    border-radius: 0px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transform: rotate(-0.5deg);
+}
+
+body.round-3-active .rules-list li:nth-child(even) {
+    transform: rotate(0.5deg);
+}
+
+body.round-3-active .rules-action-bar {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+body.round-3-active .start-round-btn {
+    font-family: 'Bangers', sans-serif;
+    font-size: 1.6rem;
+    padding: 0.8rem 3.5rem;
+    letter-spacing: 0.1em;
+}
+
+/* Round 3 Layout 2: Debate Topic Selection (Giant Staggered Cards Layout) */
+body.round-3-active #screen-debate-round {
+    width: 100%;
+}
+
+body.round-3-active .debate-topics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1050px;
+    margin-top: 1rem;
+}
+
+body.round-3-active .topic-card {
+    border: 3px solid #ffffff;
     border-radius: 0px;
     background: #000;
-    box-shadow: 4px 4px 0px #ff3333;
+    box-shadow: 6px 6px 0px #ff3333;
+    padding: 2rem;
     transition: transform var(--transition-fast);
 }
 
 body.round-3-active .topic-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #ff3333;
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0px #ff3333;
 }
 
 body.round-3-active .topic-header {
+    font-family: 'Bangers', sans-serif;
     color: #ff3333;
-    font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 body.round-3-active .topic-body {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.4;
 }
 
 /* ==========================================
-   THEME 4: FUN ROUND (Playful Pastel Minimalism)
+   THEME 4: FUN ROUND (Playful Pastel Game Show)
    ========================================== */
 body.round-4-active {
     background-color: #000000;
@@ -1111,15 +2088,8 @@ body.round-4-active h3 {
     font-weight: 600;
 }
 
-body.round-4-active .glass-card {
-    background: rgba(43, 39, 66, 0.4);
-    border: 1px solid rgba(220, 214, 247, 0.2);
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
 body.round-4-active .btn-back {
-    border-radius: 12px;
+    border-radius: 14px;
     border-color: rgba(220, 214, 247, 0.3);
     color: #ebe7f5;
     font-family: inherit;
@@ -1133,9 +2103,11 @@ body.round-4-active .btn-back:hover {
 body.round-4-active .primary-btn {
     background-color: #b39ddb;
     color: #0d0c13;
-    border-radius: 12px;
+    border-radius: 16px;
     font-family: inherit;
     font-weight: 600;
+    border: none;
+    box-shadow: 0 8px 20px rgba(179, 157, 219, 0.2);
 }
 
 body.round-4-active .primary-btn:hover {
@@ -1143,20 +2115,177 @@ body.round-4-active .primary-btn:hover {
     transform: translateY(-2px) scale(1.02);
 }
 
-body.round-4-active .q-grid-btn {
-    background: rgba(220, 214, 247, 0.03);
-    border: 1px solid rgba(220, 214, 247, 0.15);
-    padding: 1.5rem 1rem;
-    border-radius: 14px;
+/* Round 4 Layout 1: Fun Round Rules (2x2 Floating Pastel Bubble Cards) */
+body.round-4-active .rules-card-container {
+    max-width: 920px;
+    background: rgba(43, 39, 66, 0.35);
+    border: 1px solid rgba(220, 214, 247, 0.2);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+body.round-4-active .rules-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+body.round-4-active .rules-badge-panel {
+    align-items: center;
+    text-align: center;
+}
+
+body.round-4-active .rules-meta-tag {
+    color: #ffab91;
+    font-size: 0.85rem;
+}
+
+body.round-4-active #rules-subheading {
+    font-size: 2rem;
+    color: #b39ddb;
+}
+
+body.round-4-active .hl-badge {
+    background: rgba(179, 157, 219, 0.15);
+    border: 1px solid rgba(179, 157, 219, 0.3);
     color: #ebe7f5;
-    font-family: inherit;
+    border-radius: 20px;
+}
+
+body.round-4-active .rules-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+body.round-4-active .rules-list li {
+    background: rgba(220, 214, 247, 0.05);
+    border: 1px solid rgba(220, 214, 247, 0.18);
+    padding: 1.5rem;
+    border-radius: 18px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #ebe7f5;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+body.round-4-active .rules-list li:hover {
+    transform: translateY(-4px);
+    background: rgba(220, 214, 247, 0.09);
+    border-color: #b39ddb;
+}
+
+body.round-4-active .rules-action-bar {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+body.round-4-active .start-round-btn {
+    border-radius: 50px;
+    padding: 1rem 3.5rem;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #ffab91, #b39ddb);
+    color: #111;
+    box-shadow: 0 10px 25px rgba(255, 171, 145, 0.3);
+}
+
+/* Round 4 Layout 2: Question Selection (Left Avatar Bubbles + Soft Pastel Pill Deck) */
+body.round-4-active .question-selection-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1100px;
+}
+
+body.round-4-active .team-selector-container {
+    background: rgba(43, 39, 66, 0.75);
+    border: 1px solid rgba(220, 214, 247, 0.3);
+    border-radius: 22px;
+    width: 260px;
+    flex-shrink: 0;
+    padding: 1.8rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.round-4-active .team-select-heading {
+    font-size: 1.15rem;
+    color: #ffab91;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+body.round-4-active .team-award-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+body.round-4-active .team-select-btn {
+    border-radius: 14px;
+    border: 1px solid rgba(220, 214, 247, 0.3);
+    background: rgba(65, 58, 98, 0.75);
+    color: #ebe7f5;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+body.round-4-active .team-badge-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #b39ddb;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+body.round-4-active .team-select-btn:hover {
+    border-color: #ffab91;
+    background: rgba(179, 157, 219, 0.35);
+    transform: scale(1.02);
+}
+
+body.round-4-active .team-select-btn.selected {
+    background: #b39ddb !important;
+    color: #0d0c13 !important;
+    border-color: #ffab91 !important;
+    box-shadow: 0 0 20px rgba(179, 157, 219, 0.7) !important;
+}
+
+body.round-4-active #question-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+}
+
+body.round-4-active .q-grid-btn {
+    background: rgba(65, 58, 98, 0.75);
+    border: 1px solid rgba(220, 214, 247, 0.3);
+    padding: 1.6rem 1rem;
+    border-radius: 18px;
+    color: #ebe7f5;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
 }
 
 body.round-4-active .q-grid-btn:hover {
-    border-color: #b39ddb;
-    background: rgba(179, 157, 219, 0.08);
-    transform: translateY(-3px);
+    border-color: #ffab91;
+    background: linear-gradient(135deg, rgba(255, 171, 145, 0.15), rgba(179, 157, 219, 0.15));
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(255, 171, 145, 0.15);
 }
 
 body.round-4-active .q-grid-btn.answered {
@@ -1165,58 +2294,52 @@ body.round-4-active .q-grid-btn.answered {
     color: rgba(235, 231, 245, 0.3);
 }
 
-body.round-4-active .team-selector-container {
-    background: rgba(43, 39, 66, 0.4);
-    border: 1px solid rgba(220, 214, 247, 0.2);
-    border-radius: 18px;
+/* Round 4 Layout 3: Active Question (Centered Game Show Theater Layout) */
+body.round-4-active .question-container {
+    background: rgba(43, 39, 66, 0.45);
+    border: 1px solid rgba(220, 214, 247, 0.25);
+    border-radius: 28px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 950px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
-body.round-4-active .award-btn {
-    border-radius: 10px;
-    border-color: rgba(220, 214, 247, 0.2);
-    background: transparent;
+body.round-4-active #question-media-area {
+    width: 100%;
+    text-align: center;
+}
+
+body.round-4-active #question-text {
+    font-size: 1.5rem;
+    line-height: 1.5;
     color: #ebe7f5;
-    font-family: inherit;
-}
-
-body.round-4-active .award-btn:hover {
-    border-color: #b39ddb;
-    background: rgba(179, 157, 219, 0.1);
+    background: rgba(220, 214, 247, 0.06);
+    border: 1px solid rgba(220, 214, 247, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
 body.round-4-active .timer-display {
     border: 1px solid #ffab91;
     color: #ffab91;
     background: rgba(40, 20, 25, 0.5);
-    border-radius: 12px;
-    font-family: inherit;
+    border-radius: 16px;
 }
 
 body.round-4-active .timer-controls .control-btn {
     background: rgba(220, 214, 247, 0.05);
     border: 1px solid rgba(220, 214, 247, 0.2);
     color: #ebe7f5;
-    border-radius: 12px;
+    border-radius: 14px;
 }
 
 body.round-4-active .timer-controls .control-btn:hover {
     border-color: #b39ddb;
-}
-
-body.round-4-active .option-btn {
-    background: rgba(43, 39, 66, 0.2);
-    border: 1px solid rgba(220, 214, 247, 0.2);
-    color: #ebe7f5;
-    border-radius: 12px;
-    font-family: inherit;
-}
-
-body.round-4-active .option-btn:hover {
-    border-color: #b39ddb;
-}
-
-body.round-4-active .option-btn span {
-    text-shadow: none !important;
 }
 
 /* ==========================================
@@ -1271,7 +2394,7 @@ body.tech-quiz-active .question-selection-layout {
 }
 
 .team-selector-container {
-    flex: 0 0 250px;
+    flex: 0 0 auto;
     text-align: center;
 }
 
@@ -1294,7 +2417,8 @@ body.tech-quiz-active .question-selection-layout {
 
 .grid-layout.cols-5 {
     grid-template-columns: repeat(5, 1fr);
-    max-width: 800px;
+    width: 100%;
+    max-width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -1534,18 +2658,33 @@ header#scoreboard a {
     line-height: 1;
 }
 
-/* Explanation */
+/* Explanation Screen Styling */
+#screen-explanation .glass-card {
+    background: rgba(25, 20, 16, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid #5e4a3b;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    padding: 2.5rem 3rem;
+}
+
 #exp-question-text {
-    color: #ebdcd0 !important;
-    font-size: 1.4rem;
+    color: #f7a95f !important;
+    font-size: 1.45rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
 #exp-text {
-    color: #a19ea8 !important;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    color: #ebdcd0 !important;
+    font-size: 1.15rem;
+    line-height: 1.75;
     white-space: pre-wrap;
+    background: rgba(235, 220, 208, 0.04);
+    border: 1px solid rgba(94, 74, 59, 0.6);
+    padding: 1.5rem;
+    border-radius: 8px;
 }
 
 /* Answer reveals */
@@ -1573,21 +2712,161 @@ header#scoreboard a {
     justify-content: center;
 }
 
-/* Safe glow-only edge borders (replaces massive flash overlay) */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 100000;
-    border: 0px solid transparent;
-    transition: border 0.3s ease;
+
+
+/* Responsive Overrides for Distinct Round Layouts */
+@media (max-width: 768px) {
+    /* Round 1 (Aptitude) */
+    body.round-1-active .rules-layout-wrapper {
+        grid-template-columns: 1fr;
+    }
+    body.round-1-active .rules-badge-panel {
+        border-right: none;
+        border-bottom: 1px solid #3d3025;
+        padding: 2rem 1.5rem;
+    }
+    body.round-1-active .question-container {
+        grid-template-columns: 1fr;
+    }
+    body.round-1-active .options-grid {
+        grid-column: 1 / -1;
+    }
+
+    /* Round 2 (Technical) */
+    body.round-2-active .question-selection-layout {
+        flex-direction: column;
+    }
+    body.round-2-active .team-selector-container {
+        width: 100%;
+    }
+    body.round-2-active #question-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    body.round-2-active .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Round 3 (Debate) */
+    body.round-3-active .debate-topics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Round 4 (Fun Round) */
+    body.round-4-active .rules-list {
+        grid-template-columns: 1fr;
+    }
+    body.round-4-active .question-selection-layout {
+        flex-direction: column;
+    }
+    body.round-4-active .team-selector-container {
+        width: 100%;
+    }
+    body.round-4-active #question-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-body.correct-bg::before {
-    border: 8px solid #2ed573 !important;
+body.correct-bg {
+    background-color: #062614 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: background-color 0.4s ease;
 }
 
-body.incorrect-bg::before {
-    border: 8px solid #ff4757 !important;
+body.incorrect-bg {
+    background-color: #2b0b10 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: background-color 0.4s ease;
+}
+
+body.round-2-active.incorrect-bg {
+    background-color: #1a0407 !important;
+    transition: background-color 0.4s ease;
+}
+
+body.round-2-active.correct-bg {
+    background-color: #031c0e !important;
+    transition: background-color 0.4s ease;
+}
+
+/* Result Overlay Title & Highlight Badges */
+.overlay-title {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+}
+
+.overlay-title.wrong-title {
+    color: #ff4757;
+    text-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+}
+
+.overlay-title.correct-title {
+    color: #2ed573;
+    text-shadow: 0 0 20px rgba(46, 213, 115, 0.6);
+}
+
+.overlay-title.timeout-title {
+    color: #ffa502;
+    text-shadow: 0 0 20px rgba(255, 165, 2, 0.6);
+}
+
+.overlay-highlight-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-top: 0.5rem;
+}
+
+.team-highlight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(225, 112, 85, 0.3), rgba(253, 203, 110, 0.3));
+    border: 1px solid #fdcb6e;
+    color: #ffeaa7;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 15px rgba(253, 203, 110, 0.25);
+    text-transform: uppercase;
+}
+
+.points-highlight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.points-highlight-badge.points-win {
+    background: linear-gradient(135deg, rgba(46, 213, 115, 0.3), rgba(0, 240, 255, 0.25));
+    border: 1px solid #2ed573;
+    color: #2ed573;
+    box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+}
+
+.points-highlight-badge.points-zero {
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.25), rgba(255, 107, 129, 0.2));
+    border: 1px solid #ff4757;
+    color: #ff4757;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.25);
 }

@@ -543,13 +543,41 @@ function openRules(roundId) {
         document.body.classList.add('round-4-active');
     }
 
+    // Set round-specific subheadings & meta tags for rules screen
+    const subHeading = document.getElementById('rules-subheading');
+    const metaTag = document.querySelector('.rules-meta-tag');
+    if (subHeading && metaTag) {
+        if (STATE.currentRound === 1) {
+            metaTag.innerText = "ROUND 01 • APTITUDE";
+            subHeading.innerText = "Assessment Rules & Format";
+        } else if (STATE.currentRound === 2) {
+            metaTag.innerText = "ROUND 02 • TERMINAL";
+            subHeading.innerText = "system_rules.sh [v2.0]";
+        } else if (STATE.currentRound === 3) {
+            metaTag.innerText = "ROUND 03 • STARK";
+            subHeading.innerText = "DEBATE & JAM PROTOCOL";
+        } else if (STATE.currentRound === 4) {
+            metaTag.innerText = "ROUND 04 • GAME SHOW";
+            subHeading.innerText = "Fun Round Rulebook 🚀";
+        }
+    }
+
     // Populate rules list
     const rulesList = document.getElementById('rules-list');
     rulesList.innerHTML = '';
     const rules = RULES_DATA[roundId] || ["General rules apply.", "+10 points for correct answer.", "1 minute timer."];
-    rules.forEach(rule => {
+    rules.forEach((rule, idx) => {
         const li = document.createElement('li');
-        li.innerHTML = rule;
+        li.className = `rule-item rule-item-r${roundId}`;
+        const numStr = String(idx + 1).padStart(2, '0');
+        li.setAttribute('data-num', numStr);
+        if (STATE.currentRound === 2) {
+            li.innerHTML = `<span class="term-prefix">&gt; [RULE_${numStr}]</span> <span class="term-text">${rule}</span>`;
+        } else if (STATE.currentRound === 1) {
+            li.innerHTML = `<span class="edit-num">${numStr}.</span> <span class="rule-text-content">${rule}</span>`;
+        } else {
+            li.innerHTML = `<span class="rule-text-content">${rule}</span>`;
+        }
         rulesList.appendChild(li);
     });
 
@@ -618,37 +646,73 @@ function goBackToRules() {
 function selectTeam(teamIndex) {
     STATE.activeTeam = teamIndex;
     document.querySelectorAll('.team-select-btn').forEach(btn => {
+        btn.classList.remove('selected');
         btn.style.boxShadow = '';
-        btn.style.border = '1px solid var(--glass-border)';
-        btn.style.background = 'transparent';
+        btn.style.border = '';
+        btn.style.background = '';
     });
     const selectedBtn = document.getElementById(`ts-${teamIndex}`);
     if (selectedBtn) {
-        selectedBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-        selectedBtn.style.border = '1px solid #fff';
-        selectedBtn.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8)';
+        selectedBtn.classList.add('selected');
     }
     updateWatermark(teamIndex);
 }
 
+function detectCodeLanguage(promptText, codeText) {
+    const text = ((promptText || '') + ' ' + (codeText || '')).toLowerCase();
+    
+    // Explicit prompt matches take top priority
+    if (text.includes('java')) return 'java';
+    if (text.includes('python')) return 'py';
+    if (text.includes('c++') || text.includes('cpp')) return 'cpp';
+
+    // Syntax heuristics
+    if (text.includes('system.out') || text.includes('public static') || text.includes('byte b')) {
+        return 'java';
+    }
+    if (text.includes('def ') || text.includes('lambda') || text.includes('import math') || text.includes('len(') || text.includes('elif ')) {
+        return 'py';
+    }
+    if (text.includes('#include') || text.includes('cout') || text.includes('cin') || text.includes('delete[]')) {
+        return 'cpp';
+    }
+    return 'cpp';
+}
+
+function formatQuestionText(questionId, rawText) {
+    if (!rawText) return '';
+    if (rawText.includes('\n\n')) {
+        const parts = rawText.split('\n\n');
+        const prompt = parts[0].trim();
+        const codeBlockRaw = parts.slice(1).join('\n\n').trim();
+        const codeLines = codeBlockRaw.split('\n').map(l => l.trimEnd()).filter(l => l.trim().length > 0);
+        
+        const ext = detectCodeLanguage(prompt, codeBlockRaw);
+
+        const formattedCode = codeLines.map((line, idx) => {
+            const lineNo = idx + 1;
+            const escapedLine = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            return `<div class="code-line"><span class="line-no">${lineNo}</span><span class="line-text">${escapedLine}</span></div>`;
+        }).join('');
+
+        return `<div class="q-prompt-heading">Q${questionId}. ${prompt}</div><div class="q-code-container"><div class="code-window-header"><span class="code-title">code_snippet_${questionId}.${ext}</span></div><div class="code-block">${formattedCode}</div></div>`;
+    } else {
+        return `Q${questionId}. ${rawText}`;
+    }
+}
+
 function openQuestion(questionId) {
-    console.log(`[DEBUG] Opening Question ID: ${questionId} in Round: ${STATE.currentRound}`);
+    STATE.currentQuestionId = parseInt(questionId);
+    console.log(`[DEBUG] Opening Question ID: ${STATE.currentQuestionId} in Round: ${STATE.currentRound}`);
 
     if (!STATE.activeTeam) {
         alert("Please select a team to answer first!");
         return;
     }
 
-    STATE.currentQuestionId = parseInt(questionId);
-    const roundData = QUIZ_DATA[STATE.currentRound];
-    if (!roundData) {
-        console.error(`[ERROR] No data found for round ${STATE.currentRound}`);
-        return;
-    }
-
-    const questionData = roundData.find(q => q.id === STATE.currentQuestionId);
+    const questionData = QUIZ_DATA[STATE.currentRound]?.find(q => q.id === STATE.currentQuestionId);
     if (!questionData) {
-        console.error(`[ERROR] No question data found for ID ${STATE.currentQuestionId}`);
+        console.error(`[ERROR] Question ID ${questionId} not found in Round ${STATE.currentRound}`);
         return;
     }
 
@@ -672,20 +736,33 @@ function openQuestion(questionId) {
         manualControls.style.display = ''; // Reset inline style
     }
 
+    const qActionBar = document.querySelector('.question-action-bar');
+
     if (STATE.currentRound === 4) {
         if (showOptionsBtn) showOptionsBtn.classList.add('hidden');
         if (revealAnswerBtn) revealAnswerBtn.classList.remove('hidden');
         if (optionsGrid) optionsGrid.classList.add('hidden');
         if (qText) qText.classList.remove('hidden');
+        if (qActionBar) qActionBar.classList.remove('hidden');
     } else {
         if (showOptionsBtn) showOptionsBtn.classList.add('hidden');
         if (revealAnswerBtn) revealAnswerBtn.classList.add('hidden');
         if (optionsGrid) optionsGrid.classList.remove('hidden');
         if (qText) qText.classList.remove('hidden');
+        if (qActionBar && !questionData.isMultiPhase) {
+            qActionBar.classList.add('hidden');
+        }
+    }
+
+    // Update terminal tab title if present
+    const termTab = document.getElementById('terminal-tab-title');
+    if (termTab) {
+        const ext = detectCodeLanguage(questionData.text, '');
+        termTab.innerText = `question_${String(questionData.id).padStart(2, '0')}.${ext}`;
     }
 
     // Populate Question Data
-    if (qText) qText.innerHTML = `Q${questionData.id}. ${questionData.text}`;
+    if (qText) qText.innerHTML = formatQuestionText(questionData.id, questionData.text);
 
     // Handle Question Media
     if (qMedia) {
@@ -762,7 +839,7 @@ function openQuestion(questionId) {
     STATE.timerValue = 60;
     STATE.isTimerPaused = false;
     const pauseBtn = document.getElementById('pause-timer-btn');
-    if (pauseBtn) pauseBtn.innerText = '⏸';
+    if (pauseBtn) pauseBtn.innerHTML = SVG_PAUSE_ICON;
     updateTimerDisplay();
     startTimer();
 
@@ -943,31 +1020,74 @@ function addTime(seconds) {
     updateTimerDisplay();
 }
 
+const SVG_PAUSE_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>`;
+const SVG_PLAY_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+
 function toggleTimer() {
     const pauseBtn = document.getElementById('pause-timer-btn');
     if (STATE.isTimerPaused) {
         // Resume
         STATE.isTimerPaused = false;
-        pauseBtn.innerText = '⏸';
+        if (pauseBtn) pauseBtn.innerHTML = SVG_PAUSE_ICON;
         startTimer();
     } else {
         // Pause
         STATE.isTimerPaused = true;
-        pauseBtn.innerText = '▶';
+        if (pauseBtn) pauseBtn.innerHTML = SVG_PLAY_ICON;
         clearInterval(STATE.timerInterval);
     }
 }
 
-function timeUp() {
-    overlay.querySelector('h2').innerText = "Time's Up!";
+function showResultOverlay(type, teamIndex, points = 10) {
+    const h2 = overlay.querySelector('h2');
+    if (!h2) return;
+
+    const teamNum = teamIndex || STATE.activeTeam || 1;
+    const teamBadgeHTML = `<span class="team-highlight-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Team ${teamNum}</span>`;
+
+    if (type === 'correct') {
+        const pointsBadgeHTML = `<span class="points-highlight-badge points-win">+${points} Points</span>`;
+        h2.innerHTML = `
+            <span class="overlay-title correct-title">Correct! 🎉</span>
+            <div class="overlay-highlight-row">
+                ${pointsBadgeHTML} <span>awarded to</span> ${teamBadgeHTML}
+            </div>
+        `;
+    } else if (type === 'timeup') {
+        const zeroPointsBadgeHTML = `<span class="points-highlight-badge points-zero">0 Points</span>`;
+        h2.innerHTML = `
+            <span class="overlay-title timeout-title">⏱️ Time's Up!</span>
+            <div class="overlay-highlight-row">
+                ${teamBadgeHTML} <span>gets</span> ${zeroPointsBadgeHTML}
+            </div>
+        `;
+    } else {
+        const zeroPointsBadgeHTML = `<span class="points-highlight-badge points-zero">0 Points</span>`;
+        h2.innerHTML = `
+            <span class="overlay-title wrong-title">Wrong!</span>
+            <div class="overlay-highlight-row">
+                ${teamBadgeHTML} <span>gets</span> ${zeroPointsBadgeHTML}
+            </div>
+        `;
+    }
+
     overlay.classList.remove('hidden');
+}
+
+function timeUp() {
+    showResultOverlay('timeup', STATE.activeTeam);
     markQuestionAnswered();
 }
 
 function checkAnswer(selectedIndex) {
     clearInterval(STATE.timerInterval); // Stop the timer
 
-    const questionData = QUIZ_DATA[STATE.currentRound].find(q => q.id === STATE.currentQuestionId);
+    const questionData = QUIZ_DATA[STATE.currentRound]?.find(q => q.id === STATE.currentQuestionId);
+    if (!questionData) {
+        console.error(`[ERROR] Question data not found for ID ${STATE.currentQuestionId} in Round ${STATE.currentRound}`);
+        return;
+    }
+
     const isCorrect = selectedIndex === questionData.correctOptionIndex;
 
     // Highlight options
@@ -995,16 +1115,16 @@ function checkAnswer(selectedIndex) {
     });
 
     if (isCorrect) {
-        document.body.classList.add('correct-bg'); // Add green corner glow
+        document.body.classList.remove('incorrect-bg');
+        document.body.classList.add('correct-bg');
         awardPoints(STATE.activeTeam);
     } else {
-        document.body.classList.add('incorrect-bg'); // Add red corner glow
+        document.body.classList.remove('correct-bg');
+        document.body.classList.add('incorrect-bg');
         setTimeout(() => {
-            overlay.querySelector('h2').innerText = `Wrong! Team ${STATE.activeTeam} gets no points.`;
-            overlay.classList.remove('hidden');
+            showResultOverlay('wrong', STATE.activeTeam);
             markQuestionAnswered();
-            setTimeout(() => document.body.classList.remove('incorrect-bg'), 1000); // Remove red glow after a bit
-        }, 1500); // Show wrong answer before overlay
+        }, 1500);
     }
 }
 
@@ -1019,10 +1139,9 @@ function awardPoints(teamIndex) {
 
     setTimeout(() => {
         // Show success overlay
-        overlay.querySelector('h2').innerHTML = `Correct! <br/> 10 Points awarded to Team ${teamIndex}!`;
-        overlay.classList.remove('hidden');
+        showResultOverlay('correct', teamIndex, pointsToAdd);
         markQuestionAnswered();
-        setTimeout(() => document.body.classList.remove('correct-bg'), 1000); // Remove green glow after a bit
+        setTimeout(() => document.body.classList.remove('correct-bg'), 1000);
     }, 1500);
 }
 
@@ -1066,11 +1185,7 @@ function awardPointsManual(isCorrect) {
     if (isCorrect) {
         awardPoints(STATE.activeTeam);
     } else {
-        if (overlay) {
-            const h2 = overlay.querySelector('h2');
-            if (h2) h2.innerText = `Incorrect! Team ${STATE.activeTeam} gets no points.`;
-            overlay.classList.remove('hidden');
-        }
+        showResultOverlay('wrong', STATE.activeTeam);
         markQuestionAnswered();
     }
 
@@ -1173,11 +1288,10 @@ styleSheet.innerText = `
     100% { transform: scale(1); }
   }
 `;
-document.head.appendChild(styleSheet);
-
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('lobby-active');
     initInteractiveCanvas();
+    initDraggableScoreboard();
 });
 
 // Watermark and Dynamic Cursor Tracking Helpers
@@ -1198,7 +1312,13 @@ function updateWatermark(teamIndex) {
 }
 
 function getThemeColor() {
-    return { r: 255, g: 255, b: 255 }; // pure white for monochromatic dots highlight!
+    if (document.body.classList.contains('incorrect-bg')) {
+        return { r: 255, g: 45, b: 65 }; // Vibrant Red for Wrong Answer
+    }
+    if (document.body.classList.contains('correct-bg')) {
+        return { r: 0, g: 255, b: 102 }; // Vibrant Green for Correct Answer
+    }
+    return { r: 229, g: 152, b: 80 }; // Warm Bronze for Round 1
 }
 
 let mouseX = window.innerWidth / 2;
@@ -1232,10 +1352,11 @@ function initInteractiveCanvas() {
     
     function drawGrid() {
         ctx.clearRect(0, 0, width, height);
-        const spacing = 50;
+        const spacing = 40;
         const theme = getThemeColor();
-        const maxDist = 220;
+        const maxDist = 240;
         const maxDistSq = maxDist * maxDist;
+        const isAnswerFeedback = document.body.classList.contains('incorrect-bg') || document.body.classList.contains('correct-bg');
         
         for (let x = spacing / 2; x < width; x += spacing) {
             for (let y = spacing / 2; y < height; y += spacing) {
@@ -1243,13 +1364,13 @@ function initInteractiveCanvas() {
                 const dy = mouseY - y;
                 const distSq = dx * dx + dy * dy;
                 
-                let alpha = 0.05;
-                let size = 1;
+                let alpha = isAnswerFeedback ? 0.35 : 0.15;
+                let size = isAnswerFeedback ? 2.2 : 1.5;
                 
                 if (distSq < maxDistSq) {
                     const proximity = 1 - Math.sqrt(distSq) / maxDist;
-                    alpha += proximity * 0.35;
-                    size += proximity * 1.5;
+                    alpha += proximity * (isAnswerFeedback ? 0.6 : 0.45);
+                    size += proximity * 2.5;
                 }
                 
                 ctx.fillStyle = `rgba(${theme.r}, ${theme.g}, ${theme.b}, ${alpha})`;
@@ -1261,4 +1382,115 @@ function initInteractiveCanvas() {
         requestAnimationFrame(drawGrid);
     }
     requestAnimationFrame(drawGrid);
+}
+
+/* Draggable, Resizable & Orientation-Switchable Scoreboard Controller */
+function initDraggableScoreboard() {
+    const scoreboard = document.getElementById('scoreboard');
+    if (!scoreboard) return;
+
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let initialLeft = 0, initialTop = 0;
+
+    const dragHandle = scoreboard.querySelector('.scoreboard-drag-handle') || scoreboard;
+
+    dragHandle.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.sb-tool-btn')) return;
+
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        const rect = scoreboard.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        scoreboard.style.transform = 'none';
+        scoreboard.style.left = `${initialLeft}px`;
+        scoreboard.style.top = `${initialTop}px`;
+        scoreboard.classList.add('is-dragging');
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
+
+    // Touch support for mobile/tablet devices
+    dragHandle.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.sb-tool-btn')) return;
+        const touch = e.touches[0];
+        if (!touch) return;
+
+        isDragging = true;
+        startX = touch.clientX;
+        startY = touch.clientY;
+
+        const rect = scoreboard.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        scoreboard.style.transform = 'none';
+        scoreboard.style.left = `${initialLeft}px`;
+        scoreboard.style.top = `${initialTop}px`;
+        scoreboard.classList.add('is-dragging');
+
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd);
+    }, { passive: true });
+
+    function onMouseMove(e) {
+        if (!isDragging) return;
+        moveScoreboard(e.clientX, e.clientY);
+    }
+
+    function onTouchMove(e) {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        if (touch) {
+            e.preventDefault();
+            moveScoreboard(touch.clientX, touch.clientY);
+        }
+    }
+
+    function moveScoreboard(clientX, clientY) {
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        let newLeft = initialLeft + dx;
+        let newTop = initialTop + dy;
+
+        const maxLeft = window.innerWidth - scoreboard.offsetWidth;
+        const maxTop = window.innerHeight - scoreboard.offsetHeight;
+
+        newLeft = Math.max(10, Math.min(newLeft, maxLeft - 10));
+        newTop = Math.max(10, Math.min(newTop, maxTop - 10));
+
+        scoreboard.style.left = `${newLeft}px`;
+        scoreboard.style.top = `${newTop}px`;
+    }
+
+    function onMouseUp() {
+        if (isDragging) {
+            isDragging = false;
+            scoreboard.classList.remove('is-dragging');
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+    }
+
+    function onTouchEnd() {
+        if (isDragging) {
+            isDragging = false;
+            scoreboard.classList.remove('is-dragging');
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        }
+    }
+}
+
+function toggleScoreboardOrientation() {
+    const scoreboard = document.getElementById('scoreboard');
+    if (!scoreboard) return;
+
+    scoreboard.classList.toggle('horizontal-layout');
 }

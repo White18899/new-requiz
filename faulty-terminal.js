@@ -338,6 +338,14 @@ class FaultyTerminal {
       } else {
         this.program.uniforms.iTime.value = this.frozenTime;
       }
+
+      if (document.body.classList.contains('incorrect-bg')) {
+        this.program.uniforms.uTint.value.set(1.0, 0.15, 0.25);
+      } else if (document.body.classList.contains('correct-bg')) {
+        this.program.uniforms.uTint.value.set(0.0, 1.0, 0.4);
+      } else {
+        this.program.uniforms.uTint.value.set(tintVec[0], tintVec[1], tintVec[2]);
+      }
       
       if (this.pageLoadAnimation && this.loadAnimationStart > 0) {
         const animationDuration = 2000;

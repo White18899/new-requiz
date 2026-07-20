@@ -4,106 +4,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech News Updates</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <title>Latest News & Global Updates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="news.css">
 </head>
 
 <body>
-    <div class="news-container">
-        <!-- Header -->
-        <header class="news-header">
-            <h1>Latest Updates</h1>
+    <!-- Top Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress-bar"></div>
+
+    <!-- WebGL Background Canvas Container -->
+    <div id="news-webgl-container" class="news-webgl-container"></div>
+
+    <!-- Page Content Container -->
+    <div class="news-page-wrapper">
+
+        <!-- Minimalist Header -->
+        <header class="news-sticky-header">
+            <div class="header-inner">
+                <div class="brand-title-group">
+                    <span class="mono-label">NEWS FEED</span>
+                    <span class="header-divider">/</span>
+                    <h1 class="news-main-title">GLOBAL BULLETIN</h1>
+                </div>
+
+                <a href="index.html" class="return-quiz-header-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    Return to Quiz
+                </a>
+            </div>
         </header>
 
-        <!-- Slider Track -->
-        <div class="slider-wrapper">
-            <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous News">❮</button>
+        <!-- Vertical Scrolling News Feed -->
+        <main class="news-feed-container">
 
-            <div class="slider-track" id="sliderTrack">
-
-                <!-- International News -->
-                <div class="news-slide active">
-                    <div class="news-content">
-                        <span class="news-badge new">International</span>
-                        <h2>Global Updates</h2>
-                        <ul class="news-list">
-                            <li>Tension in the Middle East continues as countries discuss ways to keep the Strait of
-                                Hormuz open for global oil transport.</li>
-                            <li>Due to the Middle East conflict, some countries have decided to release oil from
-                                emergency reserves to stabilize the global energy market.</li>
-                            <li>The 2026 World Athletics Indoor Championships will be held in Poland from March 20–22
-                                with athletes from many countries participating.</li>
-                        </ul>
-                    </div>
+            <!-- Category 1: International News -->
+            <section id="section-international" class="news-category-section scroll-reveal">
+                <div class="section-header">
+                    <span class="category-num">01 / GLOBAL</span>
+                    <h2>Global Updates</h2>
                 </div>
 
-                <!-- National News -->
-                <div class="news-slide">
-                    <div class="news-content">
-                        <span class="news-badge tech">National</span>
-                        <h2>India News</h2>
-                        <ul class="news-list">
-                            <li>India is preparing to host an international conference on women in agri-food systems in
-                                2026.</li>
-                            <li>The Indian government continues to promote international maritime cooperation through
-                                major global naval events.</li>
-                            <li>National discussions are ongoing in Parliament on policies related to social welfare and
-                                rights.</li>
-                        </ul>
-                    </div>
+                <div class="news-card-feed">
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Tension in the Middle East continues as countries discuss ways to keep the Strait of Hormuz open for global oil transport.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">GEOPOLITICS</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">Just Now</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Due to the Middle East conflict, some countries have decided to release oil from emergency reserves to stabilize the global energy market.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">ENERGY & ECONOMY</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">15 mins ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>The 2026 World Athletics Indoor Championships will be held in Poland from March 20–22 with athletes from many countries participating.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">SPORTS</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">1 hr ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Category 2: National News -->
+            <section id="section-national" class="news-category-section scroll-reveal">
+                <div class="section-header">
+                    <span class="category-num">02 / NATIONAL</span>
+                    <h2>India News</h2>
                 </div>
 
-                <!-- State News -->
-                <div class="news-slide">
-                    <div class="news-content">
-                        <span class="news-badge event">State</span>
-                        <h2>Andhra Pradesh</h2>
-                        <ul class="news-list">
-                            <li>The Andhra Pradesh government has started distributing energy-efficient induction stoves
-                                to all Anganwadi centres to promote safe and clean cooking.</li>
-                            <li>State leaders are working to attract technology and infrastructure investments across
-                                the state.</li>
-                            <li>Political leaders in the state have recently raised concerns and demanded action on
-                                certain issues involving public representatives.</li>
-                        </ul>
-                    </div>
+                <div class="news-card-feed">
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>India is preparing to host an international conference on women in agri-food systems in 2026.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">AGRICULTURE</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">2 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>The Indian government continues to promote international maritime cooperation through major global naval events.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">DEFENCE & MARITIME</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">3 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>National discussions are ongoing in Parliament on policies related to social welfare and rights.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">POLICY & RIGHTS</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">4 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Category 3: State News -->
+            <section id="section-state" class="news-category-section scroll-reveal">
+                <div class="section-header">
+                    <span class="category-num">03 / STATE</span>
+                    <h2>Andhra Pradesh</h2>
                 </div>
 
-                <!-- City News -->
-                <div class="news-slide">
-                    <div class="news-content">
-                        <span class="news-badge alert">City</span>
-                        <h2>Visakhapatnam</h2>
-                        <ul class="news-list">
-                            <li>Authorities are planning to build a semi-ring road from Rambilli to Bhogapuram to
-                                improve transport around the city.</li>
-                            <li>Visakhapatnam is expected to become a major IT and data-centre hub, attracting
-                                investments from global companies.</li>
-                            <li>Around 29,000 students will appear for SSC examinations at many centres in the
-                                Visakhapatnam district this year.</li>
-                        </ul>
-                    </div>
+                <div class="news-card-feed">
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>The Andhra Pradesh government has started distributing energy-efficient induction stoves to all Anganwadi centres to promote safe and clean cooking.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">STATE WELFARE</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">5 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>State leaders are working to attract technology and infrastructure investments across the state.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">INVESTMENT & TECH</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">6 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Political leaders in the state have recently raised concerns and demanded action on certain issues involving public representatives.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">GOVERNANCE</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">7 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Category 4: City News -->
+            <section id="section-city" class="news-category-section scroll-reveal">
+                <div class="section-header">
+                    <span class="category-num">04 / CITY</span>
+                    <h2>Visakhapatnam</h2>
                 </div>
 
-            </div>
+                <div class="news-card-feed">
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Authorities are planning to build a semi-ring road from Rambilli to Bhogapuram to improve transport around the city.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">INFRASTRUCTURE</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">8 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
 
-            <button class="nav-btn next-btn" id="nextBtn" aria-label="Next News">❯</button>
-        </div>
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Visakhapatnam is expected to become a major IT and data-centre hub, attracting investments from global companies.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">IT & DATA HUB</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">9 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
 
-        <!-- Pagination Dots -->
-        <div class="slider-dots" id="sliderDots">
-            <!-- Dots generated by JS -->
-        </div>
+                    <article class="news-bullet-card scroll-reveal">
+                        <div class="card-accent-bar"></div>
+                        <div class="bullet-content">
+                            <p>Around 29,000 students will appear for SSC examinations at many centres in the Visakhapatnam district this year.</p>
+                            <div class="bullet-meta">
+                                <span class="meta-category">EDUCATION</span>
+                                <span class="meta-dot"></span>
+                                <span class="meta-time">10 hrs ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
 
-        <!-- Navigation back to main app -->
-        <div class="return-action">
-            <a href="index.html" class="return-btn">Return to Quiz</a>
-        </div>
+        </main>
+
     </div>
 
+    <!-- OGL Library & News JS -->
+    <script src="https://cdn.jsdelivr.net/npm/ogl/dist/ogl.umd.js"></script>
     <script src="news.js"></script>
 </body>
 

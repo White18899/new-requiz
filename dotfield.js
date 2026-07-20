@@ -140,9 +140,20 @@ class DotField {
       
       this.ctx.clearRect(0, 0, w, h);
       
+      let fromColor = this.gradientFrom;
+      let toColor = this.gradientTo;
+
+      if (document.body.classList.contains('incorrect-bg')) {
+        fromColor = 'rgba(255, 45, 65, 0.95)';
+        toColor = 'rgba(255, 120, 130, 0.85)';
+      } else if (document.body.classList.contains('correct-bg')) {
+        fromColor = 'rgba(0, 255, 102, 0.95)';
+        toColor = 'rgba(100, 255, 170, 0.85)';
+      }
+
       const grad = this.ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, this.gradientFrom);
-      grad.addColorStop(1, this.gradientTo);
+      grad.addColorStop(0, fromColor);
+      grad.addColorStop(1, toColor);
       this.ctx.fillStyle = grad;
       
       const cr = this.cursorRadius;
