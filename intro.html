@@ -1,132 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEM Session Introduction</title>
-    <!-- Modern Sleek Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800&family=JetBrains+Mono:wght@200;400;700&display=swap" rel="stylesheet">
+    <title>STEM Session Introduction - The Unrolling Scroll</title>
+    <!-- Modern & Medieval Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800&family=JetBrains+Mono:wght@200;400;700&family=Cinzel+Decorative:wght@700&family=Uncial+Antiqua&family=Pinyon+Script&family=Special+Elite&family=Architects+Daughter&family=Patrick+Hand&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="intro.css">
-
 </head>
+
 <body>
-    <canvas id="intro-shapegrid-canvas" class="shapegrid-canvas"></canvas>
 
-    <div class="scroll-container">
-        <!-- Hero / Landing Section -->
-        <section class="hero-section">
-            <header class="intro-header">
-                <span class="mono-tag scroll-reveal">STEM SESSION // INTRO</span>
-                <h1 class="scroll-reveal">INTELLECTUAL<br>FRONTIER</h1>
-            </header>
-            <div class="scroll-indicator">
-                <span class="indicator-arrow">↓</span>
-                <span class="indicator-text">SCROLL DOWN</span>
+    <!-- SVG Displacement Filter for Deckle Edges -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <defs>
+            <filter id="deckle-edge">
+                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="4" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fdf6e2" />
+                <stop offset="30%" stop-color="#d4af37" />
+                <stop offset="50%" stop-color="#f3e0aa" />
+                <stop offset="70%" stop-color="#aa820a" />
+                <stop offset="100%" stop-color="#d4af37" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+
+
+    <!-- Outer Scroll Container (Pinned by GSAP) -->
+    <div class="scroll-container-outer">
+
+        <!-- Brass Scroll position indicator (Ruler style) -->
+        <div class="brass-ruler">
+            <div class="brass-ticks"></div>
+            <div class="brass-label">CHRONICLE INDEX</div>
+            <div class="brass-cursor-line"></div>
+            <div class="brass-cursor-indicator"></div>
+        </div>
+
+        <div class="scroll-content-wrapper">
+
+            <!-- Cylindrical Roll: Left Edge (Parchment) -->
+            <div class="scroll-roll left-roll">
+                <div class="roll-rod"></div>
+                <div class="roll-shading"></div>
             </div>
-        </section>
 
-        <!-- Section 1: Team & Organizers -->
-        <section class="scroll-section section-team">
-            <div class="scroll-reveal college-banner">
-                <img src="gvplogo-removebg-preview (1).png" alt="GVP Logo" class="college-logo">
-                <div class="college-text">
-                    <h2>GAYATRI VIDYA PARISHAD COLLEGE FOR DEGREE AND PG COURSES (AUTONOMOUS)</h2>
-                    <p>(Affiliated to Andhra University | Accredited by NAAC with 'A' Grade)</p>
-                </div>
-            </div>
+            <!-- The continuous parchment surface -->
+            <div class="parchment-scroll-surface">
 
-            <div class="scroll-reveal section-title">
-                <span class="slide-label">ORGANIZERS</span>
-                <h3>TEAM 7</h3>
-            </div>
+                <!-- Background Overlays -->
+                <div class="bg-layer bg-parchment"></div>
+                <div class="bg-layer bg-pcb"></div>
 
-            <div class="team-grid">
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">K. Nithin</span>
-                    <span class="member-id">5241411173</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">G. Jaswanth</span>
-                    <span class="member-id">5241411170</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">V. Dinesh</span>
-                    <span class="member-id">5241411203</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">M. Gayatri</span>
-                    <span class="member-id">5241411184</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">V. Haritha</span>
-                    <span class="member-id">5241411201</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">P. Anudeepthi</span>
-                    <span class="member-id">5241411188</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">P. Likhil</span>
-                    <span class="member-id">5241411189</span>
-                </div>
-                <div class="team-member scroll-reveal-item">
-                    <span class="member-name">N. Sai Sree Teja</span>
-                    <span class="member-id">5241411186</span>
-                </div>
-            </div>
-        </section>
+                <!-- BEAT 1 — Opening / Title (Far Left, Pure Ink) -->
+                <section class="scroll-section hero-section" id="section1">
+                    <div class="hero-content">
+                        <!-- Scribe's Wax Seal Mono Tag -->
+                        <div class="wax-seal-container">
+                            <div class="wax-seal">
+                                <div class="wax-inner">
+                                    <span class="seal-text">STEM</span>
+                                </div>
+                            </div>
+                            <span class="mono-tag">STEM SESSION // INTRO</span>
+                        </div>
 
-        <!-- Section 2: Important Person (David Blackwell) -->
-        <section class="scroll-section section-vip scroll-reveal">
-            <div class="vip-layout">
-                <div class="vip-info">
-                    <div class="section-title">
-                        <span class="slide-label">LEGACY</span>
-                        <h3>DAVID BLACKWELL</h3>
+                        <!-- Illuminated calligraphy title -->
+                        <div class="illuminated-title-container">
+                            <div class="illuminated-capital">
+                                <svg class="capital-i-svg" viewBox="0 0 120 150">
+                                    <!-- Decorative frame -->
+                                    <rect x="5" y="5" width="110" height="140" class="gold-gradient-rect" rx="8" />
+                                    <!-- Drawing flourishes -->
+                                    <path class="draw-path gold-flourish"
+                                        d="M 15 75 Q 35 15 60 15 T 105 75 Q 85 135 60 135 T 15 75 Z" />
+                                    <path class="draw-path ink-flourish" d="M 30 35 L 90 35 M 30 115 L 90 115" />
+                                    <!-- Letter I outline -->
+                                    <path class="draw-path letter-i-path"
+                                        d="M 60 30 L 60 120 M 45 30 L 75 30 M 45 120 L 75 120" />
+                                </svg>
+                            </div>
+                            <div class="calligraphic-text">
+                                <h1 class="write-on-text">NTELLECTUAL<br>FRONTIER</h1>
+                            </div>
+                        </div>
+
+                        <div class="scroll-prompt">
+                            <span class="prompt-arrow">→</span>
+                            <span class="prompt-text">SCROLL TO UNROLL</span>
+                        </div>
                     </div>
-                    <p class="vip-years">1919 – 2010</p>
-                    <p class="vip-desc">
-                        A preeminent American mathematician and statistician, he co-discovered the <strong>Rao-Blackwell Theorem</strong>. 
-                        His work fundamentally shaped probability theory, game theory, and information theory. 
-                        In tribute to his pathbreaking genius, NVIDIA named its groundbreaking Blackwell GPU architecture after him.
-                    </p>
-                </div>
-                <div class="vip-frame">
-                    <img src="WhatsApp Image 2026-03-15 at 2.02.10 PM.jpeg" alt="David Blackwell" class="grayscale-img">
-                </div>
-            </div>
-        </section>
 
-        <!-- Section 3: Concept (Agentic AI) -->
-        <section class="scroll-section section-concept scroll-reveal">
-            <div class="concept-layout">
-                <div class="section-title">
-                    <span class="slide-label">PARADIGM</span>
-                    <h3>AGENTIC AI & AUTONOMOUS ECONOMY</h3>
-                </div>
-                <div class="concept-body">
-                    <p class="concept-highlight">
-                        Agentic AI represents the shift from responsive systems to autonomous agents that act.
-                    </p>
-                    <p class="concept-detail">
-                        Rather than simply answering prompts, these advanced artificial intelligence systems independently plan, reason, adapt, and execute complex, multi-step actions across various environments to achieve user goals.
-                    </p>
-                </div>
-            </div>
-        </section>
+                    <!-- Decorative margin vines -->
+                    <div class="margin-flourish top-flourish">
+                        <svg viewBox="0 0 600 80">
+                            <path class="draw-path-staggered"
+                                d="M 20 60 C 120 10, 220 80, 320 30 C 420 -20, 500 50, 580 40" stroke="#5c4033"
+                                stroke-width="1.5" fill="none" />
+                            <path class="draw-path-staggered" d="M 40 45 C 50 40, 60 50, 55 55 Z" fill="#5c4033" />
+                            <path class="draw-path-staggered" d="M 300 45 C 310 30, 320 40, 315 45 Z" fill="#5c4033" />
+                        </svg>
+                    </div>
+                </section>
 
-        <!-- Footer / Return Section -->
-        <footer class="scroll-section page-footer scroll-reveal">
-            <div class="footer-actions">
-                <a href="index.html" class="return-btn">PROCEED TO QUIZ →</a>
-                <button id="scrollToTopBtn" class="scroll-top-btn">↑ BACK TO TOP</button>
+                <!-- BEAT 2 — Team Roster (Ink, Sketch Portraits) -->
+                <section class="scroll-section team-section" id="section2">
+                    <div class="team-header-container">
+                        <!-- Woodcut Crest SVG -->
+                        <div class="woodcut-crest-wrap">
+                            <svg class="woodcut-crest" viewBox="0 0 100 100">
+                                <!-- Outer dashed ring -->
+                                <circle cx="50" cy="50" r="44" stroke="#5c4033" stroke-width="1.5"
+                                    stroke-dasharray="3 3" fill="none" class="draw-path" />
+                                <!-- Inner solid ring -->
+                                <circle cx="50" cy="50" r="38" stroke="#5c4033" stroke-width="1.2" fill="none"
+                                    class="draw-path" />
+                                <!-- Scribe crosshairs -->
+                                <path class="draw-path" d="M 50 6 L 50 94 M 6 50 L 94 50" stroke="#5c4033"
+                                    stroke-width="0.8" fill="none" />
+                                <!-- Ornate mini details -->
+                                <circle cx="50" cy="50" r="28" stroke="#5c4033" stroke-width="0.8"
+                                    stroke-dasharray="1 4" fill="none" class="draw-path" />
+                            </svg>
+                            <img src="gvplogo-removebg-preview (1).png" alt="GVP Logo" class="crest-overlay-logo">
+                        </div>
+                        <div class="team-titles">
+                            <span class="scribe-note">ORGANIZERS</span>
+                            <h2 class="section-heading-ink">TEAM VII</h2>
+                        </div>
+                    </div>
+
+                    <!-- Horizontal Row of 8 portraits -->
+                    <div class="portraits-horizontal-track">
+
+                        <!-- Member 1: K. Nithin -->
+                        <div class="portrait-card jitter-1">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <!-- Outer frame -->
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: bottom-left single line -->
+                                    <path class="draw-path shade-path" d="M 40 160 L 65 185" stroke="#5c4033"
+                                        stroke-width="1.2" fill="none" />
+                                    <!-- Peg-doll silhouette with background fill to cover scratch -->
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <!-- Eyes -->
+                                    <path class="draw-path features" d="M 92 108 L 97 108 M 103 108 L 108 108"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">K. Nithin</h4>
+                            <p class="member-id-ink">5241411173</p>
+                        </div>
+
+                        <!-- Member 2: G. Jaswanth -->
+                        <div class="portrait-card jitter-2">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: top-right single line -->
+                                    <path class="draw-path shade-path" d="M 130 50 L 155 75" stroke="#5c4033"
+                                        stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features"
+                                        d="M 92 108 L 97 108 M 103 108 L 108 108 M 97 116 Q 100 119 103 116"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">G. Jaswanth</h4>
+                            <p class="member-id-ink">5241411170</p>
+                        </div>
+
+                        <!-- Member 3: V. Dinesh -->
+                        <div class="portrait-card jitter-3">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: top-left double line -->
+                                    <path class="draw-path shade-path" d="M 40 50 L 65 75 M 46 45 L 71 70"
+                                        stroke="#5c4033" stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features" d="M 92 108 L 97 108 M 103 108 L 108 108"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">V. Dinesh</h4>
+                            <p class="member-id-ink">5241411203</p>
+                        </div>
+
+                        <!-- Member 4: M. Gayatri -->
+                        <div class="portrait-card jitter-4">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: bottom-right single line -->
+                                    <path class="draw-path shade-path" d="M 140 160 L 165 185" stroke="#5c4033"
+                                        stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features"
+                                        d="M 92 108 L 97 108 M 103 108 L 108 108 M 97 116 Q 100 119 103 116"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">M. Gayatri</h4>
+                            <p class="member-id-ink">5241411184</p>
+                        </div>
+
+                        <!-- Member 5: V. Haritha -->
+                        <div class="portrait-card jitter-1">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: top-left single line -->
+                                    <path class="draw-path shade-path" d="M 45 45 L 75 75" stroke="#5c4033"
+                                        stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features" d="M 92 108 L 97 108 M 103 108 L 108 108"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">V. Haritha</h4>
+                            <p class="member-id-ink">5241411201</p>
+                        </div>
+
+                        <!-- Member 6: P. Anudeepthi -->
+                        <div class="portrait-card jitter-2">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: bottom-left double line -->
+                                    <path class="draw-path shade-path" d="M 35 155 L 55 175 M 41 150 L 61 170"
+                                        stroke="#5c4033" stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features"
+                                        d="M 92 108 L 97 108 M 103 108 L 108 108 M 97 116 Q 100 119 103 116"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">P. Anudeepthi</h4>
+                            <p class="member-id-ink">5241411188</p>
+                        </div>
+
+                        <!-- Member 7: P. Likhil -->
+                        <div class="portrait-card jitter-3">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: top-left single line (Exactly behind Likhil's head) -->
+                                    <path class="draw-path shade-path" d="M 50 45 L 85 80" stroke="#5c4033"
+                                        stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features"
+                                        d="M 92 108 L 97 108 M 103 108 L 108 108 M 97 116 Q 100 119 103 116"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">P. Likhil</h4>
+                            <p class="member-id-ink">5241411189</p>
+                        </div>
+
+                        <!-- Member 8: N. Sai Sree Teja -->
+                        <div class="portrait-card jitter-4">
+                            <div class="sketch-wrapper">
+                                <svg class="portrait-sketch" viewBox="0 0 200 240">
+                                    <!-- Soft background halo -->
+                                    <ellipse cx="100" cy="120" rx="80" ry="100" fill="rgba(92, 64, 51, 0.03)"
+                                        stroke="rgba(92, 64, 51, 0.05)" stroke-width="2" />
+                                    <path class="draw-path sketch-frame"
+                                        d="M 100 20 C 145 20, 180 60, 180 120 C 180 180, 145 220, 100 220 C 55 220, 20 180, 20 120 C 20 60, 55 20, 100 20 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                    <!-- Scratch: middle-right double line (Exactly behind Teja's right side) -->
+                                    <path class="draw-path shade-path" d="M 148 110 L 170 128 M 154 106 L 174 123"
+                                        stroke="#5c4033" stroke-width="1.2" fill="none" />
+                                    <path class="draw-path face-outline"
+                                        d="M 75 190 C 75 160, 85 130, 85 120 C 85 100, 91 88, 100 88 C 109 88, 115 100, 115 120 C 115 130, 125 160, 125 190 Z"
+                                        stroke="#5c4033" stroke-width="1.5" fill="var(--paper-color)" />
+                                    <path class="draw-path features" d="M 92 108 L 97 108 M 103 108 L 108 108"
+                                        stroke="#5c4033" stroke-width="1.5" fill="none" />
+                                </svg>
+                            </div>
+                            <h4 class="member-name-ink">N. Sai Sree Teja</h4>
+                            <p class="member-id-ink">5241411186</p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- BEAT 3 — David Blackwell Tribute (Illuminated Manuscript Page) -->
+                <section class="scroll-section vip-section" id="section3">
+                    <div class="vip-container-card">
+
+                        <!-- Ornate Interlacing Border (Draws on) -->
+                        <div class="ornate-border-canvas">
+                            <svg class="knotwork-border-svg" viewBox="0 0 850 500" preserveAspectRatio="none">
+                                <rect x="15" y="15" width="820" height="470" rx="15" fill="none" stroke="#d4af37"
+                                    stroke-width="3" class="gold-gradient-stroke draw-path" />
+                                <rect x="25" y="25" width="800" height="450" rx="10" fill="none" stroke="#5c4033"
+                                    stroke-width="1" class="draw-path" />
+                                <!-- Celtic/Vine Corners -->
+                                <path class="draw-path border-corner" d="M 10 40 Q 40 40 40 10 M 40 10 Q 40 40 70 40"
+                                    fill="none" stroke="#d4af37" stroke-width="2" />
+                                <path class="draw-path border-corner"
+                                    d="M 840 40 Q 810 40 810 10 M 810 10 Q 810 40 780 40" fill="none" stroke="#d4af37"
+                                    stroke-width="2" />
+                                <path class="draw-path border-corner"
+                                    d="M 10 460 Q 40 460 40 490 M 40 490 Q 40 460 70 460" fill="none" stroke="#d4af37"
+                                    stroke-width="2" />
+                                <path class="draw-path border-corner"
+                                    d="M 840 460 Q 810 460 810 490 M 810 490 Q 810 460 780 460" fill="none"
+                                    stroke="#d4af37" stroke-width="2" />
+                            </svg>
+                        </div>
+
+                        <div class="vip-grid-content">
+                            <!-- Left: Gold Miniature Frame + Portrait -->
+                            <div class="vip-frame-container">
+                                <div class="miniature-gold-border">
+                                    <div class="frame-inner-matte">
+                                        <img src="WhatsApp Image 2026-03-15 at 2.02.10 PM.jpeg" alt="David Blackwell"
+                                            class="portrait-miniature grayscale-img">
+                                    </div>
+                                </div>
+                                <p class="vip-lifespan">1919 – 2010</p>
+                            </div>
+
+                            <!-- Right: Decorated Text -->
+                            <div class="vip-biography">
+                                <div class="vip-title-area">
+                                    <div class="decorated-initial-wrap">
+                                        <svg viewBox="0 0 100 100" class="initial-d-svg">
+                                            <rect x="5" y="5" width="90" height="90" fill="#f4e9d0" stroke="#d4af37"
+                                                stroke-width="3" rx="10" />
+                                            <path d="M 30 15 C 60 12, 80 25, 80 50 C 80 75, 60 88, 30 85" fill="none"
+                                                stroke="#5c4033" stroke-width="8" stroke-linecap="round" />
+                                            <path d="M 30 15 L 30 85" stroke="#5c4033" stroke-width="8"
+                                                stroke-linecap="round" />
+                                            <path d="M 22 20 Q 32 30 27 45 T 32 75" stroke="#d4af37" stroke-width="1.5"
+                                                fill="none" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="vip-name-text">AVID BLACKWELL</h3>
+                                </div>
+                                <p class="vip-para-scribe">
+                                    A preeminent mathematician and statistician, he co-discovered the esteemed
+                                    <strong>Rao-Blackwell Theorem</strong>.
+                                    His pathbreaking mind fundamentally shaped probability theory, game theory, and
+                                    information theory.
+                                    In tribute to his computational genius, NVIDIA named its groundbreaking Blackwell
+                                    GPU architecture in his honor.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Marginalia: Math Equations (Ink version) -->
+                        <div class="marginalia-equations-wrap">
+                            <!-- Equation 1: Rao-Blackwell -->
+                            <svg class="marginal-equation eq-1" viewBox="0 0 250 80">
+                                <path class="draw-path" d="M 10 30 Q 30 10 50 30 T 90 30" stroke="#5c4033"
+                                    stroke-width="1.5" fill="none" />
+                                <text x="15" y="60" class="math-text-font">\hat{\theta} = E[\theta | T]</text>
+                            </svg>
+                            <!-- Equation 2: Sigma -->
+                            <svg class="marginal-equation eq-2" viewBox="0 0 250 80">
+                                <path class="draw-path" d="M 10 20 L 50 20 L 30 40 L 50 60 L 10 60" stroke="#5c4033"
+                                    stroke-width="2" fill="none" />
+                                <text x="60" y="45" class="math-text-font">\sum X_i / n</text>
+                            </svg>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BEAT 4 — Agentic AI (Transformation / Final Panel) -->
+                <section class="scroll-section concept-section" id="section4">
+
+
+
+                    <div class="concept-container-card">
+
+                        <!-- Digitization Glitch Header -->
+                        <div class="concept-header-area">
+                            <span class="glitch-label-tag">PARADIGM SHIFT</span>
+                            <h3 class="glitch-title-text" data-text="AGENTIC AI & AUTONOMOUS ECONOMY">AGENTIC AI &
+                                AUTONOMOUS ECONOMY</h3>
+                        </div>
+
+                        <!-- Body Text: transitioning from ink scribe paragraphs to digital terminal monospace -->
+                        <div class="compiling-text-block">
+                            <!-- Paragraph 1 -->
+                            <p class="compiled-paragraph code-compile-1"
+                                data-original="Agentic AI represents the shift from responsive systems to autonomous agents that act.">
+                                Agentic AI represents the shift from responsive systems to autonomous agents that act.
+                            </p>
+                            <!-- Paragraph 2 -->
+                            <p class="compiled-paragraph code-compile-2"
+                                data-original="Rather than simply answering prompts, these advanced artificial intelligence systems independently plan, reason, adapt, and execute complex, multi-step actions across various environments to achieve user goals.">
+                                Rather than simply answering prompts, these advanced artificial intelligence systems
+                                independently plan, reason, adapt, and execute complex, multi-step actions across
+                                various environments to achieve user goals.
+                            </p>
+                        </div>
+
+                        <!-- Tally list converting to checkmarks -->
+                        <div class="tally-checklist-container">
+                            <div class="tally-item" data-index="1">
+                                <div class="checkbox-visual">
+                                    <svg viewBox="0 0 40 40" class="box-svg">
+                                        <!-- Hand drawn square -->
+                                        <rect x="5" y="5" width="30" height="30" fill="none" stroke="#5c4033"
+                                            stroke-width="2" class="ink-box" />
+                                        <!-- Hand tally -->
+                                        <path d="M 12 10 L 12 30" stroke="#5c4033" stroke-width="2.5"
+                                            class="tally-line tally-1" />
+                                        <!-- Glowing digital checkmark -->
+                                        <path d="M 10 20 L 18 28 L 32 12" stroke="var(--neon-green)" stroke-width="3"
+                                            fill="none" class="check-line" />
+                                    </svg>
+                                </div>
+                                <span class="tally-text">Establish Core Logic</span>
+                            </div>
+
+                            <div class="tally-item" data-index="2">
+                                <div class="checkbox-visual">
+                                    <svg viewBox="0 0 40 40" class="box-svg">
+                                        <rect x="5" y="5" width="30" height="30" fill="none" stroke="#5c4033"
+                                            stroke-width="2" class="ink-box" />
+                                        <path d="M 17 10 L 17 30" stroke="#5c4033" stroke-width="2.5"
+                                            class="tally-line tally-2" />
+                                        <path d="M 10 20 L 18 28 L 32 12" stroke="var(--neon-green)" stroke-width="3"
+                                            fill="none" class="check-line" />
+                                    </svg>
+                                </div>
+                                <span class="tally-text">Compile System Architecture</span>
+                            </div>
+
+                            <div class="tally-item" data-index="3">
+                                <div class="checkbox-visual">
+                                    <svg viewBox="0 0 40 40" class="box-svg">
+                                        <rect x="5" y="5" width="30" height="30" fill="none" stroke="#5c4033"
+                                            stroke-width="2" class="ink-box" />
+                                        <path d="M 22 10 L 22 30" stroke="#5c4033" stroke-width="2.5"
+                                            class="tally-line tally-3" />
+                                        <path d="M 10 20 L 18 28 L 32 12" stroke="var(--neon-green)" stroke-width="3"
+                                            fill="none" class="check-line" />
+                                    </svg>
+                                </div>
+                                <span class="tally-text">Execute Autonomous Agent</span>
+                            </div>
+
+                            <div class="tally-item" data-index="4">
+                                <div class="checkbox-visual">
+                                    <svg viewBox="0 0 40 40" class="box-svg">
+                                        <rect x="5" y="5" width="30" height="30" fill="none" stroke="#5c4033"
+                                            stroke-width="2" class="ink-box" />
+                                        <!-- Diagonal tally cross line -->
+                                        <path d="M 8 15 L 26 25" stroke="#5c4033" stroke-width="2.5"
+                                            class="tally-line tally-4" />
+                                        <path d="M 10 20 L 18 28 L 32 12" stroke="var(--neon-green)" stroke-width="3"
+                                            fill="none" class="check-line" />
+                                    </svg>
+                                </div>
+                                <span class="tally-text">Verify Target Convergence</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- BEAT 5 — Return / Proceedings Section -->
+                <section class="scroll-section proceed-section" id="section5">
+                    <div class="proceed-container">
+                        <h3 class="proceed-title">CHRONICLE CONCLUDED</h3>
+                        <p class="proceed-subtitle">The scroll is fully unfurled. The boundary is crossed.</p>
+                        <div class="proceed-actions">
+                            <a href="index.html" class="return-btn">PROCEED TO QUIZ →</a>
+                            <button id="scrollToTopBtn" class="scroll-top-btn">↑ REWIND SCROLL</button>
+                        </div>
+                    </div>
+                </section>
+
             </div>
-        </footer>
+
+            <!-- Cylindrical Roll: Right Edge (PCB Circuit Board) -->
+            <div class="scroll-roll right-roll">
+                <div class="roll-rod"></div>
+                <div class="roll-shading"></div>
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- Scripts -->
+    <!-- GSAP CDN Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Custom JavaScript files -->
     <script src="shapegrid.js"></script>
     <script src="intro.js"></script>
 
 </body>
+
 </html>

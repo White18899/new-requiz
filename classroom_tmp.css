@@ -1,0 +1,53 @@
+﻿/* 🌿 Classroom Additions */
+.torn-paper-note {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    width: 280px;
+    background: #fdfbf7;
+    padding: 1.5rem;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+    transform: rotate(3deg);
+    border: 1px solid #d4cbb8;
+    background-image: repeating-linear-gradient(transparent, transparent 1.5rem, #c1daeb 1.5rem, #c1daeb 1.6rem);
+    z-index: 10;
+}
+.tape-corner {
+    position: absolute;
+    top: -10px;
+    left: 45%;
+    width: 40px;
+    height: 20px;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transform: rotate(-5deg);
+}
+.handwritten-math {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    color: #2b3a4a;
+    line-height: 1.5;
+    margin-top: 1rem;
+}
+
+.wooden-bench-bottom {
+    position: absolute;
+    bottom: -10%;
+    left: -5%;
+    width: 110%;
+    height: 15vh;
+    background: #3e2723;
+    border-top: 5px solid #2d1916;
+    border-radius: 50% 50% 0 0 / 20px 20px 0 0;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+    z-index: 50;
+    filter: blur(4px); /* depth of field blur */
+}
+
+.chalk-wipe-reveal {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    transition: clip-path 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.chalk-wipe-reveal.visible {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
