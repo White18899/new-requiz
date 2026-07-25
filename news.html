@@ -1,234 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest News & Global Updates</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="news.css">
+    <title>The Daily Bulletin - News & Updates</title>
+    <!-- Vintage Newspaper Typography Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="news.css?v=2">
 </head>
-
 <body>
-    <!-- Top Scroll Progress Bar -->
-    <div id="scroll-progress" class="scroll-progress-bar"></div>
-
-    <!-- WebGL Background Canvas Container -->
-    <div id="news-webgl-container" class="news-webgl-container"></div>
-
-    <!-- Page Content Container -->
-    <div class="news-page-wrapper">
-
-        <!-- Minimalist Header -->
-        <header class="news-sticky-header">
-            <div class="header-inner">
-                <div class="brand-title-group">
-                    <span class="mono-label">NEWS FEED</span>
-                    <span class="header-divider">/</span>
-                    <h1 class="news-main-title">GLOBAL BULLETIN</h1>
-                </div>
-
-                <a href="index.html" class="return-quiz-header-btn">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                    Return to Quiz
-                </a>
+    <div class="newspaper-container">
+        <!-- Vintage Masthead Header -->
+        <header class="newspaper-header">
+            <div class="masthead-meta-top">
+                <span class="meta-item">VOL. XCIII No. 42</span>
+                <span class="meta-item font-special">VISAKHAPATNAM, SATURDAY, JULY 25, 2026</span>
+                <span class="meta-item">PRICE: ONE CENT</span>
+            </div>
+            
+            <h1 class="newspaper-masthead">GLOBAL BULLETIN</h1>
+            
+            <div class="masthead-meta-bottom">
+                <span class="meta-item">WEATHER: FAIR & COOL</span>
+                <span class="meta-item font-special">THE TRUTH SHALL PREVAIL</span>
+                <span class="meta-item">EDITION: FINAL</span>
             </div>
         </header>
 
-        <!-- Vertical Scrolling News Feed -->
-        <main class="news-feed-container">
+        <!-- Navigation Bar / Coupon Style Return Button -->
+        <div class="coupon-nav-bar">
+            <a href="index.html" class="coupon-return-btn">
+                <span class="scissors-icon">✂</span> RETURN TO THE TECHNICAL QUIZ CONSOLE
+            </a>
+        </div>
 
-            <!-- Category 1: International News -->
-            <section id="section-international" class="news-category-section scroll-reveal">
-                <div class="section-header">
-                    <span class="category-num">01 / GLOBAL</span>
-                    <h2>Global Updates</h2>
-                </div>
+        <!-- Main News Grid -->
+        <main class="newspaper-grid">
+            
+            <!-- Left & Middle: Lead Article -->
+            <div class="lead-article-column">
+                <article class="news-article">
+                    <span class="kicker">WORLD AFFAIRS • EXCLUSIVE</span>
+                    <h2 class="lead-headline">GLOBAL ENERGY MARKET REBALANCES AS RESERVES RELEASED</h2>
+                    
+                    <div class="article-meta-row">
+                        <span class="byline">BY A. SPECIAL CORRESPONDENT</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">PUBLISHED JUST NOW</span>
+                    </div>
 
-                <div class="news-card-feed">
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Tension in the Middle East continues as countries discuss ways to keep the Strait of Hormuz open for global oil transport.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">GEOPOLITICS</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">Just Now</span>
-                            </div>
-                        </div>
-                    </article>
+                    <div class="article-body multi-column-body">
+                        <p class="lead-paragraph"><span class="drop-cap">T</span>ension in the Middle East continues to ripple through international trading hubs as countries discuss strategic ways to keep the critical Strait of Hormuz open for global oil transport. In response to potential supply disruptions, key nations have coordinated a monumental release of emergency oil reserves, stabilizing volatile futures markets and reassuring anxious energy consumers worldwide.</p>
+                        
+                        <p>Analysts suggest that this tactical release of petroleum reserves serves as a buffers to offset the geopolitically charged shipping lanes. Market indicators responded instantly to the diplomatic declarations, calming commodity prices that had threatened to burden national manufacturing sectors.</p>
+                        
+                        <blockquote class="pull-quote">
+                            “Energy security remains paramount as nations navigate shifting global straits.”
+                        </blockquote>
 
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Due to the Middle East conflict, some countries have decided to release oil from emergency reserves to stabilize the global energy market.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">ENERGY & ECONOMY</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">15 mins ago</span>
-                            </div>
-                        </div>
-                    </article>
+                        <p>As the international community monitors naval movements, transport networks report that vessels continue transit under heightened security protocols. Regional authorities are collaborating on maritime escorts, ensuring that trade channels remain functional throughout the duration of the current energy discussions.</p>
+                    </div>
+                </article>
+            </div>
 
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>The 2026 World Athletics Indoor Championships will be held in Poland from March 20–22 with athletes from many countries participating.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">SPORTS</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">1 hr ago</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
+            <!-- Right Column: Secondary Articles -->
+            <div class="sidebar-column">
+                <!-- Article 2 -->
+                <article class="news-article side-article">
+                    <span class="kicker">DOMESTIC PRODUCTION</span>
+                    <h3 class="secondary-headline">India to Host Agri-Food Conference</h3>
+                    <div class="article-meta-row">
+                        <span class="byline">NEW DELHI WIRE</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">2 HOURS AGO</span>
+                    </div>
+                    <div class="article-body">
+                        <p>India is preparing to host a major international conference focused on strengthening women’s roles in agri-food systems in 2026. The summit aims to gather state delegates, agricultural innovators, and research agencies to draft policy suggestions designed to accelerate equality, crop yield improvements, and sustainable food chains.</p>
+                    </div>
+                </article>
 
-            <!-- Category 2: National News -->
-            <section id="section-national" class="news-category-section scroll-reveal">
-                <div class="section-header">
-                    <span class="category-num">02 / NATIONAL</span>
-                    <h2>India News</h2>
-                </div>
+                <!-- Article 3 -->
+                <article class="news-article side-article">
+                    <span class="kicker">STATE INITIATIVES</span>
+                    <h3 class="secondary-headline">Andhra Pradesh Welcomes Induction Stoves</h3>
+                    <div class="article-meta-row">
+                        <span class="byline">STAFF WRITER</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">5 HOURS AGO</span>
+                    </div>
+                    <div class="article-body">
+                        <p>The government of Andhra Pradesh has commenced the distribution of energy-efficient induction stoves to Anganwadi centres across the state. This welfare program aims to promote safe, smokeless, and cost-effective cooking, drastically improving the kitchen environment for workers and children in regional development facilities.</p>
+                    </div>
+                </article>
 
-                <div class="news-card-feed">
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>India is preparing to host an international conference on women in agri-food systems in 2026.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">AGRICULTURE</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">2 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>The Indian government continues to promote international maritime cooperation through major global naval events.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">DEFENCE & MARITIME</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">3 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>National discussions are ongoing in Parliament on policies related to social welfare and rights.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">POLICY & RIGHTS</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">4 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <!-- Category 3: State News -->
-            <section id="section-state" class="news-category-section scroll-reveal">
-                <div class="section-header">
-                    <span class="category-num">03 / STATE</span>
-                    <h2>Andhra Pradesh</h2>
-                </div>
-
-                <div class="news-card-feed">
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>The Andhra Pradesh government has started distributing energy-efficient induction stoves to all Anganwadi centres to promote safe and clean cooking.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">STATE WELFARE</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">5 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>State leaders are working to attract technology and infrastructure investments across the state.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">INVESTMENT & TECH</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">6 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Political leaders in the state have recently raised concerns and demanded action on certain issues involving public representatives.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">GOVERNANCE</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">7 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <!-- Category 4: City News -->
-            <section id="section-city" class="news-category-section scroll-reveal">
-                <div class="section-header">
-                    <span class="category-num">04 / CITY</span>
-                    <h2>Visakhapatnam</h2>
-                </div>
-
-                <div class="news-card-feed">
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Authorities are planning to build a semi-ring road from Rambilli to Bhogapuram to improve transport around the city.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">INFRASTRUCTURE</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">8 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Visakhapatnam is expected to become a major IT and data-centre hub, attracting investments from global companies.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">IT & DATA HUB</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">9 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="news-bullet-card scroll-reveal">
-                        <div class="card-accent-bar"></div>
-                        <div class="bullet-content">
-                            <p>Around 29,000 students will appear for SSC examinations at many centres in the Visakhapatnam district this year.</p>
-                            <div class="bullet-meta">
-                                <span class="meta-category">EDUCATION</span>
-                                <span class="meta-dot"></span>
-                                <span class="meta-time">10 hrs ago</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
+                <!-- Article 4 -->
+                <article class="news-article side-article">
+                    <span class="kicker">URBAN DEVELOPMENT</span>
+                    <h3 class="secondary-headline">IT & Data Center Hub Expands in Vizag</h3>
+                    <div class="article-meta-row">
+                        <span class="byline">TECH BULLETIN</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">9 HOURS AGO</span>
+                    </div>
+                    <div class="article-body">
+                        <p>Visakhapatnam is rapidly expanding its footprint as a critical IT and data hub, with multiple multinational enterprises confirming capital investments. Regional authorities are fast-tracking approvals for a semi-ring road connecting Rambilli to Bhogapuram, ensuring high-speed transport links across Visakhapatnam district.</p>
+                    </div>
+                </article>
+            </div>
 
         </main>
 
+        <!-- Footer -->
+        <footer class="newspaper-footer">
+            <p class="footer-text">© 1893–2026 GLOBAL BULLETIN INC. ALL RIGHTS RESERVED. PRINTED ON RECYCLED NEWSPRINT.</p>
+        </footer>
     </div>
-
-    <!-- OGL Library & News JS -->
-    <script src="https://cdn.jsdelivr.net/npm/ogl/dist/ogl.umd.js"></script>
+    
     <script src="news.js"></script>
 </body>
-
 </html>

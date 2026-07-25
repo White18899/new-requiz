@@ -4131,7 +4131,7 @@ body.round-2-active.incorrect-bg {
 
 /* Watermark: Muted center logo */
 body.round-2-active #bg-watermark {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 3.5rem !important;
     top: 1.2rem !important;
     left: 8.5rem !important;
@@ -4225,7 +4225,7 @@ body.round-2-active .glow-text,
 body.round-2-active #rules-subheading,
 body.round-2-active #current-quiz-title,
 body.round-2-active #rules-title {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 1.8rem !important;
     font-weight: 700 !important;
     color: #1A1A1A !important;
@@ -4306,7 +4306,7 @@ body.round-2-active .team-selector-container {
 }
 
 body.round-2-active .team-select-heading {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 1.25rem !important;
     color: #1A1A1A !important;
     margin-bottom: 1.2rem !important;
@@ -4750,7 +4750,7 @@ body.round-2-active .overlay-content::after {
 }
 
 body.round-2-active .overlay-title {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 2.2rem !important;
     font-weight: 700 !important;
     text-shadow: none !important;
@@ -4978,7 +4978,7 @@ body.round-2-active #screen-explanation .glass-card {
     padding: 2.5rem !important;
 }
 body.round-2-active #screen-explanation .glow-text {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 1.8rem !important;
     font-weight: 700 !important;
     color: #1A1A1A !important;
@@ -5003,6 +5003,26 @@ body.round-2-active .window-controls-dots .dot {
 }
 
 /* Redesign review explanation button on active question screen */
+body.round-2-active #review-explanation-btn button {
+    background: #EDEDEB !important;
+    color: #1A1A1A !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 8px !important;
+    box-shadow: 3px 3px 6px #C8C6C0, -3px -3px 6px #FFFFFF !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.8rem !important;
+    font-weight: bold !important;
+    padding: 6px 16px !important;
+    transition: all 0.2s ease !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+    transform: none !important;
+}
+body.round-2-active #review-explanation-btn button:hover {
+    box-shadow: inset 2px 2px 5px #C8C6C0, inset -2px -2px 5px #FFFFFF !important;
+    color: #C9A34E !important;
+    transform: none !important;
+}
 body.round-2-active #review-explanation-btn button:active {
     transform: translateY(1px) !important;
     box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
@@ -6985,7 +7005,7 @@ body.morph-preview-2 {
 }
 #screen-quiz-selection.morph-preview-2 .morph-console-title {
     color: #1A1A1A !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     text-shadow: none !important;
 }
 #screen-quiz-selection.morph-preview-2 .morph-menu-item {
@@ -7228,7 +7248,7 @@ body.morph-preview-4 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
     padding: 0.6rem 1.2rem !important;
     font-size: 0.85rem !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-weight: bold !important;
     color: #1A1A1A !important;
 }
@@ -7381,7 +7401,7 @@ body.morph-preview-4 {
     color: #1A1A1A !important;
     border: none !important;
     box-shadow: 4px 4px 8px #C8C6C0, -4px -4px 8px #FFFFFF !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-weight: bold !important;
     border-radius: 20px !important;
     text-transform: uppercase !important;
@@ -8165,6 +8185,23 @@ body.round-1-active #question-text.code-font {
     background-color: transparent !important;
     padding-left: 0 !important;
 }
+/* High visibility for Scoreboard Toolbar Controls on Light Backgrounds */
+body.round-1-active #scoreboard .sb-tool-btn,
+body.round-1-active #scoreboard .scoreboard-drag-handle,
+body.round-2-active #scoreboard .sb-tool-btn,
+body.round-2-active #scoreboard .scoreboard-drag-handle,
+body.round-3-active #scoreboard .sb-tool-btn,
+body.round-3-active #scoreboard .scoreboard-drag-handle {
+    color: var(--ink, #111111) !important;
+    opacity: 0.75 !important;
+}
 
-
-
+body.round-1-active #scoreboard .sb-tool-btn:hover,
+body.round-1-active #scoreboard .scoreboard-drag-handle:hover,
+body.round-2-active #scoreboard .sb-tool-btn:hover,
+body.round-2-active #scoreboard .scoreboard-drag-handle:hover,
+body.round-3-active #scoreboard .sb-tool-btn:hover,
+body.round-3-active #scoreboard .scoreboard-drag-handle:hover {
+    color: var(--magenta, #F0208C) !important;
+    opacity: 1 !important;
+}
