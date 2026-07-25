@@ -10,14 +10,18 @@
     <!-- Fonts: Montserrat (Aptitude), Share Tech Mono (Tech), Bangers (Debate), Fredoka (Fun) -->
     <!-- Sheriff Redesign Fonts: Rye (Western display), Special Elite (Typewriter), Stardos Stencil (Embassy/Stencil), Arvo & Courier Prime (Serifs) -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&family=Rye&family=Special+Elite&family=Stardos+Stencil:wght@700&family=Arvo:wght@400;700&family=Courier+Prime:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bitter:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Yuji+Syuku&family=Shippori+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=32">
 
 
 </head>
 
 <body>
+    <!-- Wooden Scroll Rollers decoration -->
+    <div class="scroll-roller top-roller"></div>
+    <div class="scroll-roller bottom-roller"></div>
+
     <!-- Diagnostics Log Overlay -->
     <div id="diagnostics-log" style="position: fixed; top: 0; left: 0; width: 100vw; background: rgba(255, 0, 0, 0.95); color: white; z-index: 999999; font-family: monospace; font-size: 13px; padding: 12px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"></div>
     <script>
@@ -56,13 +60,11 @@
     </div>
 
 
-    <div class="background-animation"></div>
-    <div id="cursor-glow"></div>
-    <div id="bg-watermark"></div>
-    <canvas id="bg-interactive"></canvas>
-    <div id="aptitude-bg-container" class="dot-field-container-wrap"></div>
-    <div id="technical-bg-container" class="faulty-terminal-container"></div>
 
+
+
+    <!-- Dynamic active team background watermark -->
+    <div id="bg-watermark"></div>
 
     <!-- Top Corner Navigation -->
     <nav id="top-nav">
@@ -106,93 +108,215 @@
     <main class="container">
 
         <!-- Screen 1: Quiz Selection -->
-        <section id="screen-quiz-selection" class="screen active" style="justify-content: center;">
-            <h1 class="glow-text">Select Quiz Round</h1>
+        <!-- Screen 1: Quiz Selection (Screen-Morphing Console) -->
+        <section id="screen-quiz-selection" class="screen active morph-preview-1" style="justify-content: center;">
+            <div class="morph-console-layout">
+                <!-- Left Column: The Interactive Typographical Dial -->
+                <div class="morph-menu-column">
+                    <h1 class="morph-console-title">SELECT QUIZ ROUND</h1>
+                    
+                    <div class="morph-menu-list">
+                        <!-- Round 1 -->
+                        <div class="morph-menu-item active" data-quiz="1" onclick="activateMorphRound(1)">
+                            <span class="morph-num">01</span>
+                            <div class="morph-meta">
+                                <span class="morph-title">APTITUDE TEST</span>
+                                <span class="morph-subtitle">SPLINTER — Drop 004</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Round 2 -->
+                        <div class="morph-menu-item" data-quiz="2" onclick="activateMorphRound(2)">
+                            <span class="morph-num">02</span>
+                            <div class="morph-meta">
+                                <span class="morph-title">TECHNICAL QUIZ</span>
+                                <span class="morph-subtitle">Neumorphic Luxury IDE</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Round 3 -->
+                        <div class="morph-menu-item" data-quiz="3" onclick="activateMorphRound(3)">
+                            <span class="morph-num">03</span>
+                            <div class="morph-meta">
+                                <span class="morph-title">DEBATE / JAM</span>
+                                <span class="morph-subtitle">Stark Brutalist Grid</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Round 4 -->
+                        <div class="morph-menu-item" data-quiz="4" onclick="activateMorphRound(4)">
+                            <span class="morph-num">04</span>
+                            <div class="morph-meta">
+                                <span class="morph-title">FUN ROUND</span>
+                                <span class="morph-subtitle">Collage Maximalist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="rounds-grid">
-                <button class="quiz-btn card-round-1 round-font-1" data-quiz="1">
-                    <span class="card-num">01</span>
-                    <div class="card-theme-preview preview-editorial">
-                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-                            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-                            <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
-                            <path d="M12 18v-5"/>
-                        </svg>
-                        <div class="preview-tag">EST. APTITUDE</div>
-                    </div>
-                    <span class="card-title">Aptitude Test</span>
-                    <span class="card-desc">Warm Editorial Type</span>
-                </button>
-                
-                <button class="quiz-btn card-round-2 round-font-2" data-quiz="2">
-                    <span class="card-num">02</span>
-                    <div class="card-theme-preview preview-terminal">
-                        <div class="mini-terminal-header">
-                            <span class="m-dot r"></span>
-                            <span class="m-dot y"></span>
-                            <span class="m-dot g"></span>
-                            <span class="m-title">system_test.sh</span>
+                <!-- Right Column: Interactive Thematic Live Preview Viewport -->
+                <div class="morph-preview-column">
+                    <div class="morph-viewport-frame">
+                        <div class="morph-viewport-inner">
+                            <!-- R1 Mock Preview -->
+                            <div class="viewport-mock mock-round-1">
+                                <div class="mock-card">
+                                    <div class="mock-header">Q5. ANALOGY</div>
+                                    <div class="mock-text">"Socrates is to Philosophy as Newton is to..."</div>
+                                    <div class="mock-options">
+                                        <div class="mock-opt">A. Physics</div>
+                                        <div class="mock-opt">B. Biology</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- R2 Mock Preview -->
+                            <div class="viewport-mock mock-round-2">
+                                <div class="mock-terminal">
+                                    <div class="mock-term-header"><span>system_test.sh</span></div>
+                                    <div class="mock-term-body">
+                                        <code>$ decrypt_signal --hash</code>
+                                        <code>> [HASH COMPILING...] 73%</code>
+                                        <code>> ERROR: broken_signal_01</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- R3 Mock Preview -->
+                            <div class="viewport-mock mock-round-3">
+                                <div class="mock-brutalist">
+                                    <div class="mock-brutalist-title">DEBATE TOPIC</div>
+                                    <div class="mock-brutalist-text">AI DEVELOPS CONSCIOUSNESS: RIGHT OR LIABILITY?</div>
+                                    <div class="mock-timer-bar">TIME: 60s</div>
+                                </div>
+                            </div>
+
+                            <!-- R4 Mock Preview -->
+                            <div class="viewport-mock mock-round-4">
+                                <div class="mock-collage">
+                                    <div class="mock-ticket-stub">TICKET STUB #4</div>
+                                    <div class="mock-collage-photo"></div>
+                                    <div class="mock-acid-pill">FUN MODE</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mini-terminal-body">
-                            <code>&gt;_ sys.exec()</code>
-                            <code>01001011 010</code>
-                        </div>
                     </div>
-                    <span class="card-title">Technical Quiz</span>
-                    <span class="card-desc">Cyber Terminal</span>
-                </button>
-                
-                <button class="quiz-btn card-round-3 round-font-3" data-quiz="3">
-                    <span class="card-num">03</span>
-                    <div class="card-theme-preview preview-brutalist">
-                        <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                        </svg>
-                        <div class="stark-badge">DEBATE MODE</div>
-                    </div>
-                    <span class="card-title">Debate / JAM</span>
-                    <span class="card-desc">Stark Brutalist</span>
-                </button>
-                
-                <button class="quiz-btn card-round-4 round-font-4" data-quiz="4">
-                    <span class="card-num">04</span>
-                    <div class="card-theme-preview preview-pastel">
-                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5.8 11.3 2 22l10.7-3.8Z"/>
-                            <path d="M4 3h.01M20 10h.01M16 3h.01M21 5h.01M11 2h.01"/>
-                            <path d="M11 13 22 2"/>
-                            <path d="M15 17c1.7 0 3-1.3 3-3"/>
-                        </svg>
-                        <div class="pastel-badge">FUN ROUND 🥳</div>
-                    </div>
-                    <span class="card-title">Fun Round</span>
-                    <span class="card-desc">Playful Pastel</span>
-                </button>
+
+                    <!-- Big Launch Button -->
+                    <button class="morph-launch-btn" id="morph-launch-btn" onclick="launchMorphRound()">
+                        ACTIVATE SYSTEM / START
+                    </button>
+                </div>
             </div>
         </section>
 
         <!-- Screen 1.5: Rules Selection -->
         <section id="screen-rules" class="screen hidden">
-            <div class="header-action">
-                <button class="btn-back" onclick="goBackToQuizSelectionFromRules()">&#8592; Back to Rounds</button>
-                <h2 id="rules-title" class="glow-text">Round Rules</h2>
+            <!-- Standard Rules Layout (Rounds 1, 2, 3) -->
+            <div class="standard-rules-only">
+                <div class="header-action">
+                    <button class="btn-back" onclick="goBackToQuizSelectionFromRules()">&#8592; Back to Rounds</button>
+                    <h2 id="rules-title" class="glow-text">Round Rules</h2>
+                </div>
+
+                <div class="rules-card-container glass-card">
+                    <div id="rules-layout-wrapper" class="rules-layout-wrapper">
+                        <div id="rules-badge-panel" class="rules-badge-panel">
+                            <div class="rules-meta-tag">ROUND GUIDELINES</div>
+                            <h3 id="rules-subheading">Official Rules</h3>
+                        </div>
+                        <div class="rules-content-panel">
+                            <ul id="rules-list" class="rules-list">
+                                <!-- Rules injected here -->
+                            </ul>
+                            <div class="rules-action-bar">
+                                <button class="primary-btn start-round-btn" onclick="proceedToQuestionSelection()"><span>Start Round</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="rules-card-container glass-card">
-                <div id="rules-layout-wrapper" class="rules-layout-wrapper">
-                    <div id="rules-badge-panel" class="rules-badge-panel">
-                        <div class="rules-meta-tag">ROUND GUIDELINES</div>
-                        <h3 id="rules-subheading">Official Rules</h3>
+            <!-- SPLICE Collage Rules Layout (Round 4) -->
+            <div class="splice-rules-container">
+                <!-- Top Marquee Ticker Band -->
+                <div class="splice-marquee top-marquee">
+                    <div class="marquee-content">
+                        <span>SPLICE // SIGNAL LOST // ROUND 04 // NO SIGNAL // PLAY NOW // SPLICE // SIGNAL LOST // ROUND 04 // NO SIGNAL // PLAY NOW // SPLICE // SIGNAL LOST // ROUND 04 // NO SIGNAL // PLAY NOW</span>
                     </div>
-                    <div class="rules-content-panel">
-                        <ul id="rules-list" class="rules-list">
-                            <!-- Rules injected here -->
-                        </ul>
-                        <div class="rules-action-bar">
-                            <button class="primary-btn start-round-btn" onclick="proceedToQuestionSelection()"><span>Start Round</span></button>
-                        </div>
+                </div>
+                
+                <div class="splice-collage-hero">
+                    <!-- Giant Anton Display Title -->
+                    <h1 class="splice-headline">SPLICE</h1>
+                    
+                    <!-- Overlapping Photo Block 1 (Glitch fill, rotated 6deg) -->
+                    <div class="collage-photo photo-1">
+                        <div class="glitch-fill"></div>
+                        <div class="photo-caption">SIGNAL FESTIVAL 2026</div>
+                    </div>
+                    
+                    <!-- Overlapping Photo Block 2 (glitch fill 2, rotated -9deg) -->
+                    <div class="collage-photo photo-2">
+                        <div class="glitch-fill-2"></div>
+                    </div>
+                    
+                    <!-- Circular Sticker -->
+                    <div class="collage-sticker">
+                        <span>FUN ROUND</span>
+                    </div>
+                    
+                    <!-- Back Ticket Stub Card (rotated 3deg) -->
+                    <div class="collage-ticket-stub ticket-back">
+                        <div class="ticket-header">EXIT PROTOCOL</div>
+                        <div class="ticket-title">ABORT</div>
+                        <button class="splice-back-btn" onclick="goBackToQuizSelectionFromRules()">BACK TO ROUNDS</button>
+                        <div class="ticket-serial">#0094-EXIT</div>
+                    </div>
+                    
+                    <!-- Ticket Stub Card (rotated -4deg, contains Start button) -->
+                    <div class="collage-ticket-stub ticket-start">
+                        <div class="ticket-header">ADMIT ONE</div>
+                        <div class="ticket-title">ROUND 04</div>
+                        <div class="ticket-sub">GAME SHOW PROTOCOL</div>
+                        <button class="splice-start-btn" onclick="proceedToQuestionSelection()">START ROUND</button>
+                        <div class="ticket-serial">#0094-LOST</div>
+                    </div>
+                </div>
+                
+                <!-- Info Strip (3-column flat background, raised center column) -->
+                <div class="splice-info-strip">
+                    <div class="info-col col-ink">
+                        <div class="col-tag">CATEGORY A</div>
+                        <div class="col-text">GUESS THE MOVIE</div>
+                    </div>
+                    <div class="info-col col-acid col-raised">
+                        <div class="col-tag">CATEGORY B</div>
+                        <div class="col-text">GUESS THE SONG</div>
+                    </div>
+                    <div class="info-col col-hotpink">
+                        <div class="col-tag">CATEGORY C</div>
+                        <div class="col-text">DIALOGUES</div>
+                    </div>
+                </div>
+                
+                <!-- Lineup Rules List Container -->
+                <div class="splice-lineup-container">
+                    <h2 class="lineup-title">OFFICIAL LINEUP / RULES</h2>
+                    <ul id="splice-rules-list" class="splice-lineup-list">
+                        <!-- Populated by script.js -->
+                    </ul>
+                </div>
+                
+                <!-- Footer Banner -->
+                <div class="splice-footer">
+                    <h2 class="footer-title">THE SIGNAL IS <span class="highlight-acid">BROKEN</span></h2>
+                </div>
+                
+                <!-- Bottom Marquee Ticker Band -->
+                <div class="splice-marquee bottom-marquee">
+                    <div class="marquee-content">
+                        <span>SYSTEM CRITICAL // ENTER PROTOCOL // BACK TO MAIN // PLAY ROUND // SYSTEM CRITICAL // ENTER PROTOCOL // BACK TO MAIN // PLAY ROUND</span>
                     </div>
                 </div>
             </div>
@@ -311,11 +435,11 @@
         <section id="screen-debate-round" class="screen hidden">
             <div class="header-action">
                 <button class="btn-back" onclick="goBackToQuizSelectionFromDebate()">&#8592; Back</button>
-                <h2 class="glow-text">Debate & JAM Topics</h2>
+                <h2 class="glow-text">Debate, JAM & TASF Topics</h2>
             </div>
             
-            <div id="debate-topics-container" class="debate-topics-grid">
-                <!-- Topics will be injected here -->
+            <div class="topics-paper-grid" id="debate-split-grid">
+                <!-- Dynamically populated in script.js -->
             </div>
         </section>
 
@@ -339,10 +463,7 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/ogl/dist/ogl.umd.js"></script>
-    <script src="faulty-terminal.js"></script>
-    <script src="dotfield.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=8"></script>
 </body>
 
 </html>

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize FaultyTerminal background for Technical Quiz
     const container = document.getElementById('technical-bg-container');
-    if (container) {
+    if (container && typeof FaultyTerminal !== 'undefined') {
         new FaultyTerminal(container, {
             scale: 1.5,
             gridMul: [8, 4],
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize DotField background for Aptitude Test (Round 1)
     const aptContainer = document.getElementById('aptitude-bg-container');
-    if (aptContainer) {
+    if (aptContainer && typeof DotField !== 'undefined') {
         new DotField(aptContainer, {
             dotRadius: 3.5,
             dotSpacing: 18,
@@ -78,12 +78,13 @@ const STATE = {
 const ROUND_NAMES = {
     1: "Aptitude Test",
     2: "Technical Quiz",
-    3: "Debate/JAM",
+    3: "Debate/JAM/TASF",
     4: "Fun Round"
 };
 
 function hideAllBackgrounds() {
     document.body.classList.remove('lobby-active', 'round-1-active', 'round-2-active', 'round-3-active', 'round-4-active');
+    document.body.classList.remove('morph-preview-1', 'morph-preview-2', 'morph-preview-3', 'morph-preview-4');
     updateWatermark(null);
 }
 
@@ -109,7 +110,7 @@ const RULES_DATA = {
         "Any disturbance or misbehavior will lead to loss of marks."
     ],
     3: [
-        "1. This round contains JAM(JUST A MIN) and DEBATE.",
+        "1. This round contains JAM (JUST A MIN), DEBATE and TEACH A SKILL FLASH (TASF).",
         "2. A total of 5 topics are provided in this round.",
         "3. Team leader will draw their topic number from a box provided by our team.",
         "4. You are given a 5 mins time slot to browser the content.",
@@ -143,10 +144,11 @@ for (let r = 1; r <= 4; r++) {
 
 // Debate/JAM (Round 3) - Real Questions
 QUIZ_DATA[3] = [
-    { id: 1, type: "Debate", topic: "1. Should Women be Allowed to Compete Against Men in sports" },
-    { id: 2, type: "Debate", topic: "2. Pan-India Films Vs Telugu Regional Films" },
-    { id: 3, type: "Debate", topic: "3. Mughal ruling Vs British ruling" },
-    { id: 4, type: "JAM", topic: "4. Does playing video games benefit learning?" },
+    { id: 1, type: "Debate", topic: "1. Pan-India Films Vs Telugu Regional Films" },
+    { id: 2, type: "Debate", topic: "2. Mughal ruling Vs British ruling" },
+    { id: 3, type: "JAM", topic: "3. Does playing video games benefit learning?" },
+    { id: 4, type: "Teach a skill flash", topic: "4. How can a strong, memorable password be created?" },
+    { id: 5, type: "Teach a skill flash", topic: "5. Keyboard shortcuts most people don't know" },
 ];
 
 // Aptitude Test (Round 1) - Real Questions
@@ -605,21 +607,36 @@ function openRules(roundId) {
 
     // Populate rules list
     const rulesList = document.getElementById('rules-list');
-    rulesList.innerHTML = '';
+    if (rulesList) {
+        rulesList.innerHTML = '';
+    }
+    const spliceRulesList = document.getElementById('splice-rules-list');
+    if (spliceRulesList) {
+        spliceRulesList.innerHTML = '';
+    }
+
     const rules = RULES_DATA[roundId] || ["General rules apply.", "+10 points for correct answer.", "1 minute timer."];
     rules.forEach((rule, idx) => {
-        const li = document.createElement('li');
-        li.className = `rule-item rule-item-r${roundId}`;
         const numStr = String(idx + 1).padStart(2, '0');
-        li.setAttribute('data-num', numStr);
-        if (STATE.currentRound === 2) {
-            li.innerHTML = `<span class="term-prefix">&gt; [RULE_${numStr}]</span> <span class="term-text">${rule}</span>`;
-        } else if (STATE.currentRound === 1) {
-            li.innerHTML = `<span class="edit-num">${numStr}.</span> <span class="rule-text-content">${rule}</span>`;
-        } else {
-            li.innerHTML = `<span class="rule-text-content">${rule}</span>`;
+        
+        if (STATE.currentRound === 4 && spliceRulesList) {
+            const li = document.createElement('li');
+            li.className = 'splice-lineup-row';
+            li.innerHTML = `<span class="row-num">${numStr} //</span> <span class="row-text">${rule}</span>`;
+            spliceRulesList.appendChild(li);
+        } else if (rulesList) {
+            const li = document.createElement('li');
+            li.className = `rule-item rule-item-r${roundId}`;
+            li.setAttribute('data-num', numStr);
+            if (STATE.currentRound === 2) {
+                li.innerHTML = `<span class="term-prefix">&gt; [RULE_${numStr}]</span> <span class="term-text">${rule}</span>`;
+            } else if (STATE.currentRound === 1) {
+                li.innerHTML = `<span class="edit-num">${numStr}.</span> <span class="rule-text-content">${rule}</span>`;
+            } else {
+                li.innerHTML = `<span class="rule-text-content">${rule}</span>`;
+            }
+            rulesList.appendChild(li);
         }
-        rulesList.appendChild(li);
     });
 
     // Switch UI
@@ -651,6 +668,7 @@ function proceedToQuestionSelection() {
 function goBackToQuizSelectionFromRules() {
     showScreen(screenQuizSelection);
     document.body.classList.add('lobby-active');
+    activateMorphRound(selectedMorphRound);
 }
 
 function renderQuestionGrid(roundId) {
@@ -1097,16 +1115,18 @@ function showResultOverlay(type, teamIndex, points = 10) {
 
     if (type === 'correct') {
         const pointsBadgeHTML = `<span class="points-highlight-badge points-win">+${points} Points</span>`;
+        const titleText = isRound1 ? "Correct!" : `Correct! ${correctEmoji}`;
         h2.innerHTML = `
-            <span class="overlay-title correct-title">Correct! ${correctEmoji}</span>
+            <span class="overlay-title correct-title">${titleText}</span>
             <div class="overlay-highlight-row">
                 ${pointsBadgeHTML} <span>awarded to</span> ${teamBadgeHTML}
             </div>
         `;
     } else if (type === 'timeup') {
         const zeroPointsBadgeHTML = `<span class="points-highlight-badge points-zero">0 Points</span>`;
+        const titleText = isRound1 ? "Time's Up!" : `${timeoutEmoji} Time's Up!`;
         h2.innerHTML = `
-            <span class="overlay-title timeout-title">${timeoutEmoji} Time's Up!</span>
+            <span class="overlay-title timeout-title">${titleText}</span>
             <div class="overlay-highlight-row">
                 ${teamBadgeHTML} <span>gets</span> ${zeroPointsBadgeHTML}
             </div>
@@ -1345,18 +1365,57 @@ function revealAnswer() {
 }
 
 function showDebateRoundView() {
-    const container = document.getElementById('debate-topics-container');
-    container.innerHTML = '';
-
-    QUIZ_DATA[3].forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'glass-card topic-card';
-        card.innerHTML = `
-            <div class="topic-header">${item.type}</div>
-            <div class="topic-body">${item.topic}</div>
+    const parentGrid = document.getElementById('debate-split-grid');
+    if (!parentGrid) return;
+    
+    let leftColHtml = '';
+    let rightColHtml = '';
+    
+    QUIZ_DATA[3].forEach((item, idx) => {
+        const cardId = `pane-${idx + 1}`;
+        const topicHeading = `${item.type.toUpperCase()} TOPIC #${idx + 1}`;
+        const topicText = item.topic.replace(/^\d+\.\s*/, '');
+        
+        let guidelinesHtml = '';
+        if (item.type.toLowerCase().includes("teach a skill")) {
+            const guidelines = [
+                "Explain the skill clearly in 1 minute",
+                "Use simple, easy-to-follow steps",
+                "Focus on memorability and key takeaways"
+            ];
+            const listItems = guidelines.map(g => `<li>${g}</li>`).join('');
+            guidelinesHtml = `
+                <h4 class="guidelines-title">Guidelines</h4>
+                <ul class="guidelines-list">
+                    ${listItems}
+                </ul>
+            `;
+        }
+        
+        const cardHtml = `
+            <div class="topic-paper-card" id="${cardId}" style="margin-bottom: 0.8rem;">
+                <div id="${cardId}-content">
+                    <h3 class="topic-title">${topicHeading}</h3>
+                    <div class="topic-meta">${item.type.toUpperCase()}</div>
+                    <div class="topic-quote">
+                        <p>"${topicText}"</p>
+                    </div>
+                    ${guidelinesHtml}
+                </div>
+            </div>
         `;
-        container.appendChild(card);
+        
+        if (idx % 2 === 0) {
+            leftColHtml += cardHtml;
+        } else {
+            rightColHtml += cardHtml;
+        }
     });
+    
+    parentGrid.innerHTML = `
+        <div class="topics-column">${leftColHtml}</div>
+        <div class="topics-column">${rightColHtml}</div>
+    `;
 
     showScreen(document.getElementById('screen-debate-round'));
 }
@@ -1365,11 +1424,12 @@ function goBackToQuizSelectionFromDebate() {
     hideAllBackgrounds();
     document.body.classList.add('lobby-active');
     showScreen(screenQuizSelection);
+    activateMorphRound(selectedMorphRound);
 }
 
 // Carousel Logic removed
 
-// Quick helper animation for CSS
+// Quick helper animation and dynamic styles injection for CSS overrides
 const styleSheet = document.createElement("style");
 styleSheet.innerText = `
   @keyframes pulse {
@@ -1377,12 +1437,87 @@ styleSheet.innerText = `
     50% { transform: scale(1.05); text-shadow: 0 0 20px #ff4757; }
     100% { transform: scale(1); }
   }
+  
+  body.round-3-active #scoreboard:not(.horizontal-layout) {
+      width: 108px !important;
+  }
+  body.round-3-active .scoreboard-toolbar {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.4rem !important;
+      width: 100% !important;
+      padding: 0.4rem 0.2rem !important;
+      border-bottom: 1.5px solid var(--ink-soft) !important;
+      background: transparent !important;
+  }
+  body.round-3-active .scoreboard-drag-handle {
+      flex: none !important;
+      width: 24px !important;
+      height: 24px !important;
+      color: var(--ink) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: 1px solid var(--ink) !important;
+      cursor: grab !important;
+  }
+  body.round-3-active .scoreboard-drag-handle svg {
+      display: block !important;
+      width: 12px !important;
+      height: 12px !important;
+      fill: var(--ink) !important;
+  }
+  body.round-3-active .sb-tool-btn {
+      flex: none !important;
+      width: 24px !important;
+      height: 24px !important;
+      border: 1px solid var(--ink) !important;
+      background-color: transparent !important;
+      color: var(--ink) !important;
+      border-radius: 0px !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: background-color 0.2s ease !important;
+  }
+  body.round-3-active .sb-tool-btn:hover {
+      background-color: var(--ink) !important;
+      color: var(--paper) !important;
+  }
+  body.round-3-active .sb-tool-btn svg {
+      display: block !important;
+      width: 12px !important;
+      height: 12px !important;
+      stroke: var(--ink) !important;
+      stroke-width: 2.5px !important;
+      fill: none !important;
+  }
+  body.round-3-active .sb-tool-btn:hover svg {
+      stroke: var(--paper) !important;
+  }
+  body.round-3-active #sb-orient-btn::before,
+  body.round-3-active #sb-reset-btn::before {
+      display: none !important;
+      content: "" !important;
+  }
 `;
+document.head.appendChild(styleSheet);
+
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('lobby-active');
     initInteractiveCanvas();
     initDraggableScoreboard();
     loadScores();
+    setTimeout(() => {
+        activateMorphRound(1);
+    }, 100);
 });
 
 // Watermark and Dynamic Cursor Tracking Helpers
@@ -1584,4 +1719,52 @@ function toggleScoreboardOrientation() {
     if (!scoreboard) return;
 
     scoreboard.classList.toggle('horizontal-layout');
+}
+
+// Screen-Morphing Console selector functions
+let selectedMorphRound = 1;
+
+function activateMorphRound(roundId) {
+    selectedMorphRound = roundId;
+    
+    const container = document.getElementById('screen-quiz-selection');
+    const items = document.querySelectorAll('.morph-menu-item');
+    const launchBtn = document.getElementById('morph-launch-btn');
+    
+    if (!container) return;
+    
+    // Clear and set morph preview classes on document.body
+    document.body.classList.remove('morph-preview-1', 'morph-preview-2', 'morph-preview-3', 'morph-preview-4');
+    document.body.classList.add(`morph-preview-${roundId}`);
+
+    // Update container classes
+    container.className = 'screen active'; // reset
+    container.classList.add(`morph-preview-${roundId}`);
+    
+    // Highlight the selected menu item
+    items.forEach(item => {
+        const itemRound = parseInt(item.getAttribute('data-quiz'));
+        if (itemRound === roundId) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+
+    // Update the big launcher button CTA styling details dynamically
+    if (launchBtn) {
+        if (roundId === 1) {
+            launchBtn.innerText = "LAUNCH APTITUDE TEST";
+        } else if (roundId === 2) {
+            launchBtn.innerText = "BOOT SYSTEM / START";
+        } else if (roundId === 3) {
+            launchBtn.innerText = "ENTER DEBATE ARENA";
+        } else if (roundId === 4) {
+            launchBtn.innerText = "START THE CHAOS (FUN ROUND)";
+        }
+    }
+}
+
+function launchMorphRound() {
+    openRules(selectedMorphRound);
 }
