@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fonts: Montserrat (Aptitude), Share Tech Mono (Tech), Bangers (Debate), Fredoka (Fun) -->
+    <!-- Sheriff Redesign Fonts: Rye (Western display), Special Elite (Typewriter), Stardos Stencil (Embassy/Stencil), Arvo & Courier Prime (Serifs) -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&family=Rye&family=Special+Elite&family=Stardos+Stencil:wght@700&family=Arvo:wght@400;700&family=Courier+Prime:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -190,7 +191,7 @@
                             <!-- Rules injected here -->
                         </ul>
                         <div class="rules-action-bar">
-                            <button class="primary-btn start-round-btn" onclick="proceedToQuestionSelection()">Start Round</button>
+                            <button class="primary-btn start-round-btn" onclick="proceedToQuestionSelection()"><span>Start Round</span></button>
                         </div>
                     </div>
                 </div>
@@ -270,8 +271,8 @@
                 
                 <div class="question-action-bar hidden">
                     <button id="show-options-btn" class="hidden" onclick="revealOptions()">Show Options</button>
-                    <button id="next-part-btn" class="hidden primary-btn" onclick="showNextPart()">Next Part</button>
-                    <button id="reveal-answer-btn" class="hidden primary-btn" onclick="revealAnswer()" style="font-size: 1.2rem; padding: 1rem 3rem;">Reveal Answer</button>
+                    <button id="next-part-btn" class="hidden primary-btn" onclick="showNextPart()"><span>Next Part</span></button>
+                    <button id="reveal-answer-btn" class="hidden primary-btn" onclick="revealAnswer()" style="font-size: 1.2rem; padding: 1rem 3rem;"><span>Reveal Answer</span></button>
                 </div>
 
                 <div class="options-grid" id="options-grid">

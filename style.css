@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap');
+
 /* ==========================================
    GLOBAL DESIGN VARIABLES & TRANSITIONS
    ========================================== */
@@ -62,8 +64,8 @@ body {
     flex-direction: column;
     align-items: center;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transform: translateY(12px);
+    transition: opacity 0.22s ease-in-out, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .screen.active {
@@ -2560,12 +2562,20 @@ header#scoreboard a {
 }
 
 .control-btn {
+    min-width: 80px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 0.5rem;
     background: rgba(255, 255, 255, 0.04);
     color: #fff;
     border: 1px solid var(--border-lobby);
     font-weight: bold;
     cursor: pointer;
     transition: all var(--transition-fast);
+    border-radius: 4px;
 }
 
 .control-btn:hover {
@@ -2617,10 +2627,18 @@ header#scoreboard a {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    
+    /* Appear/Disappear transitions */
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, backdrop-filter 0.3s ease !important;
 }
 
 .overlay.hidden {
-    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    backdrop-filter: blur(0px) !important;
+    display: flex !important; /* Keep display: flex so transition works */
 }
 
 .overlay-content {
@@ -2633,6 +2651,14 @@ header#scoreboard a {
     border-radius: 12px;
     max-width: 500px;
     width: 90%;
+    
+    /* Content transition */
+    transform: scale(1) rotate(0deg);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.8) rotate(-3deg) !important;
 }
 
 .overlay-content h2 {
@@ -2960,3 +2986,1757 @@ body.round-2-active.correct-bg {
     color: #ff4757;
     box-shadow: 0 4px 15px rgba(255, 71, 87, 0.25);
 }
+/* ==========================================================================
+   SHERIFF / LAWMAN SKEUOMORPHIC WESTERN REDESIGN (ROUND 1 ONLY)
+   ========================================================================== */
+
+:root {
+    --iron-black: #1C1C1C;
+    --tin-star-gold: #C0A868;
+    --deputy-green: #4A5D23;
+    --paper-cream: #EDE4D3;
+    --wax-seal-red: #8B0F0F;
+}
+
+/* Card 1 Western Style in Lobby */
+.quiz-btn.card-round-1 {
+    background-color: var(--paper-cream) !important;
+    background-image: 
+        radial-gradient(circle at center, rgba(237, 228, 211, 0.9) 70%, rgba(216, 203, 178, 0.97) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='1' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    color: var(--iron-black) !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.55) !important;
+    transform: rotate(-0.8deg);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s !important;
+}
+.quiz-btn.card-round-1::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 12px !important;
+    height: 12px !important;
+    background: linear-gradient(135deg, rgba(9, 9, 14, 0.95) 50%, transparent 50%) !important;
+    border-right: 1px solid var(--tin-star-gold) !important;
+    border-bottom: 1px solid var(--tin-star-gold) !important;
+    display: block !important;
+}
+.quiz-btn.card-round-1:hover {
+    transform: scale(1.05) rotate(0deg) translateY(-5px) !important;
+    border-color: var(--wax-seal-red) !important;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.7) !important;
+    z-index: 10;
+}
+.quiz-btn.card-round-1 .card-num {
+    color: var(--wax-seal-red) !important;
+    font-family: 'Special Elite', monospace !important;
+    font-size: 1.8rem !important;
+    font-weight: bold !important;
+    margin-bottom: 0.8rem !important;
+}
+.quiz-btn.card-round-1 .card-title {
+    color: var(--iron-black) !important;
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+}
+.quiz-btn.card-round-1 .card-desc {
+    color: #554433 !important;
+    font-family: 'Arvo', Georgia, serif !important;
+}
+.quiz-btn.card-round-1 .card-theme-preview {
+    background: var(--iron-black) !important;
+    border-top: 2px solid #555 !important;
+    border-left: 2px solid #444 !important;
+    border-right: 2px solid #111 !important;
+    border-bottom: 2px solid #000 !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.8) !important;
+}
+.quiz-btn.card-round-1 .card-theme-preview svg {
+    color: var(--tin-star-gold) !important;
+}
+.quiz-btn.card-round-1 .preview-tag {
+    color: var(--tin-star-gold) !important;
+    font-family: 'Special Elite', monospace !important;
+}
+
+/* Redesign for Round 1 Active Styles */
+body.round-1-active {
+    background-color: var(--iron-black) !important;
+    background-image: 
+        /* Vignette */
+        radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.95) 100%),
+        /* Stars */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 24 24' fill='%23C0A868' fill-opacity='0.035'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"),
+        /* Noise */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") !important;
+    background-attachment: fixed !important;
+    color: var(--paper-cream) !important;
+    font-family: 'Arvo', Georgia, serif !important;
+}
+
+/* Hide interactive Cyber WebGL/Dot canvases when Round 1 is active */
+body.round-1-active #bg-interactive,
+body.round-1-active #aptitude-bg-container,
+body.round-1-active #technical-bg-container,
+body.round-1-active .background-animation,
+body.round-1-active #cursor-glow {
+    display: none !important;
+}
+
+/* Scoreboard Western Overrides */
+body.round-1-active #scoreboard {
+    background-color: var(--iron-black) !important;
+    border-top: 2px solid #555 !important;
+    border-left: 2px solid #444 !important;
+    border-right: 2px solid #111 !important;
+    border-bottom: 2px solid #000 !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 8px 20px rgba(0,0,0,0.75) !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='1' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+}
+body.round-1-active #scoreboard .scoreboard-drag-handle {
+    color: var(--tin-star-gold) !important;
+}
+body.round-1-active #scoreboard .sb-tool-btn:hover {
+    color: var(--tin-star-gold) !important;
+}
+body.round-1-active #scoreboard .score-pill {
+    background: #111 !important;
+    border-top: 1px solid #000 !important;
+    border-bottom: 1px solid #333 !important;
+    padding: 6px 10px !important;
+    border-radius: 3px !important;
+    font-family: 'Special Elite', monospace !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8) !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+body.round-1-active #scoreboard .score-pill span:first-child {
+    color: var(--tin-star-gold) !important;
+}
+body.round-1-active #scoreboard .score-pill span:last-child {
+    color: var(--paper-cream) !important;
+    text-shadow: 0 0 2px rgba(237,228,211,0.2) !important;
+}
+
+/* Nav Round Button Overrides */
+body.round-1-active .nav-round-btn {
+    background-color: var(--iron-black) !important;
+    background-image: 
+        linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    border-radius: 4px !important;
+    color: var(--tin-star-gold) !important;
+    font-family: 'Rye', Georgia, serif !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6) !important;
+    text-shadow: 1px 1px 2px #000 !important;
+}
+body.round-1-active .nav-round-btn:hover {
+    background-color: var(--tin-star-gold) !important;
+    color: var(--iron-black) !important;
+    text-shadow: none !important;
+}
+
+/* Handcuff section divider */
+body.round-1-active .handcuff-divider,
+body.round-1-active hr {
+    border: none !important;
+    height: 24px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24' fill='none' stroke='%23C0A868' stroke-width='1.8'%3E%3Cellipse cx='15' cy='12' rx='8' ry='5' /%3E%3Cellipse cx='33' cy='12' rx='8' ry='5' /%3E%3Cpath d='M21 12h6' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    background-repeat: repeat-x !important;
+    background-position: center !important;
+    width: 100% !important;
+    margin: 2rem 0 !important;
+    opacity: 0.8 !important;
+    display: block !important;
+}
+
+/* General Headings in Round 1 */
+body.round-1-active h1.glow-text,
+body.round-1-active h2.glow-text {
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 2.8rem !important;
+    color: var(--tin-star-gold) !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(192, 168, 104, 0.2) !important;
+    letter-spacing: 2px !important;
+}
+
+/* Document panels (Aged paper cream official documents) */
+body.round-1-active .document-panel, 
+body.round-1-active .glass-card, 
+body.round-1-active .rules-card-container, 
+body.round-1-active .question-container {
+    background-color: var(--paper-cream) !important;
+    background-image: 
+        radial-gradient(circle at center, rgba(237, 228, 211, 0.9) 65%, rgba(216, 203, 178, 0.97) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.98' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    border-radius: 4px !important;
+    padding: 3rem 2.5rem !important;
+    color: var(--iron-black) !important;
+    box-shadow: 
+        inset 0 0 20px rgba(139, 115, 85, 0.2),
+        0 12px 30px rgba(0, 0, 0, 0.65) !important;
+    position: relative !important;
+    width: 100% !important;
+    transform: rotate(0.6deg) !important;
+}
+
+/* Tilted sibling documents */
+body.round-1-active .document-panel:nth-child(even), 
+body.round-1-active .glass-card:nth-child(even) {
+    transform: rotate(-0.5deg) !important;
+}
+
+/* Corner torn lift effect */
+body.round-1-active .document-panel::before, 
+body.round-1-active .glass-card::before, 
+body.round-1-active .rules-card-container::before, 
+body.round-1-active .question-container::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(28, 28, 28, 0.9) 50%, transparent 50%) !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
+    border-right: 1px solid var(--tin-star-gold) !important;
+    border-bottom: 1px solid var(--tin-star-gold) !important;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15) !important;
+    display: block !important;
+}
+
+/* Red Wax Seal Stamp */
+body.round-1-active .document-panel::after, 
+body.round-1-active .glass-card::after, 
+body.round-1-active .rules-card-container::after, 
+body.round-1-active .question-container::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -18px !important;
+    right: 35px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background-color: var(--wax-seal-red) !important;
+    border-radius: 48% 52% 47% 53% / 51% 49% 52% 48% !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A0A0A' opacity='0.75'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 55% !important;
+    transform: rotate(-10deg) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.65), inset 0 2px 3px rgba(255,255,255,0.25), inset 0 -4px 6px rgba(0,0,0,0.45) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    display: block !important;
+}
+
+/* Rules layout */
+body.round-1-active .rules-layout-wrapper {
+    display: flex !important;
+    gap: 2.5rem !important;
+    width: 100% !important;
+}
+body.round-1-active .rules-badge-panel {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 1.5rem 0 !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 2px double var(--tin-star-gold) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+}
+body.round-1-active .rules-badge-panel::before {
+    content: '\2605' !important;
+    font-size: 3.5rem !important;
+    color: var(--tin-star-gold) !important;
+    opacity: 0.95 !important;
+    position: relative !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+    z-index: 2 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2) !important;
+}
+body.round-1-active .rules-meta-tag {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 4px !important;
+    color: var(--iron-black) !important;
+    margin-bottom: 0.3rem !important;
+    font-weight: bold !important;
+    z-index: 2 !important;
+    opacity: 0.85 !important;
+}
+body.round-1-active #rules-subheading {
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 2rem !important;
+    color: var(--wax-seal-red) !important;
+    text-shadow: none !important;
+    z-index: 2 !important;
+    margin-top: 0.5rem !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+body.round-1-active .rules-content-panel {
+    position: relative !important;
+    flex: 1.8 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding-top: 1rem !important;
+}
+
+/* Distressed Approved rubber stamp */
+body.round-1-active .rules-content-panel::before {
+    content: "APPROVED\nJUL 1881\nSHERIFF" !important;
+    white-space: pre-wrap !important;
+    text-align: center !important;
+    position: absolute !important;
+    top: 30px !important;
+    right: 12% !important;
+    font-family: 'Special Elite', monospace !important;
+    font-size: 1.4rem !important;
+    line-height: 1.25 !important;
+    font-weight: bold !important;
+    color: rgba(139, 15, 15, 0.22) !important; /* faded ink */
+    border: 3px double rgba(139, 15, 15, 0.22) !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    transform: rotate(-15deg) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+}
+
+body.round-1-active .rules-list {
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.2rem !important;
+}
+body.round-1-active .rule-item {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.8rem 0 !important;
+    font-size: 1.1rem !important;
+    color: var(--iron-black) !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    border-bottom: 1px dashed rgba(28,28,28,0.12) !important;
+    border-radius: 0 !important;
+}
+body.round-1-active .rule-item::before {
+    content: none !important;
+}
+body.round-1-active .rule-item-r1 .edit-num {
+    font-family: 'Special Elite', monospace !important;
+    color: var(--wax-seal-red) !important;
+    font-weight: bold !important;
+    font-size: 1.15rem !important;
+    margin-right: 4px !important;
+}
+
+/* Star-Badge Primary CTA Buttons (Aptitude Round) */
+body.round-1-active .primary-btn, 
+body.round-1-active #reveal-answer-btn {
+    position: relative !important;
+    width: 130px !important;
+    height: 130px !important;
+    background: linear-gradient(135deg, #E0C888 0%, #C0A868 45%, #907838 100%) !important;
+    border: none !important;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)) !important;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.2), filter 0.15s !important;
+    margin: 5px !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+body.round-1-active .primary-btn::after, 
+body.round-1-active #reveal-answer-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 5px !important;
+    left: 5px !important;
+    width: calc(100% - 10px) !important;
+    height: calc(100% - 10px) !important;
+    background: linear-gradient(135deg, #242424 0%, #151515 100%) !important;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%) !important;
+    z-index: 1 !important;
+    display: block !important;
+}
+body.round-1-active .primary-btn span, 
+body.round-1-active #reveal-answer-btn span {
+    position: relative !important;
+    z-index: 2 !important;
+    color: var(--paper-cream) !important;
+    font-family: 'Rye', Georgia, serif !important;
+    font-weight: bold !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
+    max-width: 65px !important;
+    line-height: 1.25 !important;
+    display: block !important;
+}
+body.round-1-active .primary-btn:hover, 
+body.round-1-active #reveal-answer-btn:hover {
+    transform: scale(1.05) !important;
+    filter: drop-shadow(0 0 8px rgba(192, 168, 104, 0.65)) drop-shadow(0 6px 12px rgba(0,0,0,0.5)) !important;
+}
+body.round-1-active .primary-btn:active, 
+body.round-1-active #reveal-answer-btn:active {
+    transform: scale(0.96) !important;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7)) !important;
+}
+body.round-1-active .primary-btn:active::after, 
+body.round-1-active #reveal-answer-btn:active::after {
+    background: linear-gradient(135deg, #0f0f0f 0%, #050505 100%) !important;
+}
+
+/* Redesign Start Round Button: Round Red Ink Rubber Stamp (Round 1 Only) */
+body.round-1-active .start-round-btn {
+    position: relative !important;
+    width: 120px !important;
+    height: 120px !important;
+    clip-path: none !important;
+    filter: none !important;
+    margin: 15px !important;
+    box-shadow: none !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: transform 0.2s, background-color 0.2s, border-color 0.2s !important;
+    transform: rotate(-10deg) !important;
+    
+    background-color: rgba(139, 15, 15, 0.04) !important;
+    border: 4px double var(--wax-seal-red) !important;
+    color: var(--wax-seal-red) !important;
+}
+body.round-1-active .start-round-btn::after {
+    display: none !important;
+}
+body.round-1-active .start-round-btn span {
+    position: relative !important;
+    z-index: 2 !important;
+    color: var(--wax-seal-red) !important;
+    font-family: 'Special Elite', monospace !important;
+    font-weight: bold !important;
+    font-size: 1.15rem !important;
+    text-transform: uppercase !important;
+    text-shadow: none !important;
+    max-width: 90px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    display: block !important;
+    letter-spacing: 1px !important;
+}
+body.round-1-active .start-round-btn:hover {
+    transform: scale(1.06) rotate(-7deg) !important;
+    background-color: rgba(139, 15, 15, 0.12) !important;
+    border-color: #a81515 !important;
+}
+body.round-1-active .start-round-btn:hover span {
+    color: #a81515 !important;
+}
+body.round-1-active .start-round-btn:active {
+    transform: scale(0.96) rotate(-12deg) !important;
+    background-color: rgba(139, 15, 15, 0.2) !important;
+}
+
+/* Secondary green buttons (Riveted) */
+body.round-1-active .btn-back, 
+body.round-1-active .control-btn, 
+body.round-1-active #show-options-btn, 
+body.round-1-active #next-part-btn {
+    background-color: var(--deputy-green) !important;
+    background-image: 
+        radial-gradient(circle 2px at 6px 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at 6px calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    border-radius: 5px !important;
+    color: var(--paper-cream) !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    font-weight: bold !important;
+    font-size: 0.95rem !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    padding: 10px 22px !important;
+}
+body.round-1-active .btn-back:hover, 
+body.round-1-active .control-btn:hover, 
+body.round-1-active #show-options-btn:hover, 
+body.round-1-active #next-part-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    background-color: #556c2a !important;
+}
+body.round-1-active .btn-back:active, 
+body.round-1-active .control-btn:active, 
+body.round-1-active #show-options-btn:active, 
+body.round-1-active #next-part-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* Question Selection Team Selector in Round 1 */
+body.round-1-active .team-selector-container {
+    padding: 1.5rem !important;
+    background-color: var(--iron-black) !important;
+    border-top: 2px solid #555 !important;
+    border-left: 2px solid #444 !important;
+    border-right: 2px solid #111 !important;
+    border-bottom: 2px solid #000 !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.65) !important;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+    border-radius: 4px !important;
+}
+body.round-1-active .team-select-heading {
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 1.15rem !important;
+    color: var(--tin-star-gold) !important;
+    text-shadow: 1px 1px 2px #000 !important;
+}
+body.round-1-active .team-select-btn {
+    background-color: #121212 !important;
+    border: 1px solid #333 !important;
+    color: #aaa !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.8) !important;
+}
+body.round-1-active .team-select-btn .team-badge-icon {
+    background-color: #333 !important;
+    color: #999 !important;
+    font-family: 'Special Elite', monospace !important;
+}
+body.round-1-active .team-select-btn:hover {
+    color: var(--paper-cream) !important;
+    border-color: #555 !important;
+}
+body.round-1-active .team-select-btn.selected {
+    background-color: var(--deputy-green) !important;
+    border-color: var(--tin-star-gold) !important;
+    color: var(--paper-cream) !important;
+    box-shadow: 0 0 8px rgba(192, 168, 104, 0.45) !important;
+}
+body.round-1-active .team-select-btn.selected .team-badge-icon {
+    background-color: var(--tin-star-gold) !important;
+    color: var(--iron-black) !important;
+}
+
+/* Question Selection Buttons Grid in Round 1 */
+body.round-1-active .q-grid-btn {
+    background-color: var(--iron-black) !important;
+    border-top: 2px solid #555 !important;
+    border-left: 2px solid #444 !important;
+    border-right: 2px solid #111 !important;
+    border-bottom: 2px solid #000 !important;
+    border-radius: 4px !important;
+    color: var(--tin-star-gold) !important;
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 1.3rem !important;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.65) !important;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+}
+body.round-1-active .q-grid-btn:hover {
+    transform: translateY(-3px) scale(1.03) !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.75), 0 0 8px rgba(192, 168, 104, 0.35) !important;
+    background-color: #262626 !important;
+    color: var(--paper-cream) !important;
+}
+body.round-1-active .q-grid-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
+}
+body.round-1-active .q-grid-btn.answered {
+    background-color: var(--deputy-green) !important;
+    color: rgba(237,228,211,0.55) !important;
+    border-top-color: #6b8433 !important;
+    border-left-color: #5d742d !important;
+    border-right-color: #334018 !important;
+    border-bottom-color: #232c10 !important;
+    opacity: 0.7 !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5) !important;
+}
+
+/* Active Question screen overrides */
+body.round-1-active .timer-display {
+    font-family: 'Special Elite', monospace !important;
+    background-color: var(--iron-black) !important;
+    color: var(--wax-seal-red) !important;
+    border: 2px solid var(--tin-star-gold) !important;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.85), 0 4px 6px rgba(0,0,0,0.3) !important;
+    font-size: 1.6rem !important;
+}
+body.round-1-active .terminal-window-bar {
+    background: var(--iron-black) !important;
+    border-bottom: 2px solid var(--tin-star-gold) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25) !important;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+}
+body.round-1-active .terminal-tab-title {
+    font-family: 'Special Elite', monospace !important;
+    color: var(--tin-star-gold) !important;
+}
+body.round-1-active #question-text {
+    font-family: 'Arvo', Georgia, serif !important;
+    color: var(--iron-black) !important;
+}
+body.round-1-active #question-text.code-font {
+    font-family: 'Special Elite', monospace !important;
+    background-color: rgba(28, 28, 28, 0.04) !important;
+    border-left: 4px solid var(--tin-star-gold) !important;
+}
+
+/* Option selection buttons inside the paper panel (Round 1) */
+body.round-1-active .option-btn {
+    background-color: var(--deputy-green) !important;
+    background-image: 
+        radial-gradient(circle 2px at 6px 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at 6px calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    border-radius: 5px !important;
+    color: var(--paper-cream) !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    font-weight: bold !important;
+    font-size: 1.05rem !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    padding: 18px 24px !important;
+}
+body.round-1-active .option-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    background-color: #556c2a !important;
+}
+body.round-1-active .option-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* Correct Answer Highlights (Round 1: Deputy Green Plate) */
+body.round-1-active .option-btn[style*="var(--success)"] {
+    background-color: var(--deputy-green) !important;
+    background-image: 
+        radial-gradient(circle 2px at 6px 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at 6px calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 2px solid var(--tin-star-gold) !important;
+    color: var(--paper-cream) !important;
+    box-shadow: 0 0 15px rgba(74, 93, 35, 0.4), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+}
+
+/* Wrong Selected Answer Highlights (Round 1: Wax Seal Red Plate) */
+body.round-1-active .option-btn[style*="var(--accent)"] {
+    background-color: var(--wax-seal-red) !important;
+    background-image: 
+        radial-gradient(circle 2px at 6px 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at 6px calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 2px solid var(--tin-star-gold) !important;
+    color: var(--paper-cream) !important;
+    box-shadow: 0 0 15px rgba(139, 15, 15, 0.5), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+}
+
+/* Danger / Close button wax seal styling */
+body.round-1-active .close-btn, 
+body.round-1-active .danger-btn {
+    background-color: var(--wax-seal-red) !important;
+    border-radius: 46% 54% 48% 52% / 53% 47% 53% 47% !important;
+    border: 1px solid #5A0A0A !important;
+    color: var(--paper-cream) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.55), inset 0 2px 3px rgba(255,255,255,0.25), inset 0 -3px 6px rgba(0,0,0,0.4) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A0A0A' opacity='0.55'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 55% !important;
+}
+body.round-1-active .close-btn:hover, 
+body.round-1-active .danger-btn:hover {
+    transform: scale(1.04) rotate(2deg) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.65), inset 0 2px 3px rgba(255,255,255,0.3) !important;
+    background-color: #9d1515 !important;
+}
+body.round-1-active .close-btn:active, 
+body.round-1-active .danger-btn:active {
+    transform: scale(0.97) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6) !important;
+}
+
+/* Results Overlay titles and highlights (Round 1) */
+body.round-1-active .overlay {
+    backdrop-filter: blur(1.5px) !important;
+}
+body.round-1-active .overlay-title {
+    font-family: 'Rye', Georgia, serif !important;
+    text-shadow: none !important; /* Remove neon glowing shadows */
+}
+body.round-1-active .correct-title { color: var(--deputy-green) !important; }
+body.round-1-active .timeout-title { color: var(--tin-star-gold) !important; }
+body.round-1-active .wrong-title { color: var(--wax-seal-red) !important; }
+
+body.round-1-active .overlay-highlight-row {
+    color: var(--iron-black) !important; /* Fix white text on paper-cream background */
+    font-family: 'Arvo', Georgia, serif !important;
+}
+body.round-1-active .team-highlight-badge {
+    background: var(--iron-black) !important;
+    color: var(--paper-cream) !important;
+    font-family: 'Special Elite', monospace !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
+}
+body.round-1-active .team-highlight-badge svg {
+    color: var(--tin-star-gold) !important;
+}
+body.round-1-active .points-highlight-badge {
+    font-family: 'Special Elite', monospace !important;
+}
+body.round-1-active .points-win {
+    background-color: var(--deputy-green) !important;
+    color: var(--paper-cream) !important;
+}
+body.round-1-active .points-zero {
+    background-color: var(--wax-seal-red) !important;
+    color: var(--paper-cream) !important;
+}
+
+/* Explanation screen (Round 1) */
+body.round-1-active #exp-question-text {
+    font-family: 'Rye', Georgia, serif !important;
+    color: var(--wax-seal-red) !important;
+}
+body.round-1-active #exp-text {
+    font-family: 'Arvo', Georgia, serif !important;
+    color: var(--iron-black) !important;
+    background-color: rgba(28,28,28,0.03) !important;
+    border-left: 4px solid var(--deputy-green) !important;
+}
+
+/* Correct/Incorrect body pulse animations for Round 1 */
+body.round-1-active.correct-bg {
+    animation: successPulseR1 1.2s ease-out !important;
+}
+body.round-1-active.incorrect-bg {
+    animation: dangerPulseR1 1.2s ease-out !important;
+}
+@keyframes successPulseR1 {
+    0% { background-color: var(--iron-black); }
+    15% { background-color: rgba(74, 93, 35, 0.45); }
+    100% { background-color: var(--iron-black); }
+}
+@keyframes dangerPulseR1 {
+    0% { background-color: var(--iron-black); }
+    15% { background-color: rgba(139, 15, 15, 0.45); }
+    100% { background-color: var(--iron-black); }
+}
+
+/* Results Overlay Redesign (Round 1 Only) */
+body.round-1-active .overlay-content {
+    background-color: var(--paper-cream) !important;
+    background-image: 
+        radial-gradient(circle at center, rgba(237, 228, 211, 0.9) 65%, rgba(216, 203, 178, 0.97) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' /%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+    border: 2px solid var(--tin-star-gold) !important;
+    border-radius: 4px !important;
+    color: var(--iron-black) !important;
+    box-shadow: 
+        inset 0 0 20px rgba(139, 115, 85, 0.25),
+        0 15px 35px rgba(0,0,0,0.85) !important;
+    transform: rotate(0.4deg) !important;
+    position: relative !important;
+    padding: 3rem 2.5rem !important;
+}
+
+/* Overlay Torn Corner Lift Effect */
+body.round-1-active .overlay-content::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.9) 0%, rgba(28, 28, 28, 0.9) 50%, transparent 50%) !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
+    border-right: 1px solid var(--tin-star-gold) !important;
+    border-bottom: 1px solid var(--tin-star-gold) !important;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15) !important;
+    display: block !important;
+}
+
+/* Overlay Red Wax Seal Stamp */
+body.round-1-active .overlay-content::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -15px !important;
+    right: 25px !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-color: var(--wax-seal-red) !important;
+    border-radius: 48% 52% 47% 53% / 51% 49% 52% 48% !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A0A0A' opacity='0.75'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 55% !important;
+    transform: rotate(-10deg) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.65), inset 0 2px 3px rgba(255,255,255,0.25), inset 0 -4px 6px rgba(0,0,0,0.45) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    display: block !important;
+}
+
+/* Reset Star Badge Button Styles for Overlay Buttons */
+body.round-1-active .overlay-content .primary-btn {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    clip-path: none !important;
+    filter: none !important;
+    margin: 5px !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    font-weight: bold !important;
+    font-size: 0.95rem !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+}
+body.round-1-active .overlay-content .primary-btn::after {
+    display: none !important;
+}
+
+/* Close Button in Overlay: Red Wax Seal Style */
+body.round-1-active .overlay-content .primary-btn:first-child {
+    background-color: var(--wax-seal-red) !important;
+    border-radius: 46% 54% 48% 52% / 53% 47% 53% 47% !important;
+    border: 1px solid #5A0A0A !important;
+    color: var(--paper-cream) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.55), inset 0 2px 3px rgba(255,255,255,0.25), inset 0 -3px 6px rgba(0,0,0,0.4) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A0A0A' opacity='0.55'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 40% !important;
+    padding: 10px 24px !important;
+}
+body.round-1-active .overlay-content .primary-btn:first-child:hover {
+    transform: scale(1.04) rotate(2deg) !important;
+    background-color: #9d1515 !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.65), inset 0 2px 3px rgba(255,255,255,0.3) !important;
+}
+body.round-1-active .overlay-content .primary-btn:first-child:active {
+    transform: scale(0.97) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6) !important;
+}
+
+/* View Explanation Button in Overlay: Green Riveted Plate Style */
+body.round-1-active .overlay-content .primary-btn:last-child {
+    background-color: var(--deputy-green) !important;
+    background-image: 
+        radial-gradient(circle 2px at 6px 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) 6px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at 6px calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 2px at calc(100% - 6px) calc(100% - 6px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    border-radius: 5px !important;
+    color: var(--paper-cream) !important;
+    padding: 10px 24px !important;
+}
+body.round-1-active .overlay-content .primary-btn:last-child:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    background-color: #556c2a !important;
+}
+body.round-1-active .overlay-content .primary-btn:last-child:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* Reset Star Badge style for small header buttons (View Explanation in active question header) */
+body.round-1-active .primary-btn.small-btn {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    clip-path: none !important;
+    filter: none !important;
+    margin: 0 !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    padding: 8px 18px !important;
+    border-radius: 4px !important;
+    font-family: 'Arvo', Georgia, serif !important;
+    font-weight: bold !important;
+    font-size: 0.85rem !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    
+    background-color: var(--deputy-green) !important;
+    background-image: 
+        radial-gradient(circle 1.5px at 4px 4px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 1.5px at calc(100% - 4px) 4px, var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 1.5px at 4px calc(100% - 4px), var(--tin-star-gold) 100%, transparent 100%),
+        radial-gradient(circle 1.5px at calc(100% - 4px) calc(100% - 4px), var(--tin-star-gold) 100%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%) !important;
+    border: 1px solid var(--tin-star-gold) !important;
+    color: var(--paper-cream) !important;
+}
+body.round-1-active .primary-btn.small-btn::after {
+    display: none !important;
+}
+body.round-1-active .primary-btn.small-btn:hover {
+    transform: translateY(-2.5px) !important;
+    background-color: #556c2a !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+body.round-1-active .primary-btn.small-btn:active {
+    transform: translateY(0.5px) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+}
+
+/* Active Team Watermark Redesign (Round 1: Gold Embossed Rye Font) */
+body.round-1-active #bg-watermark {
+    font-family: 'Rye', Georgia, serif !important;
+    font-size: 3.6rem !important;
+    top: 1rem !important;
+    left: 8.5rem !important;
+    color: var(--tin-star-gold) !important;
+    -webkit-text-fill-color: var(--tin-star-gold) !important;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.55) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+    line-height: 1 !important;
+    letter-spacing: 2px !important;
+}
+
+/* Equal Sizing overrides for Round 1 timer buttons */
+body.round-1-active .timer-controls .control-btn {
+    min-width: 85px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 0 !important;
+}
+
+/* ==========================================
+   ROUND 2: NEUMORPHIC LUXURY MONOCHROME IDE
+   ========================================== */
+
+/* Hide canvases and interactive backgrounds */
+body.round-2-active #bg-interactive,
+body.round-2-active #aptitude-bg-container,
+body.round-2-active #technical-bg-container,
+body.round-2-active .background-animation,
+body.round-2-active #cursor-glow,
+body.round-2-active .terminal-window-bar::after,
+body.round-2-active .scanlines,
+body.round-2-active .crt::after {
+    display: none !important;
+}
+
+body.round-2-active {
+    background-color: #EDEDEB !important;
+    background-image: none !important;
+    color: #1A1A1A !important;
+    font-family: 'Inter', sans-serif !important;
+    box-shadow: none !important;
+}
+
+/* Clear correctness background colors, replacing with subtle inset edge glows */
+body.round-2-active.correct-bg {
+    background-color: #EDEDEB !important;
+    box-shadow: inset 0 0 40px rgba(201, 163, 78, 0.12) !important;
+}
+body.round-2-active.incorrect-bg {
+    background-color: #EDEDEB !important;
+    box-shadow: inset 0 0 40px rgba(168, 21, 21, 0.08) !important;
+}
+
+/* Watermark: Muted center logo */
+body.round-2-active #bg-watermark {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 3.5rem !important;
+    top: 1.2rem !important;
+    left: 8.5rem !important;
+    color: #1A1A1A !important;
+    -webkit-text-fill-color: #1A1A1A !important;
+    -webkit-text-stroke: none !important;
+    text-shadow: none !important;
+    opacity: 0.85 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+}
+/* Disable terminal glitch layers */
+body.round-2-active #bg-watermark::before,
+body.round-2-active #bg-watermark::after {
+    display: none !important;
+}
+
+/* Floating Window Mockup: Main Containers */
+body.round-2-active .rules-card-container,
+body.round-2-active .question-selection-layout,
+body.round-2-active .question-container,
+body.round-2-active .overlay-content,
+body.round-2-active #screen-explanation .rules-card-container {
+    background-color: #EDEDEB !important;
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 12px 12px 24px #C8C6C0, -12px -12px 24px #FFFFFF !important;
+    padding: 2.5rem !important;
+}
+
+/* Window Title Bar Headers */
+body.round-2-active .rules-badge-panel,
+body.round-2-active #screen-question-selection .header-action {
+    background-color: #EDEDEB !important;
+    border-bottom: none !important;
+    box-shadow: 4px 4px 8px #C8C6C0, -4px -4px 8px #FFFFFF !important;
+    border-radius: 12px !important;
+    padding: 1rem 2rem !important;
+    margin-bottom: 2.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+}
+
+/* Gold traffic light dots for rules and selection grids */
+body.round-2-active .rules-badge-panel::before,
+body.round-2-active #screen-question-selection .header-action::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 20px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 50px !important;
+    height: 12px !important;
+    background-image: 
+        radial-gradient(circle 4px at 6px 6px, transparent 55%, #C9A34E 65%),
+        radial-gradient(circle 4px at 22px 6px, transparent 55%, #C9A34E 65%),
+        radial-gradient(circle 4px at 38px 6px, transparent 55%, #C9A34E 65%) !important;
+    background-repeat: no-repeat !important;
+}
+
+body.round-2-active .rules-meta-tag {
+    display: none !important;
+}
+
+body.round-2-active #rules-subheading,
+body.round-2-active #current-quiz-title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #1A1A1A !important;
+    text-shadow: none !important;
+    margin: 0 !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Rules list styling inside code panel */
+body.round-2-active .rules-content-panel {
+    position: relative !important;
+    flex: 1.8 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+body.round-2-active .rules-list {
+    background-color: #EDEDEB !important;
+    box-shadow: inset 5px 5px 10px #C8C6C0, inset -5px -5px 10px #FFFFFF !important;
+    border-radius: 12px !important;
+    padding: 1.8rem !important;
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+    margin-bottom: 2rem !important;
+}
+
+body.round-2-active .rule-item {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.6rem 0 !important;
+    font-size: 1.05rem !important;
+    color: #4A4A47 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    border-bottom: 1px dashed rgba(200,198,192,0.4) !important;
+    border-radius: 0 !important;
+}
+body.round-2-active .rule-item::before {
+    content: none !important;
+}
+
+body.round-2-active .term-prefix {
+    color: #C9A34E !important; /* Gold system rule prefix */
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: bold !important;
+}
+
+/* Sidebar (Explorer) and Center Grid Layout */
+body.round-2-active .question-selection-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 2.5rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+/* Team File Explorer Sidebar */
+body.round-2-active .team-selector-container {
+    order: 1 !important;
+    flex: 1.1 !important;
+    background-color: #EDEDEB !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    border: none !important;
+}
+
+body.round-2-active .team-select-heading {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.25rem !important;
+    color: #1A1A1A !important;
+    margin-bottom: 1.2rem !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    padding-left: 5px !important;
+}
+
+body.round-2-active .team-award-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+body.round-2-active .team-select-btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #4A4A47 !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+body.round-2-active .team-select-btn:hover {
+    background: #EDEDEB !important;
+    background-image: none !important;
+    box-shadow: 3px 3px 6px #C8C6C0, -3px -3px 6px #FFFFFF !important;
+    color: #1A1A1A !important;
+    border: none !important;
+    border-color: transparent !important;
+    transform: none !important;
+}
+body.round-2-active .team-select-btn.selected {
+    background: #EDEDEB !important;
+    background-image: none !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    color: #C9A34E !important;
+    border: none !important;
+    border-color: transparent !important;
+    font-weight: 600 !important;
+}
+body.round-2-active .team-badge-icon {
+    background: transparent !important;
+    border: 1.5px solid #4A4A47 !important;
+    border-radius: 4px !important;
+    color: #4A4A47 !important;
+    font-size: 0.72rem !important;
+    padding: 2px 5px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    min-width: 28px !important;
+    text-align: center !important;
+}
+body.round-2-active .team-select-btn.selected .team-badge-icon {
+    border-color: #C9A34E !important;
+    color: #C9A34E !important;
+}
+body.round-2-active .team-label {
+    font-size: 0.95rem !important;
+}
+
+/* Center Editor Panel */
+body.round-2-active #question-grid {
+    order: 2 !important;
+    flex: 2.2 !important;
+    background-color: #EDEDEB !important;
+    border-radius: 12px !important;
+    padding: 1.8rem !important;
+    box-shadow: inset 6px 6px 12px #C8C6C0, inset -6px -6px 12px #FFFFFF !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.2rem !important;
+    border: none !important;
+    height: auto !important;
+}
+
+body.round-2-active .q-grid-btn {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 4px 4px 8px #C8C6C0, -4px -4px 8px #FFFFFF !important;
+    color: #4A4A47 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 1.05rem !important;
+    font-weight: bold !important;
+    transition: all 0.15s ease !important;
+    text-shadow: none !important;
+    height: 52px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+body.round-2-active .q-grid-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+    color: #1A1A1A !important;
+}
+body.round-2-active .q-grid-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+}
+body.round-2-active .q-grid-btn.answered {
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    color: #A8A6A0 !important;
+    opacity: 0.65 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+/* Active Question Screen Window & Editor tabs */
+body.round-2-active .terminal-window-bar {
+    background-color: #EDEDEB !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 6px -1px rgba(200, 198, 192, 0.4) !important;
+    padding: 12px 20px !important;
+    border-radius: 20px 20px 0 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: relative !important;
+}
+
+body.round-2-active .window-title {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.85rem !important;
+    color: #C9A34E !important; /* Gold active tab */
+    background-color: #EDEDEB !important;
+    padding: 6px 16px !important;
+    border-radius: 6px 6px 0 0 !important;
+    box-shadow: inset 2px 2px 4px #C8C6C0, inset -2px -2px 4px #FFFFFF !important; /* pressed tab shadow */
+    font-weight: bold !important;
+    margin: 0 auto !important;
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+body.round-2-active .window-controls {
+    display: flex !important;
+    gap: 8px !important;
+}
+body.round-2-active .window-controls .control {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: 1.5px solid #C9A34E !important;
+}
+body.round-2-active .window-controls .control.close,
+body.round-2-active .window-controls .control.minimize,
+body.round-2-active .window-controls .control.maximize {
+    background: transparent !important;
+}
+
+/* Code Editor Center recessed pane */
+body.round-2-active #question-text {
+    background-color: #EDEDEB !important;
+    border-radius: 12px !important;
+    padding: 2.2rem 2.5rem !important;
+    box-shadow: inset 5px 5px 10px #C8C6C0, inset -5px -5px 10px #FFFFFF !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 1.25rem !important;
+    line-height: 1.75 !important;
+    color: #4A4A47 !important;
+    border: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Blinking Gold Cursor */
+body.round-2-active #question-text::after {
+    content: '|' !important;
+    color: #C9A34E !important;
+    font-weight: bold !important;
+    display: inline-block !important;
+    margin-left: 2px !important;
+    animation: cursor-blink 1s infinite steps(2, start) !important;
+}
+
+/* Style JavaScript-Generated Code Snippets inside the IDE Panel */
+body.round-2-active .q-prompt-heading {
+    background: transparent !important;
+    border: none !important;
+    color: #1A1A1A !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    padding: 0 !important;
+    margin-bottom: 1.2rem !important;
+    text-transform: none !important;
+}
+
+body.round-2-active .q-code-container {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: inset 4px 4px 8px #C8C6C0, inset -4px -4px 8px #FFFFFF !important;
+    padding: 1.2rem !important;
+    margin: 1.2rem 0 0 0 !important;
+}
+
+body.round-2-active .code-window-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(200, 198, 192, 0.4) !important;
+    padding: 0 0 6px 0 !important;
+    margin-bottom: 12px !important;
+}
+
+body.round-2-active .code-title {
+    color: #C9A34E !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.85rem !important;
+    font-weight: bold !important;
+}
+
+body.round-2-active .code-block {
+    background: transparent !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+body.round-2-active .code-line {
+    font-family: 'JetBrains Mono', monospace !important;
+    color: #4A4A47 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.5 !important;
+}
+
+body.round-2-active .line-no {
+    color: #A8A6A0 !important;
+    font-weight: normal !important;
+    border-right: 1px solid rgba(200, 198, 192, 0.4) !important;
+    padding-right: 10px !important;
+    margin-right: 10px !important;
+    min-width: 1.8rem !important;
+}
+
+body.round-2-active .line-text {
+    color: #4A4A47 !important;
+}
+
+/* Code Syntax Highlights */
+body.round-2-active .token-keyword {
+    color: #C9A34E !important;
+    font-weight: bold !important;
+}
+body.round-2-active .token-number {
+    color: #C9A34E !important;
+}
+body.round-2-active .token-comment {
+    color: #A8A6A0 !important;
+    font-style: italic !important;
+}
+
+/* Option selections (IDE Pill Buttons) */
+body.round-2-active .option-btn {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+    color: #4A4A47 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    padding: 16px 20px !important;
+    text-shadow: none !important;
+    transition: all 0.2s ease !important;
+    text-align: left !important;
+    font-weight: 500 !important;
+}
+body.round-2-active .option-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 8px 8px 16px #C8C6C0, -8px -8px 16px #FFFFFF !important;
+    color: #1A1A1A !important;
+}
+body.round-2-active .option-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+}
+
+/* Option disabled / unselected */
+body.round-2-active .option-btn:disabled {
+    opacity: 0.65 !important;
+}
+body.round-2-active .option-btn:disabled:not([style*="background"]) {
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    background-color: #EDEDEB !important;
+}
+
+/* Neumorphic highlighted selections */
+body.round-2-active .option-btn[style*="var(--success)"] {
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    border: 2px solid #1E6B3E !important; /* Green correct answer */
+    color: #1E6B3E !important;
+    background-color: rgba(30, 107, 62, 0.05) !important;
+    font-weight: 600 !important;
+}
+body.round-2-active .option-btn[style*="var(--accent)"] {
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    border: 2px solid #a81515 !important; /* Red wrong answer */
+    color: #a81515 !important;
+    background-color: rgba(168, 21, 21, 0.04) !important;
+    font-weight: 600 !important;
+}
+
+/* Timer Control Buttons and Back Button */
+body.round-2-active .timer-controls .control-btn,
+body.round-2-active .btn-back {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 4px 4px 8px #C8C6C0, -4px -4px 8px #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    text-shadow: none !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+body.round-2-active .timer-controls .control-btn:hover,
+body.round-2-active .btn-back:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+}
+body.round-2-active .timer-controls .control-btn:active,
+body.round-2-active .btn-back:active {
+    transform: translateY(1px) !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+}
+
+/* Timer Display Search Bar Mockup */
+body.round-2-active #timer-display {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    color: #C9A34E !important;
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    padding: 6px 16px !important;
+    text-shadow: none !important;
+}
+
+/* Primary CTA Buttons (Start Round, Reveal Answer, Next Part) */
+body.round-2-active .primary-btn.start-round-btn,
+body.round-2-active #reveal-answer-btn,
+body.round-2-active #next-part-btn {
+    background: linear-gradient(135deg, #D4B05F 0%, #C9A34E 100%) !important;
+    color: #1A1A1A !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 30px !important;
+    box-shadow: 5px 5px 10px #C8C6C0, -5px -5px 10px #FFFFFF !important;
+    transition: all 0.2s ease !important;
+    text-shadow: none !important;
+    padding: 12px 28px !important;
+    height: auto !important;
+    width: auto !important;
+    clip-path: none !important;
+    filter: none !important;
+}
+body.round-2-active .primary-btn.start-round-btn::after,
+body.round-2-active #reveal-answer-btn::after,
+body.round-2-active #next-part-btn::after {
+    display: none !important;
+}
+body.round-2-active .primary-btn.start-round-btn span,
+body.round-2-active #reveal-answer-btn span,
+body.round-2-active #next-part-btn span {
+    font-family: 'Inter', sans-serif !important;
+    color: #1A1A1A !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    text-transform: uppercase !important;
+    text-shadow: none !important;
+    max-width: none !important;
+    display: block !important;
+}
+body.round-2-active .primary-btn.start-round-btn:hover,
+body.round-2-active #reveal-answer-btn:hover,
+body.round-2-active #next-part-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 7px 7px 14px #C8C6C0, -7px -7px 14px #FFFFFF !important;
+}
+body.round-2-active .primary-btn.start-round-btn:active,
+body.round-2-active #reveal-answer-btn:active,
+body.round-2-active #next-part-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+}
+
+/* Results Overlay Redesign (Round 2 Only) */
+body.round-2-active .overlay-content {
+    background-color: #EDEDEB !important;
+    border-radius: 20px !important;
+    box-shadow: 12px 12px 24px #C8C6C0, -12px -12px 24px #FFFFFF !important;
+    border: none !important;
+    text-align: center !important;
+    max-width: 500px !important;
+    width: 90% !important;
+    transform: rotate(0deg) !important;
+}
+
+body.round-2-active .overlay-content::before,
+body.round-2-active .overlay-content::after {
+    display: none !important;
+}
+
+body.round-2-active .overlay-title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.2rem !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+    margin-bottom: 1.5rem !important;
+}
+body.round-2-active .correct-title { color: #C9A34E !important; }
+body.round-2-active .timeout-title { color: #A8A6A0 !important; }
+body.round-2-active .wrong-title { color: #1A1A1A !important; }
+
+body.round-2-active .overlay-highlight-row {
+    color: #4A4A47 !important;
+    font-family: 'Inter', sans-serif !important;
+    margin-bottom: 2rem !important;
+}
+
+body.round-2-active .overlay-content .primary-btn {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 8px #C8C6C0, -4px -4px 8px #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    text-shadow: none !important;
+    padding: 12px 24px !important;
+    height: auto !important;
+    width: auto !important;
+    clip-path: none !important;
+    margin: 8px !important;
+}
+body.round-2-active .overlay-content .primary-btn span {
+    font-family: 'Inter', sans-serif !important;
+    color: #1A1A1A !important;
+    text-shadow: none !important;
+    max-width: none !important;
+    display: block !important;
+}
+body.round-2-active .overlay-content .primary-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+}
+body.round-2-active .overlay-content .primary-btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: inset 3px 3px 6px #C8C6C0, inset -3px -3px 6px #FFFFFF !important;
+}
+body.round-2-active .overlay-content .primary-btn:last-child {
+    background: linear-gradient(135deg, #D4B05F 0%, #C9A34E 100%) !important;
+}
+body.round-2-active .overlay-content .primary-btn:last-child span {
+    color: #FFFFFF !important;
+}
+
+/* Floating Neumorphic Scoreboard panel */
+body.round-2-active #scoreboard {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 6px 6px 12px #C8C6C0, -6px -6px 12px #FFFFFF !important;
+    padding: 12px 10px !important;
+}
+
+body.round-2-active .score-pill {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    box-shadow: inset 2px 2px 4px #C8C6C0, inset -2px -2px 4px #FFFFFF !important;
+    border-radius: 8px !important;
+    margin: 4px 0 !important;
+    padding: 6px 12px !important;
+    color: #4A4A47 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+body.round-2-active .score-pill span:first-child {
+    color: #1A1A1A !important;
+    font-weight: bold !important;
+}
+body.round-2-active .score-pill span:last-child {
+    color: #C9A34E !important;
+    font-weight: bold !important;
+}
+
+/* Viewport mock bottom IDE status bar */
+body.round-2-active::after {
+    content: " Atelier IDE  •  CONNECTED  •  UTF-8  •  line: 65, col: 12" !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 24px !important;
+    background-color: #EDEDEB !important;
+    border-top: 1px solid rgba(200, 198, 192, 0.5) !important;
+    box-shadow: 0 -2px 4px rgba(200, 198, 192, 0.25) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.72rem !important;
+    color: #4A4A47 !important;
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 36px !important;
+    z-index: 9999 !important;
+}
+body.round-2-active::before {
+    content: "" !important;
+    position: fixed !important;
+    bottom: 8px !important;
+    left: 18px !important;
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #C9A34E !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 6px rgba(201, 163, 78, 0.8) !important;
+    z-index: 10000 !important;
+    animation: cursor-blink 1.5s infinite steps(2, start) !important;
+}
+
+/* Explanation Console Window */
+body.round-2-active #screen-explanation #exp-question-text {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 1.15rem !important;
+    color: #1A1A1A !important;
+    border-left: 3px solid #C9A34E !important;
+    padding-left: 1rem !important;
+    margin-bottom: 1.5rem !important;
+}
+body.round-2-active #screen-explanation #exp-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    line-height: 1.62 !important;
+    color: #4A4A47 !important;
+    background-color: #EDEDEB !important;
+    padding: 1.5rem !important;
+    border-radius: 8px !important;
+    box-shadow: inset 4px 4px 8px #C8C6C0, inset -5px -5px 10px #FFFFFF !important;
+    margin-bottom: 2rem !important;
+}
+
+/* Lobby card theme preview for Round 2 */
+.quiz-btn.card-round-2 {
+    background-color: #EDEDEB !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.25), -6px -6px 12px rgba(255, 255, 255, 0.05) !important;
+    color: #1A1A1A !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.quiz-btn.card-round-2:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.35), -8px -8px 16px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Remove backdrop blur filter on overlays for Round 2 */
+body.round-2-active .overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: transparent !important;
+}
+body.round-2-active .overlay-content {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Explanation screen panel overrides */
+body.round-2-active #screen-explanation .glass-card {
+    background-color: #EDEDEB !important;
+    border: none !important;
+    box-shadow: 12px 12px 24px #C8C6C0, -12px -12px 24px #FFFFFF !important;
+    border-radius: 20px !important;
+    padding: 2.5rem !important;
+}
+body.round-2-active #screen-explanation .glow-text {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #1A1A1A !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+}
+

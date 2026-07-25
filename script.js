@@ -509,14 +509,55 @@ const optionButtons = [
 ];
 
 // Screen Navigation
+let screenTransitionTimeout = null;
+
 function showScreen(screen) {
-    document.querySelectorAll('.screen').forEach(s => {
-        s.classList.remove('active');
-        s.style.display = 'none';
-    });
-    screen.style.display = 'flex';
-    // Small delay to trigger animation
-    setTimeout(() => screen.classList.add('active'), 10);
+    if (screenTransitionTimeout) {
+        clearTimeout(screenTransitionTimeout);
+        screenTransitionTimeout = null;
+    }
+
+    const activeScreen = document.querySelector('.screen.active');
+    
+    if (activeScreen && activeScreen !== screen) {
+        // Lock dimensions and absolute-position the outgoing screen so it fades out in place
+        const currentWidth = activeScreen.clientWidth;
+        const currentHeight = activeScreen.clientHeight;
+        activeScreen.style.width = `${currentWidth}px`;
+        activeScreen.style.height = `${currentHeight}px`;
+        activeScreen.style.position = 'absolute';
+        
+        activeScreen.classList.remove('active');
+        
+        // Show the new screen in the normal flow immediately so it fades/slides up under/over it
+        screen.style.display = 'flex';
+        
+        screenTransitionTimeout = setTimeout(() => {
+            screen.classList.add('active');
+        }, 30);
+        
+        // Clean up styles once the 220ms transition completes
+        screenTransitionTimeout = setTimeout(() => {
+            activeScreen.style.display = 'none';
+            activeScreen.style.position = '';
+            activeScreen.style.width = '';
+            activeScreen.style.height = '';
+        }, 230);
+    } else {
+        document.querySelectorAll('.screen').forEach(s => {
+            if (s !== screen) {
+                s.classList.remove('active');
+                s.style.display = 'none';
+                s.style.position = '';
+                s.style.width = '';
+                s.style.height = '';
+            }
+        });
+        screen.style.display = 'flex';
+        screenTransitionTimeout = setTimeout(() => {
+            screen.classList.add('active');
+        }, 20);
+    }
 }
 
 // Event Listeners for Quiz Selection
@@ -582,7 +623,6 @@ function openRules(roundId) {
     });
 
     // Switch UI
-    screenQuizSelection.style.display = 'none';
     showScreen(document.getElementById('screen-rules'));
 }
 
@@ -591,7 +631,6 @@ function proceedToQuestionSelection() {
         showDebateRoundView();
         return;
     }
-    document.getElementById('screen-rules').style.display = 'none';
     currentQuizTitle.innerText = ROUND_NAMES[STATE.currentRound];
 
     hideAllBackgrounds();
@@ -639,7 +678,6 @@ function renderQuestionGrid(roundId) {
 }
 
 function goBackToRules() {
-    screenQuestionSelection.style.display = 'none';
     openRules(STATE.currentRound);
 }
 
@@ -692,7 +730,16 @@ function formatQuestionText(questionId, rawText) {
         const formattedCode = codeLines.map((line, idx) => {
             const lineNo = idx + 1;
             const escapedLine = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            return `<div class="code-line"><span class="line-no">${lineNo}</span><span class="line-text">${escapedLine}</span></div>`;
+            
+            // Simple single-pass regex replacement for syntax highlights
+            let highlighted = escapedLine;
+            const keywords = ['int', 'bool', 'true', 'false', 'class', 'struct', 'public', 'private', 'return', 'if', 'else', 'for', 'while', 'void', 'const', 'static'];
+            const kwRegex = new RegExp(`\\b(${keywords.join('|')})\\b`, 'g');
+            highlighted = highlighted.replace(kwRegex, `<span class="token-keyword">$1</span>`);
+            highlighted = highlighted.replace(/\b(\d+)\b/g, `<span class="token-number">$1</span>`);
+            highlighted = highlighted.replace(/(\/\/.*)/g, `<span class="token-comment">$1</span>`);
+
+            return `<div class="code-line"><span class="line-no">${lineNo}</span><span class="line-text">${highlighted}</span></div>`;
         }).join('');
 
         return `<div class="q-prompt-heading">Q${questionId}. ${prompt}</div><div class="q-code-container"><div class="code-window-header"><span class="code-title">code_snippet_${questionId}.${ext}</span></div><div class="code-block">${formattedCode}</div></div>`;
@@ -702,6 +749,7 @@ function formatQuestionText(questionId, rawText) {
 }
 
 function openQuestion(questionId) {
+    document.body.classList.remove('correct-bg', 'incorrect-bg');
     STATE.currentQuestionId = parseInt(questionId);
     console.log(`[DEBUG] Opening Question ID: ${STATE.currentQuestionId} in Round: ${STATE.currentRound}`);
 
@@ -848,7 +896,6 @@ function openQuestion(questionId) {
     // Switch UI
     console.log(`[DEBUG] Switching UI to Question Active Screen`);
     document.body.classList.add('active-question');
-    if (screenQuestionSelection) screenQuestionSelection.style.display = 'none';
     if (overlay) overlay.classList.add('hidden');
 
     // Multi-phase handling: Hide timer and Reveal button, show Next Part button
@@ -898,7 +945,6 @@ function showNextPart() {
 function goBackToQuestionSelection() {
     clearInterval(STATE.timerInterval);
     overlay.classList.add('hidden');
-    screenQuestionActive.style.display = 'none';
 
     optionButtons.forEach(btn => btn.disabled = false);
 
@@ -983,7 +1029,6 @@ function viewAnsweredQuestion(questionId) {
 
     // Switch UI
     document.body.classList.add('active-question');
-    screenQuestionSelection.style.display = 'none';
     overlay.classList.add('hidden');
     showScreen(screenQuestionActive);
 }
@@ -1045,10 +1090,15 @@ function showResultOverlay(type, teamIndex, points = 10) {
     const teamNum = teamIndex || STATE.activeTeam || 1;
     const teamBadgeHTML = `<span class="team-highlight-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Team ${teamNum}</span>`;
 
+    const isRound1 = STATE.currentRound === 1;
+    const isRound2 = STATE.currentRound === 2;
+    const correctEmoji = isRound1 ? '🤠' : (isRound2 ? '💻' : '🎉');
+    const timeoutEmoji = isRound1 ? '⏳' : (isRound2 ? '⏰' : '⏱️');
+
     if (type === 'correct') {
         const pointsBadgeHTML = `<span class="points-highlight-badge points-win">+${points} Points</span>`;
         h2.innerHTML = `
-            <span class="overlay-title correct-title">Correct! 🎉</span>
+            <span class="overlay-title correct-title">Correct! ${correctEmoji}</span>
             <div class="overlay-highlight-row">
                 ${pointsBadgeHTML} <span>awarded to</span> ${teamBadgeHTML}
             </div>
@@ -1056,7 +1106,7 @@ function showResultOverlay(type, teamIndex, points = 10) {
     } else if (type === 'timeup') {
         const zeroPointsBadgeHTML = `<span class="points-highlight-badge points-zero">0 Points</span>`;
         h2.innerHTML = `
-            <span class="overlay-title timeout-title">⏱️ Time's Up!</span>
+            <span class="overlay-title timeout-title">${timeoutEmoji} Time's Up!</span>
             <div class="overlay-highlight-row">
                 ${teamBadgeHTML} <span>gets</span> ${zeroPointsBadgeHTML}
             </div>
@@ -1220,7 +1270,6 @@ function openExplanation() {
     }
 
     document.getElementById('question-overlay').classList.add('hidden');
-    document.getElementById('screen-question-active').style.display = 'none';
     showScreen(document.getElementById('screen-explanation'));
 }
 
@@ -1240,7 +1289,6 @@ function awardPointsManual(isCorrect) {
 }
 
 function closeExplanation() {
-    document.getElementById('screen-explanation').style.display = 'none';
     showScreen(document.getElementById('screen-question-active'));
 }
 
@@ -1297,7 +1345,6 @@ function revealAnswer() {
 }
 
 function showDebateRoundView() {
-    document.getElementById('screen-rules').style.display = 'none';
     const container = document.getElementById('debate-topics-container');
     container.innerHTML = '';
 
@@ -1315,7 +1362,6 @@ function showDebateRoundView() {
 }
 
 function goBackToQuizSelectionFromDebate() {
-    document.getElementById('screen-debate-round').style.display = 'none';
     hideAllBackgrounds();
     document.body.classList.add('lobby-active');
     showScreen(screenQuizSelection);
