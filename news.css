@@ -170,6 +170,21 @@ body {
     }
 }
 
+/* Section Headers */
+.section-header {
+    border-top: 3px double var(--ink-color);
+    border-bottom: 3px double var(--ink-color);
+    padding: 0.35rem 0;
+    margin: 1.8rem 0 1.2rem 0;
+    text-align: center;
+    font-family: var(--font-special);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-color);
+}
+
 /* Articles */
 .news-article {
     display: flex;

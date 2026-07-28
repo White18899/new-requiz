@@ -8,15 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="news.css?v=2">
+    <link rel="stylesheet" href="news.css?v=3">
 </head>
 <body>
     <div class="newspaper-container">
         <!-- Vintage Masthead Header -->
         <header class="newspaper-header">
             <div class="masthead-meta-top">
-                <span class="meta-item">VOL. XCIII No. 42</span>
-                <span class="meta-item font-special">VISAKHAPATNAM, SATURDAY, JULY 25, 2026</span>
+                <span class="meta-item">VOL. XCIII No. 43</span>
+                <span class="meta-item font-special">VISAKHAPATNAM, TUESDAY, JULY 28, 2026</span>
                 <span class="meta-item">PRICE: ONE CENT</span>
             </div>
             
@@ -39,73 +39,148 @@
         <!-- Main News Grid -->
         <main class="newspaper-grid">
             
-            <!-- Left & Middle: Lead Article -->
+            <!-- Left & Middle: Lead Column (International & National) -->
             <div class="lead-article-column">
-                <article class="news-article">
-                    <span class="kicker">WORLD AFFAIRS • EXCLUSIVE</span>
-                    <h2 class="lead-headline">GLOBAL ENERGY MARKET REBALANCES AS RESERVES RELEASED</h2>
+                
+                <!-- Section 1: International News -->
+                <div class="section-header">International News</div>
+                
+                <!-- China Warns US Over AI Rules -->
+                <article class="news-article side-article">
+                    <span class="kicker">WORLD AFFAIRS • POLICY DEFENSE</span>
+                    <h2 class="lead-headline">CHINA WARNS US OVER AI RULES</h2>
                     
                     <div class="article-meta-row">
-                        <span class="byline">BY A. SPECIAL CORRESPONDENT</span>
+                        <span class="byline">BY BEIJING CORRESPONDENT</span>
                         <span class="divider-dot">•</span>
-                        <span class="publish-time">PUBLISHED JUST NOW</span>
+                        <span class="publish-time">JUST NOW</span>
                     </div>
 
-                    <div class="article-body multi-column-body">
-                        <p class="lead-paragraph"><span class="drop-cap">T</span>ension in the Middle East continues to ripple through international trading hubs as countries discuss strategic ways to keep the critical Strait of Hormuz open for global oil transport. In response to potential supply disruptions, key nations have coordinated a monumental release of emergency oil reserves, stabilizing volatile futures markets and reassuring anxious energy consumers worldwide.</p>
-                        
-                        <p>Analysts suggest that this tactical release of petroleum reserves serves as a buffers to offset the geopolitically charged shipping lanes. Market indicators responded instantly to the diplomatic declarations, calming commodity prices that had threatened to burden national manufacturing sectors.</p>
+                    <div class="article-body">
+                        <p><span class="drop-cap">C</span>hina has strongly criticized new US actions related to artificial intelligence. It declared that the United States is attempting to control and dominate critical AI technologies under the guise of security regulations.</p>
                         
                         <blockquote class="pull-quote">
-                            “Energy security remains paramount as nations navigate shifting global straits.”
+                            “AI technology should benefit all humanity, not be controlled by any single nation.”
                         </blockquote>
 
-                        <p>As the international community monitors naval movements, transport networks report that vessels continue transit under heightened security protocols. Regional authorities are collaborating on maritime escorts, ensuring that trade channels remain functional throughout the duration of the current energy discussions.</p>
+                        <p>Beijing warned that it may take necessary countermeasures to protect its domestic technological development and ensure fair access to international AI advancements.</p>
+                    </div>
+                </article>
+
+                <!-- US and India Boost Defence Partnership -->
+                <article class="news-article">
+                    <span class="kicker">DIPLOMATIC FRONTIER</span>
+                    <h3 class="secondary-headline">US and India Boost Defence Partnership</h3>
+                    
+                    <div class="article-meta-row">
+                        <span class="byline">BY DIPLOMATIC CORRESPONDENT</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">2 HOURS AGO</span>
+                    </div>
+
+                    <div class="article-body">
+                        <p>The United States and India are expanding their defence and civil nuclear cooperation in a bid to strengthen regional security. Under a newly signed accord, both countries also plan to work together on establishing trusted AI frameworks and joint developments in emerging technological sectors.</p>
+                    </div>
+                </article>
+
+                <!-- Section 2: National News -->
+                <div class="section-header">National News</div>
+
+                <!-- Parliament Discusses Key Education Bill -->
+                <article class="news-article side-article">
+                    <span class="kicker">LEGISLATIVE REFORMS</span>
+                    <h3 class="secondary-headline">Parliament Discusses Key Education Bill</h3>
+                    
+                    <div class="article-meta-row">
+                        <span class="byline">BY PARLIAMENTARY CORRESPONDENT</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">3 HOURS AGO</span>
+                    </div>
+
+                    <div class="article-body">
+                        <p>The Indian Parliament is actively discussing an important legislative bill aimed at preventing unfair practices in public examinations. The proposed framework targets systemic corruption and leaks, seeking to restore public trust and comprehensively improve the integrity of the national examination system.</p>
+                    </div>
+                </article>
+
+                <!-- Assam Factory Blast: Five Arrested -->
+                <article class="news-article">
+                    <span class="kicker">CRIME & INVESTIGATION</span>
+                    <h3 class="secondary-headline">Assam Factory Blast: Five Arrested</h3>
+                    
+                    <div class="article-meta-row">
+                        <span class="byline">BY STATE REPORTER</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">5 HOURS AGO</span>
+                    </div>
+
+                    <div class="article-body">
+                        <p>Police have arrested five people, including the factory owner, following a deadly metal factory explosion in Assam. The tragic incident, which claimed the lives of four workers and left others injured, is under active investigation for potential safety violations and negligence.</p>
                     </div>
                 </article>
             </div>
 
-            <!-- Right Column: Secondary Articles -->
+            <!-- Right Column: Secondary Column (State & City) -->
             <div class="sidebar-column">
-                <!-- Article 2 -->
+                
+                <!-- Section 3: State News -->
+                <div class="section-header">State News</div>
+
+                <!-- Tragic Tempo Crash in Chittoor -->
                 <article class="news-article side-article">
-                    <span class="kicker">DOMESTIC PRODUCTION</span>
-                    <h3 class="secondary-headline">India to Host Agri-Food Conference</h3>
+                    <span class="kicker">HIGHWAY ACCIDENT</span>
+                    <h3 class="secondary-headline">Tragic Tempo Crash in Chittoor</h3>
                     <div class="article-meta-row">
-                        <span class="byline">NEW DELHI WIRE</span>
+                        <span class="byline">REGIONAL NEWS DESK</span>
                         <span class="divider-dot">•</span>
-                        <span class="publish-time">2 HOURS AGO</span>
+                        <span class="publish-time">6 HOURS AGO</span>
                     </div>
                     <div class="article-body">
-                        <p>India is preparing to host a major international conference focused on strengthening women’s roles in agri-food systems in 2026. The summit aims to gather state delegates, agricultural innovators, and research agencies to draft policy suggestions designed to accelerate equality, crop yield improvements, and sustainable food chains.</p>
+                        <p>Three people lost their lives and five others were seriously injured after a speeding tempo crashed into parked vehicles in Chittoor district. Police authorities are actively investigating the tragic circumstances surrounding the collision.</p>
                     </div>
                 </article>
 
-                <!-- Article 3 -->
+                <!-- Heavy Rain Misses North Andhra -->
                 <article class="news-article side-article">
-                    <span class="kicker">STATE INITIATIVES</span>
-                    <h3 class="secondary-headline">Andhra Pradesh Welcomes Induction Stoves</h3>
+                    <span class="kicker">METEOROLOGICAL REPORT</span>
+                    <h3 class="secondary-headline">Heavy Rain Misses North Andhra</h3>
                     <div class="article-meta-row">
-                        <span class="byline">STAFF WRITER</span>
+                        <span class="byline">WEATHER DESK</span>
                         <span class="divider-dot">•</span>
-                        <span class="publish-time">5 HOURS AGO</span>
+                        <span class="publish-time">8 HOURS AGO</span>
                     </div>
                     <div class="article-body">
-                        <p>The government of Andhra Pradesh has commenced the distribution of energy-efficient induction stoves to Anganwadi centres across the state. This welfare program aims to promote safe, smokeless, and cost-effective cooking, drastically improving the kitchen environment for workers and children in regional development facilities.</p>
+                        <p>Although heavy rain was forecast, many parts of North Andhra received only light rainfall over the past 24 hours. Weather officials continue to monitor Bay of Bengal atmospheric movements as agricultural sectors await stronger monsoons.</p>
                     </div>
                 </article>
 
-                <!-- Article 4 -->
+                <!-- Section 4: City News -->
+                <div class="section-header">City News</div>
+
+                <!-- Bhogapuram Airport to Opening This week -->
                 <article class="news-article side-article">
+                    <span class="kicker">INFRASTRUCTURE EXPANSION</span>
+                    <h3 class="secondary-headline">Bhogapuram Airport to Open This Week</h3>
+                    <div class="article-meta-row">
+                        <span class="byline">VIZAG BUREAU</span>
+                        <span class="divider-dot">•</span>
+                        <span class="publish-time">10 HOURS AGO</span>
+                    </div>
+                    <div class="article-body">
+                        <p>The Bhogapuram International Airport near Visakhapatnam is set to open on August 1. The state-of-the-art facility is expected to bring better air connectivity and boost trade, tourism, and economic growth across the coastal region.</p>
+                    </div>
+                </article>
+
+                <!-- VMRDA Master Plan to Transform Vizag -->
+                <article class="news-article">
                     <span class="kicker">URBAN DEVELOPMENT</span>
-                    <h3 class="secondary-headline">IT & Data Center Hub Expands in Vizag</h3>
+                    <h3 class="secondary-headline">VMRDA Master Plan to Transform Vizag</h3>
                     <div class="article-meta-row">
-                        <span class="byline">TECH BULLETIN</span>
+                        <span class="byline">DEVELOPMENT DESK</span>
                         <span class="divider-dot">•</span>
-                        <span class="publish-time">9 HOURS AGO</span>
+                        <span class="publish-time">12 HOURS AGO</span>
                     </div>
                     <div class="article-body">
-                        <p>Visakhapatnam is rapidly expanding its footprint as a critical IT and data hub, with multiple multinational enterprises confirming capital investments. Regional authorities are fast-tracking approvals for a semi-ring road connecting Rambilli to Bhogapuram, ensuring high-speed transport links across Visakhapatnam district.</p>
+                        <p>The VMRDA 2041 Master Plan aims to dramatically improve roads, public housing, civic facilities, and overall urban infrastructure in Visakhapatnam, laying the groundwork for sustainable growth over the next two decades.</p>
                     </div>
                 </article>
             </div>
