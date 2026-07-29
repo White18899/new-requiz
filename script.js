@@ -272,10 +272,12 @@ QUIZ_DATA[4] = [
     },
     {
         id: 2,
-        text: "In July 2015, a 13-year-old school-goer, Nilesh Tiwari was murdered by two seniors from school in the Nalasopara area of Mumbai. On interrogation, it was learnt that the kids were hugely inspired by a telugu movie 'X'. The juveniles had watched the dubbed version of the film multiple times on TV and aspired to become local dadas, much like the underworld kingpins in the film. The two had a history of terrorising other kids on their short-lived journey to dadagiri.<br/><br/>Identify movie X.",
-        answerText: "answer is: <b>Don</b>",
-        answerImage: "media/q2.jpg",
-        explanation: "Correct answer is movie <b>Don</b>."
+        text: "Observe the video closely.",
+        video: "media/WhatsApp Unknown 2026-07-29 at 7.40.51 PM/nq1.mp4",
+        isMultiPhase: true,
+        secondQuestionText: "How many flower pots are there in this video?",
+        answerText: "Ans: <b>3</b>",
+        explanation: "There are 3 flower pots in the video."
     },
     {
         id: 3,
@@ -288,39 +290,39 @@ QUIZ_DATA[4] = [
     },
     {
         id: 4,
-        text: "Watch the video clue carefully.",
-        video: "media/q4.mp4",
+        text: "Observe the video closely.",
+        video: "media/WhatsApp Unknown 2026-07-29 at 7.40.51 PM/nq4.mp4",
         isMultiPhase: true,
-        secondQuestionText: "How many women are there in this video?",
-        answerText: "Ans: <b>7</b>",
-        explanation: "There are 7 women in the video clip."
+        secondQuestionText: "Which question are asked for hero?",
+        answerText: "Ans: <br/>1. What is database<br/>2. What is oops concept<br/>3. What is an array",
+        explanation: "The questions asked for the hero are:<br/>1. What is database<br/>2. What is oops concept<br/>3. What is an array"
     },
     {
         id: 5,
-        text: "Observe the scene.",
-        video: "media/q5.mp4",
+        text: "Observe the video closely.",
+        video: "media/WhatsApp Unknown 2026-07-29 at 7.40.51 PM/nq6.mp4",
         isMultiPhase: true,
-        secondQuestionText: "How many balloons are there in this video?",
-        answerText: "Ans: <b>9</b>",
-        explanation: "There are 9 balloons in the scene."
+        secondQuestionText: "How many chairs are there in this video?",
+        answerText: "Ans: <b>3</b>",
+        explanation: "There are 3 chairs in the video."
     },
     {
         id: 6,
-        text: "Analyze the clip.",
-        video: "media/q6.mp4",
+        text: "Observe the video closely.",
+        video: "media/WhatsApp Unknown 2026-07-29 at 7.40.51 PM/nq5.mp4",
         isMultiPhase: true,
-        secondQuestionText: "How many horses are there in this video?",
-        answerText: "Ans: <b>4</b>",
-        explanation: "There are 4 horses in the sequence."
+        secondQuestionText: "Which colour bands are wearing heroine?",
+        answerText: "Ans: <b>Red and Black</b>",
+        explanation: "The heroine is wearing Red and Black colour bands."
     },
     {
         id: 7,
         text: "Observe the video closely.",
-        video: "media/q7.mp4",
+        video: "media/WhatsApp Unknown 2026-07-29 at 7.40.51 PM/nq3.mp4",
         isMultiPhase: true,
-        secondQuestionText: "How many handcuffs are there on the wall?",
-        answerText: "Ans: <b>Total 5</b> (3 on left and 2 on right)",
-        explanation: "There are a total of 5 handcuffs; 3 on the left and 2 on the right."
+        secondQuestionText: "Guess the movie name",
+        answerText: "Ans: <b>Jailer</b>",
+        explanation: "Correct movie name is Jailer (Jalier)."
     },
     {
         id: 8,
