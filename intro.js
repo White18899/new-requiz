@@ -228,6 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Trigger Raise Hand digitization transition on scroll
+    const raiseHandSec = document.getElementById('section-raise-hand');
+    if (raiseHandSec) {
+        ScrollTrigger.create({
+            trigger: raiseHandSec,
+            containerAnimation: scrollTween,
+            start: 'left 55%',
+            onEnter: () => {
+                raiseHandSec.classList.add('digitized');
+            }
+        });
+    }
+
     // 11. Rewind/Scroll-to-top handler
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
     if (scrollToTopBtn) {
