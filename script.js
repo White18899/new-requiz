@@ -147,8 +147,8 @@ QUIZ_DATA[3] = [
     { id: 1, type: "Debate", topic: "1. Pan-India Films Vs Telugu Regional Films" },
     { id: 2, type: "Debate", topic: "2. Mughal ruling Vs British ruling" },
     { id: 3, type: "JAM", topic: "3. Does playing video games benefit learning?" },
-    { id: 4, type: "Teach a skill flash", topic: "4. How can a strong, memorable password be created?" },
-    { id: 5, type: "Teach a skill flash", topic: "5. Keyboard shortcuts most people don't know" },
+    { id: 4, type: "Teach a skill flash", topic: "4. About computer or phone" },
+    { id: 5, type: "Teach a skill flash", topic: "5. How to study faster and easy to remember" },
 ];
 
 // Aptitude Test (Round 1) - Real Questions
@@ -522,7 +522,7 @@ function showScreen(screen) {
     }
 
     const activeScreen = document.querySelector('.screen.active');
-    
+
     if (activeScreen && activeScreen !== screen) {
         // Lock dimensions and absolute-position the outgoing screen so it fades out in place
         const currentWidth = activeScreen.clientWidth;
@@ -530,16 +530,16 @@ function showScreen(screen) {
         activeScreen.style.width = `${currentWidth}px`;
         activeScreen.style.height = `${currentHeight}px`;
         activeScreen.style.position = 'absolute';
-        
+
         activeScreen.classList.remove('active');
-        
+
         // Show the new screen in the normal flow immediately so it fades/slides up under/over it
         screen.style.display = 'flex';
-        
+
         screenTransitionTimeout = setTimeout(() => {
             screen.classList.add('active');
         }, 30);
-        
+
         // Clean up styles once the 220ms transition completes
         screenTransitionTimeout = setTimeout(() => {
             activeScreen.style.display = 'none';
@@ -620,7 +620,7 @@ function openRules(roundId) {
     const rules = RULES_DATA[roundId] || ["General rules apply.", "+10 points for correct answer.", "1 minute timer."];
     rules.forEach((rule, idx) => {
         const numStr = String(idx + 1).padStart(2, '0');
-        
+
         if (STATE.currentRound === 4 && spliceRulesList) {
             const li = document.createElement('li');
             li.className = 'splice-lineup-row';
@@ -750,7 +750,7 @@ function formatQuestionText(questionId, rawText) {
         const formattedCode = codeLines.map((line, idx) => {
             const lineNo = idx + 1;
             const escapedLine = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            
+
             // Simple single-pass regex replacement for syntax highlights
             let highlighted = escapedLine;
             const keywords = ['int', 'bool', 'true', 'false', 'class', 'struct', 'public', 'private', 'return', 'if', 'else', 'for', 'while', 'void', 'const', 'static'];
@@ -1369,15 +1369,15 @@ function revealAnswer() {
 function showDebateRoundView() {
     const parentGrid = document.getElementById('debate-split-grid');
     if (!parentGrid) return;
-    
+
     let leftColHtml = '';
     let rightColHtml = '';
-    
+
     QUIZ_DATA[3].forEach((item, idx) => {
         const cardId = `pane-${idx + 1}`;
         const topicHeading = `${item.type.toUpperCase()} TOPIC #${idx + 1}`;
         const topicText = item.topic.replace(/^\d+\.\s*/, '');
-        
+
         let guidelinesHtml = '';
         if (item.type.toLowerCase().includes("teach a skill")) {
             const guidelines = [
@@ -1393,7 +1393,7 @@ function showDebateRoundView() {
                 </ul>
             `;
         }
-        
+
         const cardHtml = `
             <div class="topic-paper-card" id="${cardId}" style="margin-bottom: 0.8rem;">
                 <div id="${cardId}-content">
@@ -1406,14 +1406,14 @@ function showDebateRoundView() {
                 </div>
             </div>
         `;
-        
+
         if (idx % 2 === 0) {
             leftColHtml += cardHtml;
         } else {
             rightColHtml += cardHtml;
         }
     });
-    
+
     parentGrid.innerHTML = `
         <div class="topics-column">${leftColHtml}</div>
         <div class="topics-column">${rightColHtml}</div>
@@ -1728,13 +1728,13 @@ let selectedMorphRound = 1;
 
 function activateMorphRound(roundId) {
     selectedMorphRound = roundId;
-    
+
     const container = document.getElementById('screen-quiz-selection');
     const items = document.querySelectorAll('.morph-menu-item');
     const launchBtn = document.getElementById('morph-launch-btn');
-    
+
     if (!container) return;
-    
+
     // Clear and set morph preview classes on document.body
     document.body.classList.remove('morph-preview-1', 'morph-preview-2', 'morph-preview-3', 'morph-preview-4');
     document.body.classList.add(`morph-preview-${roundId}`);
@@ -1742,7 +1742,7 @@ function activateMorphRound(roundId) {
     // Update container classes
     container.className = 'screen active'; // reset
     container.classList.add(`morph-preview-${roundId}`);
-    
+
     // Highlight the selected menu item
     items.forEach(item => {
         const itemRound = parseInt(item.getAttribute('data-quiz'));
